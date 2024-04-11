@@ -1,9 +1,13 @@
 import yaml
 import networkx as nx
 import matplotlib.pyplot as plt
+from matplotlib import font_manager, rc
+
+font_name = font_manager.FontProperties(fname="data/malgun.ttf").get_name()
+rc('font', family=font_name)
 
 def read_subjects(filename):
-    with open(filename, 'r') as file:
+    with open(filename, 'rt', encoding='UTF8') as file:
         data = yaml.safe_load(file)
     return data.get('과목', [])
 
@@ -16,7 +20,7 @@ def draw_course_structure(subjects):
                 G.add_edge(prereq, subject['과목명'])
 
     pos = nx.get_node_attributes(G, 'pos')
-    nx.draw(G, pos, with_labels=True, node_size=2000, node_color="skyblue", font_size=10, font_weight="bold")
+    nx.draw(G, pos, with_labels=True, node_size=2000, node_color="skyblue",  font_family=font_name, font_size=10, font_weight="bold")
     for edge in G.edges():
         nx.draw_networkx_edges(G, pos, edgelist=[edge], arrowstyle='->', arrowsize=10)
     plt.title("과목 이수 체계도")
