@@ -26,6 +26,6 @@ def draw_course_structure(subjects):
     plt.show()
 
 if __name__ == "__main__":
-    filename = input("과목 정보가 있는 YAML 파일명을 입력하세요: ")
+    filename = "intput.yaml"
     subjects = read_subjects(filename)
     draw_course_structure(subjects)
