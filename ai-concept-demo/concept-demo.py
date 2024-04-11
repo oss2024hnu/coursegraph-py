@@ -3,7 +3,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 def read_subjects(filename):
-    with open(filename, 'r') as file:
+    with open(filename, 'rt', encoding='UTF8') as file:
         data = yaml.safe_load(file)
     return data.get('과목', [])
 
