@@ -26,6 +26,6 @@ def draw_course_structure(subjects):
     plt.show()
 
 if __name__ == "__main__":
-    filename = "intput.yaml"
+    filename = "input.yaml"
     subjects = read_subjects(filename)
     draw_course_structure(subjects)
