@@ -3,7 +3,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from matplotlib import font_manager, rc
 
-font_name = font_manager.FontProperties(fname="data/malgun.ttf").get_name()
+font_name = font_manager.FontProperties(fname="ai-concept-demo/data/malgun.ttf").get_name()
 rc('font', family=font_name)
 
 def read_subjects(filename):
@@ -30,6 +30,6 @@ def draw_course_structure(subjects):
     plt.show()
 
 if __name__ == "__main__":
-    filename = "input.yaml"
+    filename = "ai-concept-demo/input.yaml"
     subjects = read_subjects(filename)
     draw_course_structure(subjects)
