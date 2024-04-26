@@ -1,4 +1,4 @@
-import yaml
+import strictyaml
 import networkx as nx
 import matplotlib.pyplot as plt
 import os
@@ -12,14 +12,15 @@ font_path = os.path.join(font_dir, 'malgun.ttf')
 font_name = font_manager.FontProperties(fname=font_path).get_name()
 
 def read_subjects(filename):
-    with open(filename, 'rt', encoding='UTF8') as file:
-        data = yaml.safe_load(file)
-    return data.get('과목', [])
+    with open(filename, 'r', encoding='UTF8') as file:
+        yaml_data = file.read()
+        data = strictyaml.load(yaml_data)
+    return data['과목']
 
 def draw_course_structure(subjects):
     G = nx.DiGraph()
     for subject in subjects:
-        G.add_node(subject['과목명'], pos=(subject['학년'], subject['학기']))
+        G.add_node(subject['과목명'], pos=(int(subject['학년']), int(subject['학기'])))  # 학년과 학기를 정수로 변환
         if '선수과목' in subject: 
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
