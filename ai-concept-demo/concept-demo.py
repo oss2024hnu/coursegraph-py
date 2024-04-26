@@ -1,10 +1,15 @@
 import yaml
 import networkx as nx
 import matplotlib.pyplot as plt
+import os
 from matplotlib import font_manager, rc
 
-font_name = font_manager.FontProperties(fname="data/malgun.ttf").get_name()
-rc('font', family=font_name)
+script_path = os.path.abspath(__file__)
+script_dir = os.path.dirname(script_path)
+
+font_dir = os.path.join(script_dir, './data')
+font_path = os.path.join(font_dir, 'malgun.ttf')
+font_name = font_manager.FontProperties(fname=font_path).get_name()
 
 def read_subjects(filename):
     with open(filename, 'rt', encoding='UTF8') as file:
@@ -15,7 +20,7 @@ def draw_course_structure(subjects):
     G = nx.DiGraph()
     for subject in subjects:
         G.add_node(subject['과목명'], pos=(subject['학년'], subject['학기']))
-        if '선수과목' in subject:
+        if '선수과목' in subject: 
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
 
@@ -30,6 +35,6 @@ def draw_course_structure(subjects):
     plt.show()
 
 if __name__ == "__main__":
-    filename = "input.yaml"
+    filename = './ai-concept-demo/input.yaml'
     subjects = read_subjects(filename)
     draw_course_structure(subjects)
