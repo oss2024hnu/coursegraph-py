@@ -20,7 +20,7 @@ def read_subjects(filename):
 def draw_course_structure(subjects):
     G = nx.DiGraph()
     for subject in subjects:
-        G.add_node(subject['과목명'], pos=(int(subject['학년']), int(subject['학기'])))  # 학년과 학기를 정수로 변환
+        G.add_node(subject['과목명'], pos=(int(subject['학년']), int(subject['학기'])))
         if '선수과목' in subject: 
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
