@@ -21,8 +21,8 @@ def read_subjects(filename):
 def adjust_coordinates(subjects):
     adjusted_pos = {}
     for subject in subjects:
-        grade = subject['학년']
-        semester = subject['학기']
+        grade = int(subject['학년'])
+        semester = int(subject['학기'])
         pos_key = (grade, semester)
         if pos_key in adjusted_pos:
             adjusted_pos[pos_key].append(0)
@@ -41,8 +41,8 @@ def draw_course_structure(subjects):
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)
     for subject in subjects:
-        grade = subject['학년']
-        semester = subject['학기']
+        grade = int(subject['학년'])
+        semester = int(subject['학기'])
         #x,y 좌표 조정
         x = grade + adjusted_pos[(grade, semester)].pop(0)  
         y = semester
@@ -62,6 +62,6 @@ def draw_course_structure(subjects):
     plt.show()
 
 if __name__ == "__main__":
-    filename = './ai-concept-demo/input.yaml'
+    filename =  os.path.join(script_dir, './input.yaml')
     subjects = read_subjects(filename)
     draw_course_structure(subjects)
