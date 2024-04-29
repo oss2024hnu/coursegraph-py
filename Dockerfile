@@ -1,10 +1,13 @@
 FROM python:3
 
-WORKDIR /app
+WORKDIR /coursegraph-py/ai-concept-demo
 
-COPY . /app
+CMD ["python", "concept-demo.py"]
 
-RUN pip install --no-cache-dir networkx pyyaml matplotlib
+RUN pip install --no-cache-dir networkx pyyaml matplotlib 
+# 현재 디렉토리의 모든 파일을 해당 경로에 복사
+COPY . . 
 
-# if you want to run python code 
-# docker container exec -it [docker ID] python3 concept-demo.py
+
+
+
