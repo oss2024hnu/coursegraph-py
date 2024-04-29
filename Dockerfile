@@ -1,13 +1,12 @@
 FROM python:3
 
-WORKDIR /coursegraph-py/ai-concept-demo
+WORKDIR /app
 
-CMD ["python", "concept-demo.py"]
+COPY . /app
 
 RUN pip install --no-cache-dir networkx pyyaml matplotlib 
 # 현재 디렉토리의 모든 파일을 해당 경로에 복사
-COPY . . 
 
-
+CMD ["python", "/app/ai-concept-demo/concept-demo.py"]
 
 
