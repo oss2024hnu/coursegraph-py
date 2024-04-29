@@ -12,17 +12,24 @@ font_path = os.path.join(font_dir, 'malgun.ttf')
 font_name = font_manager.FontProperties(fname=font_path).get_name()
 
 def read_subjects(filename):
-    with open(filename, 'r', encoding='UTF8') as file:
-        yaml_data = file.read()
-        data = strictyaml.load(yaml_data)
-    return data['과목']
+    try:
+        with open(filename, 'r', encoding='UTF8') as file:
+            yaml_data = file.read()
+            data = strictyaml.load(yaml_data)
+            return data['과목']
+    except FileNotFoundError:
+        print("해당하는 파일이 없습니다.")
+        return []
+    except strictyaml.YAMLValidationError as e:
+        print("YAML 데이터가 잘못되어있습니다.", e)
+        return []
 
 # 학년과 학기가 같은 강좌에 대한 좌표 조정 함수
 def adjust_coordinates(subjects):
     adjusted_pos = {}
     for subject in subjects:
-        grade = subject['학년']
-        semester = subject['학기']
+        grade = int(subject['학년'])
+        semester = int(subject['학기'])
         pos_key = (grade, semester)
         if pos_key in adjusted_pos:
             adjusted_pos[pos_key].append(0)
@@ -41,8 +48,8 @@ def draw_course_structure(subjects):
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)
     for subject in subjects:
-        grade = subject['학년']
-        semester = subject['학기']
+        grade = int(subject['학년'])
+        semester = int(subject['학기'])
         #x,y 좌표 조정
         x = grade + adjusted_pos[(grade, semester)].pop(0)  
         y = semester
@@ -62,6 +69,6 @@ def draw_course_structure(subjects):
     plt.show()
 
 if __name__ == "__main__":
-    filename = './ai-concept-demo/input.yaml'
+    filename =  os.path.join(script_dir, './input.yaml')
     subjects = read_subjects(filename)
     draw_course_structure(subjects)
