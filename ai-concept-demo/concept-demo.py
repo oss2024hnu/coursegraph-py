@@ -20,10 +20,10 @@ def read_subjects(filename):
             return data['과목']
     except FileNotFoundError:
         print("해당하는 파일이 없습니다.")
-        sys.exit()
+        sys.exit(1)
     except strictyaml.YAMLValidationError as e:
         print("YAML 데이터가 잘못되어있습니다.", e)
-        sys.exit()
+        sys.exit(1)
 
 # 학년과 학기가 같은 강좌에 대한 좌표 조정 함수
 def adjust_coordinates(subjects):
