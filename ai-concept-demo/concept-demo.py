@@ -14,16 +14,17 @@ def get_os():
     if os_name == 'nt':
         return "Windows"
     elif os_name == 'posix':
-        return "Linux or MacOS"
+        return "Linux"
     else:
         return "Unknown OS"
     
 if(get_os() == "Windows"):
     font_name = fm.FontProperties(fname="c:/Windows/Fonts/malgun.ttf").get_name()
     rc('font', family=font_name)
-else:
-    pass
-#plt.rc('font', family='Malgun Gothic')
+elif(get_os() == "Linux"):
+    font_name = fm.FontProperties(fname="/usr/share/fonts/truetype/nanum/NanumGothic.ttf: NanumGothic:style=Regular").get_name()
+    rc('font', family=font_name)
+#else: 기타 OS 폰트파일은 필요하면 추가하면 됨.
 
 def read_subjects(filename):
     try:
