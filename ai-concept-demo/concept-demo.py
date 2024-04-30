@@ -2,6 +2,7 @@ import strictyaml
 import networkx as nx
 import matplotlib.pyplot as plt
 import os
+import sys
 from matplotlib import font_manager, rc
 
 script_path = os.path.abspath(__file__)
@@ -19,10 +20,10 @@ def read_subjects(filename):
             return data['과목']
     except FileNotFoundError:
         print("해당하는 파일이 없습니다.")
-        return []
+        sys.exit()
     except strictyaml.YAMLValidationError as e:
         print("YAML 데이터가 잘못되어있습니다.", e)
-        return []
+        sys.exit()
 
 # 학년과 학기가 같은 강좌에 대한 좌표 조정 함수
 def adjust_coordinates(subjects):
@@ -51,7 +52,7 @@ def draw_course_structure(subjects):
         grade = int(subject['학년'])
         semester = int(subject['학기'])
         #x,y 좌표 조정
-        x = grade + adjusted_pos[(grade, semester)].pop(0)  
+        x = grade + adjusted_pos[(grade, semester)].pop(0)
         y = semester
         G.add_node(subject['과목명'], pos=(x, y))
         if '선수과목' in subject:
