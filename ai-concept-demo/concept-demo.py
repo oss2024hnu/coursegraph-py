@@ -19,10 +19,10 @@ def read_subjects(filename):
             data = strictyaml.load(yaml_data)
             return data['과목']
     except FileNotFoundError:
-        print("해당하는 파일이 없습니다.")
+        print("해당하는 파일이 없습니다.", file=sys.stderr)
         return None
     except strictyaml.YAMLValidationError as e:
-        print(f"YAML 데이터가 잘못되어있습니다: {e}", file=sys.stderr)
+        print("YAML 데이터가 잘못되어있습니다.", e)
         return None
 
 # 학년과 학기가 같은 강좌에 대한 좌표 조정 함수
@@ -52,7 +52,7 @@ def draw_course_structure(subjects):
         grade = int(subject['학년'])
         semester = int(subject['학기'])
         #x,y 좌표 조정
-        x = grade + adjusted_pos[(grade, semester)].pop(0)
+        x = grade + adjusted_pos[(grade, semester)].pop(0)  
         y = semester
         G.add_node(subject['과목명'], pos=(x, y))
         if '선수과목' in subject:
