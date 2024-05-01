@@ -1,4 +1,5 @@
 matplotlib
 networkx
 strictyaml
+platform
 pandas
