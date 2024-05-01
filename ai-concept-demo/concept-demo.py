@@ -1,3 +1,6 @@
+import subprocess
+# requirements.txt 파일의 내용을 읽어와서 필요한 패키지들을 자동으로 설치합니다.
+subprocess.check_call(["pip", "install", "-r", "requirements.txt"])
 import strictyaml
 import networkx as nx
 import matplotlib.pyplot as plt
