@@ -1,6 +1,9 @@
 import os
 import sys
 import platform
+import json
+import csv
+import read_data
 import strictyaml
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -8,6 +11,44 @@ from matplotlib import font_manager, rc
 
 script_path = os.path.abspath(__file__)
 script_dir = os.path.dirname(script_path)
+
+def read_json(filename): #json 불러오기
+    try:
+        with open(filename, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            return data
+    except FileNotFoundError:
+        print("JSON 파일을 찾을 수 없습니다.", file=sys.stderr)
+        return None
+    except json.JSONDecodeError as e:
+        print(f"JSON 데이터가 잘못되어있습니다: {e}", file=sys.stderr)
+        return None
+
+def read_csv(filename): #csv 파일 불러오기
+    try:
+        with open(filename, newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            return list(reader)
+    except FileNotFoundError:
+        print("CSV 파일을 찾을 수 없습니다.", file=sys.stderr)
+        return None
+    except csv.Error as e:
+        print(f"CSV 파일 읽기 오류: {e}", file=sys.stderr)
+        return None
+
+def read_data(filename): #통합적으로 데이터를 읽을 수 있는 함수
+    if filename.endswith('.yaml'):
+        return read_subjects(filename)
+    elif filename.endswith('.json'):
+        return read_json(filename)
+    elif filename.endswith('.csv'):
+        return read_csv(filename)
+    else:
+        print("지원하지 않는 파일 형식입니다.", file=sys.stderr)
+        return None
+
+
+
 
 # 시스템 확인 후 폰트 지정 함수
 def get_system_font():
