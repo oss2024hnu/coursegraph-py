@@ -81,11 +81,14 @@ def draw_course_structure(subjects):
                 G.add_edge(prereq, subject['과목명'])
 
     pos = nx.get_node_attributes(G, 'pos')
+    
     nx.draw(G, pos, with_labels=True, node_size=2000, node_color="skyblue",  font_family=font_name, font_size=10, font_weight="bold")
     for edge in G.edges():
         nx.draw_networkx_edges(G, pos, edgelist=[edge], arrowstyle='->', arrowsize=10)
     plt.rc('font', family=font_name)
     plt.title("과목 이수 체계도")
+    plt.xlabel('학년')
+    plt.ylabel('학기')
     plt.xticks(range(1, 5))  # 학년
     plt.yticks(range(1, 3))  # 학기
     plt.grid(True)  # 그리드 표시
