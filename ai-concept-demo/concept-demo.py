@@ -38,10 +38,22 @@ def read_subjects(filename):
 
 # 학년과 학기가 같은 강좌에 대한 좌표 조정 함수
 def adjust_coordinates(subjects):
-    adjusted_pos = defaultdict(list)
+    adjusted_pos = {}
     for subject in subjects:
-        pos_key = (subject['학년'], subject['학기'])
-        adjusted_pos[pos_key].append(len(adjusted_pos[pos_key]) * 0.4 - ((len(adjusted_pos[pos_key]) - 1) / 2) * 0.4)
+        grade = int(subject['학년'])
+        semester = int(subject['학기'])
+        pos_key = (grade, semester)
+        if pos_key in adjusted_pos:
+            adjusted_pos[pos_key].append(0)
+        else:
+            adjusted_pos[pos_key] = [0]
+    # 겹치는 노드중 하나만 이동하도록 조정 하는 함수
+    for pos_key, positions in adjusted_pos.items():
+        num_positions = len(positions)
+        if num_positions > 1:
+            spacing = 0.4
+            for i in range(num_positions):
+                adjusted_pos[pos_key][i] = (i - (num_positions - 1) / 2) * spacing
     return adjusted_pos
 
 def draw_course_structure(subjects):
