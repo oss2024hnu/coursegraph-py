@@ -69,7 +69,7 @@ def draw_course_structure(subjects):
     font_name = font_manager.FontProperties(fname=font_path).get_name()
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)
-    plt.figure(figsize=(10,10))
+    plt.figure(figsize=(10,10)) # figure 사이즈 조정
     
     for subject in subjects:
         grade = int(subject['학년'])
