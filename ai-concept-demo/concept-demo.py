@@ -69,6 +69,8 @@ def draw_course_structure(subjects):
     font_name = font_manager.FontProperties(fname=font_path).get_name()
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)
+    plt.figure(figsize=(10,10)) # figure 사이즈 조정
+    
     for subject in subjects:
         grade = int(subject['학년'])
         semester = int(subject['학기'])
@@ -80,11 +82,11 @@ def draw_course_structure(subjects):
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
 
-    pos = nx.get_node_attributes(G, 'pos')
-    
-    nx.draw(G, pos, with_labels=True, node_size=2000, node_color="skyblue",  font_family=font_name, font_size=10, font_weight="bold")
-    for edge in G.edges():
-        nx.draw_networkx_edges(G, pos, edgelist=[edge], arrowstyle='->', arrowsize=10)
+        pos = nx.get_node_attributes(G, 'pos')
+        nx.draw(G, pos, with_labels=True, node_size=2000, node_color="skyblue",  font_family=font_name, font_size=10, font_weight="bold")
+        for edge in G.edges():
+            nx.draw_networkx_edges(G, pos, edgelist=[edge], arrowstyle='->', arrowsize=10)
+   
     plt.rc('font', family=font_name)
     plt.title("과목 이수 체계도")
     plt.xlabel('학년')
