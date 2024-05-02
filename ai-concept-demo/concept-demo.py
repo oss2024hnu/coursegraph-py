@@ -95,6 +95,7 @@ def draw_course_structure(subjects):
     plt.xticks(range(1, 5))  # 학년
     plt.yticks(range(1, 3))  # 학기
     plt.grid(True)  # 그리드 표시
+    plt.savefig('output.png')
     plt.show()
 
 if __name__ == "__main__":
