@@ -76,9 +76,9 @@ def draw_course_structure(subjects):
         grade = int(subject['학년'])
         semester = int(subject['학기'])
         #x,y 좌표 조정
-        x = grade + adjusted_pos[(grade, semester)].pop(0)  
+        x = grade + adjusted_pos[(grade, semester)].pop(0)
         y = semester
-        G.add_node(subject['과목명'], pos=(x, y))
+        G.add_node(subject['과목명'], pos=(y, x))
         if '선수과목' in subject:
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
@@ -92,8 +92,8 @@ def draw_course_structure(subjects):
     plt.title("과목 이수 체계도")
     plt.xlabel('학년')
     plt.ylabel('학기')
-    plt.xticks(range(1, 5))  # 학년
-    plt.yticks(range(1, 3))  # 학기
+    plt.xticks(range(5, 1))  # 학년
+    plt.yticks(range(3, 1))  # 학기
     plt.grid(True)  # 그리드 표시
     plt.show()
 
