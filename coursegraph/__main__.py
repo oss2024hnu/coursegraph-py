@@ -1,5 +1,5 @@
 import argparse
-from fontutil import get_system_font
+import fontutil
 import sys
 import os
 import strictyaml
