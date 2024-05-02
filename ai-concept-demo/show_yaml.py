@@ -54,7 +54,9 @@ def read_subjects(filename):
     except FileNotFoundError:
         print("파일을 찾을 수 없습니다.")
         return None
-        exit(1)
+    except Exception as e:
+        print("파일을 읽는 중 오류가 발생했습니다:", e)
+        return None
 
 # 파일 읽기
 
@@ -62,21 +64,9 @@ def read_subjects(filename):
 def make_data(data):
     # 데이터 가공
     df = pd.DataFrame(data['과목'])
-    try:
-        df['과목명'] = df['과목명']
-        df['학년'] = df['학년']
-        df['학기'] = df['학기']
-        df['트랙'] = df['트랙']
-        df['마이크로디그리'] = df['마이크로디그리']
-        df['실습여부'] = df['실습여부']
-        df['선수과목'] = df['선수과목'].apply(lambda x: ', '.join(x) if isinstance(x, list) else '')  # 선수과목이 리스트인 경우에만 join 적용
-    except KeyError:    
-        
-        pass
-
+    
 
     fig, ax = plt.subplots(figsize=(20, 10))
-    ax.axis('tight')
     ax.axis('off')
     ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
     ax.set_title('과목 표')
