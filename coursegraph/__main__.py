@@ -1,38 +1,15 @@
 import argparse
-# import fontutil
+from fontutil import get_system_font
 import sys
-import platform
 import os
 import strictyaml
 import networkx as nx
 import matplotlib.pyplot as plt
-from matplotlib import font_manager, rc
+from matplotlib import font_manager
 
 script_path = os.path.abspath(__file__)
 script_dir = os.path.dirname(script_path)
 
-
-# 시스템 확인 후 폰트 지정 함수
-def get_system_font():
-    system = platform.system()
-    if system == 'Windows':
-        # Windows의 경우, 시스템 폰트 경로로 설정
-        font_folder = os.environ.get("SystemRoot", "C:\\Windows") + "\\Fonts\\malgun.ttf"
-        return [font_folder]
-    elif system == 'Darwin':
-        # macOS의 경우, 기본 시스템 폰트 경로 설정 (MacOS 애플고딕의 정확한 이름 표기가 필요함)
-        return ['/System/Library/Fonts/AppleGothic.ttf']
-    elif system == 'Linux':
-        font_folder = os.environ.get("FONTCONFIG_PATH")
-        # 환경 변수 값이 None이면 기본 경로 사용
-        if font_folder is None:
-            font_folder = "/usr/share/fonts/"
-        font_folder = os.path.join(font_folder, "DejaVu_Sans.ttf") #한글을 지원하는 DejaVu_Sans 폰트로 설정하였습니다.
-        return [font_folder]
-    else:
-        # 기타 운영 체제의 경우, 적절한 시스템 폰트 경로를 설정해야 합니다. (현재 리눅스의 파일 경로에 맞춰 설정되어있음) ===> 리눅스에 맞지 않음!! 배포판마다 위치 다름 이런 하드코딩 정말 안좋습니다
-        # return ['/usr/share/fonts/truetype/NanumGothic.ttf']
-        return None
 
 
 def read_subjects(filename):
@@ -70,16 +47,12 @@ def adjust_coordinates(subjects):
     return adjusted_pos
 
 
-def draw_course_structure(subjects, image_mode):
+def draw_course_structure(subjects,image_mode):
     system_fonts = get_system_font()
     if system_fonts:
         font_path = system_fonts[0]
         font_name = font_manager.FontProperties(fname=font_path).get_name()
     else:
-        # 무조건 NanumGothic 시도하도록 임시로
-        # path를 하드코딩 해놔서 리눅스에서 돌아가지 않음 배포판마다 다른데 ... 빨리 개선 필요
-        # # print("시스템 폰트를 찾을 수 없습니다.", file=sys.stderr)
-        # # sys.exit(1)
         font_name = "NanumGothic"
 
     G = nx.DiGraph()
@@ -133,7 +106,6 @@ def main():
     output_file = args.output
     verbose_mode = args.verbose
     image_mode = args.image
-
     # Perform actions based on options
     if verbose_mode:
         print("Verbose mode enabled.")
@@ -143,10 +115,8 @@ def main():
 
     if input_file:
         print(f"Output file path: {output_file}")
-        
-
     # Add more functionality based on your application needs
-    filename = os.path.join(script_dir, '../data/ce.yaml') # 파일 경로설정 
+    filename = os.path.join(script_dir, '../data/ce.yaml') # 파일 경로설정
     subjects = read_subjects(filename)
     subjects = None
     while subjects is None:
@@ -156,8 +126,7 @@ def main():
             if response.lower() != 'y':
                 sys.exit(1)
             filename = input("파일 경로를 입력하세요: ")
-    draw_course_structure(subjects, image_mode)
-
+    draw_course_structure(subjects,image_mode)
 
 if __name__ == '__main__':
     main()
