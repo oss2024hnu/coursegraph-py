@@ -47,7 +47,7 @@ def adjust_coordinates(subjects):
     return adjusted_pos
 
 
-def draw_course_structure(subjects,image_mode):
+def draw_course_structure(subjects):
     system_fonts = get_system_font()
     if system_fonts:
         font_path = system_fonts[0]
@@ -82,8 +82,6 @@ def draw_course_structure(subjects,image_mode):
     plt.ylabel('학기')
     plt.xticks(range(1, 5))  # 학년
     plt.yticks(range(1, 3))  # 학기
-    if image_mode:
-        plt.savefig('coursegraph.png') # 그래프 출력 이미지 생성
     plt.grid(True)  # 그리드 표시
     plt.show()
 
@@ -98,14 +96,12 @@ def main():
     parser.add_argument('-i', '--input', type=str, help='Specify the input file path.')
     parser.add_argument('-o', '--output', type=str, help='Specify the output file path.')
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose mode.')
-    parser.add_argument('-img', '--image', action='store_true', help='Creates an image of the execution result.')
     args = parser.parse_args()
 
     # Accessing the command line options
     input_file = args.input
     output_file = args.output
     verbose_mode = args.verbose
-    image_mode = args.image
     # Perform actions based on options
     if verbose_mode:
         print("Verbose mode enabled.")
@@ -126,7 +122,7 @@ def main():
             if response.lower() != 'y':
                 sys.exit(1)
             filename = input("파일 경로를 입력하세요: ")
-    draw_course_structure(subjects,image_mode)
+    draw_course_structure(subjects)
 
 if __name__ == '__main__':
     main()
