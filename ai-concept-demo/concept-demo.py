@@ -35,8 +35,7 @@ def adjust_coordinates(subjects):
     adjusted_pos = {}
     for subject in subjects:
         grade = int(subject['학년'])
-        semester = int(subject['학기'])
-        pos_key = (semester, grade)  # x축과 y축을 반대로 설정
+        pos_key = grade
         if pos_key in adjusted_pos:
             adjusted_pos[pos_key].append(0)
         else:
@@ -61,11 +60,16 @@ def draw_course_structure(subjects):
     adjusted_pos = adjust_coordinates(subjects)
     plt.figure(figsize=(10,10))
     
+    # 학년별로 다른 배경 색상 지정
+    colors = ['lightblue', 'lightgreen', 'lightyellow', 'lightpink']
+    
+    for i, grade in enumerate(range(1, 5)):  # 학년 범위에 따라 반복
+        plt.axhspan(grade - 0.5, grade + 0.5, facecolor=colors[i], alpha=0.3)  # 학년별로 배경 레이어를 그립니다.
+    
     for subject in subjects:
         grade = int(subject['학년'])
-        semester = int(subject['학기'])
         y = grade  # y축에 학년 배치
-        x = semester + adjusted_pos[(semester, grade)].pop(0)  # x축에 학기 배치
+        x = adjusted_pos[grade].pop(0)  # x축에 학기 배치는 고려하지 않습니다.
         G.add_node(subject['과목명'], pos=(x, y))
         if '선수과목' in subject:
             for prereq in subject['선수과목']:
@@ -80,7 +84,7 @@ def draw_course_structure(subjects):
     plt.title("과목 이수 체계도")
     plt.xlabel('학기')
     plt.ylabel('학년')
-    plt.xticks(range(1, 3))  # x축 눈금을 학기에 맞게 조정
+    plt.xticks([])  # x축 눈금을 제거합니다.
     plt.yticks(range(1, 5))  # y축 눈금을 학년에 맞게 조정
     plt.grid(True)
     plt.show()
