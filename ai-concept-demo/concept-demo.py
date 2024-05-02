@@ -9,10 +9,6 @@ from matplotlib import font_manager, rc
 script_path = os.path.abspath(__file__)
 script_dir = os.path.dirname(script_path)
 
-font_dir = os.path.join(script_dir, './data')
-font_path = os.path.join(font_dir, 'malgun.ttf')
-font_name = font_manager.FontProperties(fname=font_path).get_name()
-
 # 시스템 확인 후 폰트 지정 함수
 def get_system_font():
     system = platform.system()
@@ -23,8 +19,9 @@ def get_system_font():
         # macOS의 경우, 기본 시스템 폰트 경로 설정 (MacOS 애플고딕의 정확한 이름 표기가 필요함)
         return ['/System/Library/Fonts/AppleGothic.ttf']  
     else:
-        # 기타 운영 체제의 경우, 적절한 시스템 폰트 경로를 설정해야 합니다. (현재 리눅스의 파일 경로에 맞춰 설정되어있음)
-        return ['/usr/share/fonts/truetype/NanumGothic.ttf'] 
+        # 기타 운영 체제의 경우, 적절한 시스템 폰트 경로를 설정해야 합니다. (현재 리눅스의 파일 경로에 맞춰 설정되어있음) ===> 리눅스에 맞지 않음!! 배포판마다 위치 다름 이런 하드코딩 정말 안좋습니다
+        # return ['/usr/share/fonts/truetype/NanumGothic.ttf'] 
+        return None
 
 def read_subjects(filename):
     try:
@@ -63,12 +60,18 @@ def draw_course_structure(subjects):
     system_fonts = get_system_font()
     if system_fonts:
         font_path = system_fonts[0]
+        font_name = font_manager.FontProperties(fname=font_path).get_name()
     else:
-        print("시스템 폰트를 찾을 수 없습니다.", file=sys.stderr)
-        sys.exit(1)
-    font_name = font_manager.FontProperties(fname=font_path).get_name()
+        # 무조건 NanumGothic 시도하도록 임시로
+        # path를 하드코딩 해놔서 리눅스에서 돌아가지 않음 배포판마다 다른데 ... 빨리 개선 필요
+        # # print("시스템 폰트를 찾을 수 없습니다.", file=sys.stderr)
+        # # sys.exit(1)
+        font_name = "NanumGothic"
+        
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)
+    plt.figure(figsize=(10,10)) # figure 사이즈 조정
+    
     for subject in subjects:
         grade = int(subject['학년'])
         semester = int(subject['학기'])
@@ -80,11 +83,11 @@ def draw_course_structure(subjects):
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
 
-    pos = nx.get_node_attributes(G, 'pos')
-    
-    nx.draw(G, pos, with_labels=True, node_size=2000, node_color="skyblue",  font_family=font_name, font_size=10, font_weight="bold")
-    for edge in G.edges():
-        nx.draw_networkx_edges(G, pos, edgelist=[edge], arrowstyle='->', arrowsize=10)
+        pos = nx.get_node_attributes(G, 'pos')
+        nx.draw(G, pos, with_labels=True, node_size=2000, node_color="skyblue",  font_family=font_name, font_size=10, font_weight="bold")
+        for edge in G.edges():
+            nx.draw_networkx_edges(G, pos, edgelist=[edge], arrowstyle='->', arrowsize=10)
+   
     plt.rc('font', family=font_name)
     plt.title("과목 이수 체계도")
     plt.xlabel('학년')
