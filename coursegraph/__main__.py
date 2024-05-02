@@ -52,7 +52,7 @@ def draw_course_structure(subjects,image_mode):
     if system_fonts:
         font_path = system_fonts[0]
         font_name = font_manager.FontProperties(fname=font_path).get_name()
-    else:cd 
+    else:
         font_name = "NanumGothic"
 
     G = nx.DiGraph()
