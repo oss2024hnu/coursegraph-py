@@ -112,6 +112,11 @@ def main():
     if input_file:
         print(f"Output file path: {output_file}")
 
+<<<<<<< HEAD
+=======
+    if image_mode:
+        print("Image mode enabled.")
+>>>>>>> fontpath_and_img
     # Add more functionality based on your application needs
     filename = os.path.join(script_dir, '../data/ce.yaml') # 파일 경로설정
     subjects = read_subjects(filename)
