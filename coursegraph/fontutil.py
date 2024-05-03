@@ -2,6 +2,7 @@
 # 제발 ttf 파일 path를 하드코딩하지 말 것!!!
 
 import os
+import sys
 import platform
 from matplotlib import font_manager
 
