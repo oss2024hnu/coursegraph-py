@@ -27,7 +27,7 @@ def main():
         print(f"Output file path: {output_file}")
 
     if input_file:
-        print(f"Output file path: {output_file}")
+        print(f"input file path: {input_file}")
 
     # Add more functionality based on your application needs
 
