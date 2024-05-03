@@ -45,12 +45,27 @@ def make_data(data):
     rc('font', family=font_name)
 
 
-    df = pd.DataFrame(data['과목'])
-    fig, ax = plt.subplots(figsize=(20, 10))
-    ax.axis('off')
-    ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
-    ax.set_title('과목 표')
-    plt.show()
+    if '과목' in data:
+        df = pd.DataFrame(data['과목'])
+        
+        # '마이크로디그리' 열이 있는지 확인 후 추가
+        if '마이크로디그리' not in df.columns:
+            df['마이크로디그리'] = ''
+        
+        # '실습여부' 열이 있는지 확인 후 추가
+        if '실습여부' not in df.columns:
+            df['실습여부'] = ''
+
+        # '트랙' 열이 있는지 확인 후 추가
+        if '트랙' not in df.columns:
+            df['트랙'] = ''
+        fig, ax = plt.subplots(figsize=(20, 10))
+        ax.axis('off')
+        ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
+        ax.set_title('과목 표')
+        plt.show()
+    else:
+        print("데이터에 '과목' 정보가 없습니다.")
 
 if __name__ == "__main__":
     filename = input_filename()
