@@ -1,5 +1,7 @@
 import argparse
 import fontutil
+import tkinter as tk
+from tkinter import filedialog
 import os
 import sys
 from matplotlib import font_manager, rc
@@ -9,6 +11,14 @@ show_yaml_path = os.path.join(current_dir, "show_yaml.py")
 sys.path.append(current_dir)
 
 from show_yaml import input_filename, read_subjects, get_system_font, make_data
+
+
+def open_select_yaml():
+    root = tk.Tk()
+    root.withdraw()
+
+    select_yaml = filedialog.askopenfilename(initialdir="../data", title="Select file", filetypes=(("YAML files", "*.yaml"), ("all files", "*.*")))
+    return select_yaml
 
 def main():
     parser = argparse.ArgumentParser(
