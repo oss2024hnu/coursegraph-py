@@ -1,5 +1,14 @@
 import argparse
 import fontutil
+import tkinter as tk
+from tkinter import filedialog
+
+def open_select_yaml():
+    root = tk.Tk()
+    root.withdraw()
+
+    select_yaml = filedialog.askopenfilename(initialdir="../data", title="Select file", filetypes=(("YAML files", "*.yaml"), ("all files", "*.*")))
+    return select_yaml
 
 def main():
     parser = argparse.ArgumentParser(
