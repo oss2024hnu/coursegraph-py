@@ -1,14 +1,15 @@
 import argparse
-import fontutil
-import os
+import tkinter as tk
+from tkinter import filedialog
 import sys
-from matplotlib import font_manager, rc
+from show_yaml import ShowYaml
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-show_yaml_path = os.path.join(current_dir, "show_yaml.py")
-sys.path.append(current_dir)
+def open_select_yaml():
+    root = tk.Tk()
+    root.withdraw()
 
-from show_yaml import input_filename, read_subjects, get_system_font, make_data
+    select_yaml = filedialog.askopenfilename(initialdir="../data", title="Select file", filetypes=(("YAML files", "*.yaml"), ("all files", "*.*")))
+    return select_yaml
 
 def main():
     parser = argparse.ArgumentParser(
@@ -40,19 +41,10 @@ def main():
         print(f"Output file path: {input_file}")
     
     if show_data:
-        filename = input_filename()
-        if filename:
-            subjects = read_subjects(filename)
-            get_system_font()
-            if subjects:
-                make_data(subjects)
-            else:
-                print("Data is empty")
-        else:
-            print("Flie not found")
+        data_processor = ShowYaml()
+        data_processor.process_data()
       
     # Add more functionality based on your application needs
-
 
 if __name__ == '__main__':
     main()
