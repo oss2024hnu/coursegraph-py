@@ -37,7 +37,7 @@ def main():
         print(f"Output file path: {output_file}")
 
     if input_file:
-        print(f"Output file path: {output_file}")
+        print(f"Output file path: {input_file}")
     
     if show_data:
         filename = input_filename()
@@ -50,6 +50,7 @@ def main():
                 print("Data is empty")
         else:
             print("Flie not found")
+      
     # Add more functionality based on your application needs
 
 
