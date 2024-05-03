@@ -1,6 +1,10 @@
 # 한글 폰트 정보를 가져오는 모듈
 # 제발 ttf 파일 path를 하드코딩하지 말 것!!!
 
+import os
+import platform
+from matplotlib import font_manager
+
 def get_system_font():
     system = platform.system()
     if system == 'Windows':
