@@ -21,7 +21,7 @@ def validate_string_or_sequence(value):
         else:
             raise ValueError("올바른 형식이 아닙니다.")
     
-# 우선적으로 (학년, 학기, 과목명, 트랙, 마이크로디그리, 선수과목) 의 스키마를 정의해뒀습니다.
+# 우선적으로 (학년, 학기, 과목명, 실습여부, 트랙, 마이크로디그리, 선수과목, 구분) 의 스키마를 정의해뒀습니다.
 schema = strictyaml.Map({
     "과목": strictyaml.Seq(strictyaml.Map({
         "학년": strictyaml.Int(),
@@ -29,7 +29,9 @@ schema = strictyaml.Map({
         "과목명": strictyaml.Str(),
         strictyaml.Optional("트랙"): EmptyList() | strictyaml.Seq(strictyaml.Str()),
         strictyaml.Optional("마이크로디그리"): EmptyList() | strictyaml.Seq(strictyaml.Str()),
-        strictyaml.Optional("선수과목"): EmptyList() | strictyaml.Seq(strictyaml.Str())
+        strictyaml.Optional("선수과목"): EmptyList() | strictyaml.Seq(strictyaml.Str()),
+        "실습여부": strictyaml.Str(),
+        "구분": strictyaml.Str()
     }))
 })
 
