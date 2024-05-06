@@ -3,6 +3,8 @@ import tkinter as tk
 from tkinter import filedialog
 import sys
 from show_yaml import ShowYaml
+import fontutil
+from tkinter import filedialog
 
 def open_select_yaml():
     root = tk.Tk()
