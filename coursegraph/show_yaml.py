@@ -45,13 +45,6 @@ class ShowYaml:
 
         if '과목' in data:
             df = pd.DataFrame(data['과목'])
-            
-            # 열 추가
-            columns_to_add = ['마이크로디그리', '실습여부', '트랙']
-            for column in columns_to_add:
-                if column not in df.columns:
-                    df[column] = ''
-            
             fig, ax = plt.subplots(figsize=(20, 10))
             ax.axis('off')
             ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
