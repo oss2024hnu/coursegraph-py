@@ -18,7 +18,7 @@ def get_system_font():
         for v in flist:
             try:
                 fprop = font_manager.FontProperties(fname=v)
-                if fprop.get_name() == 'Malgun':
+                if fprop.get_name() == 'Malgun Gothic':
                     data_list.append({"name": fprop.get_name(), "file": fprop.get_file()})
             except:
                 continue
