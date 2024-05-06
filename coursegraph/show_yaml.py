@@ -14,10 +14,7 @@ class ShowYaml:
 
     def input_filename(self):
         input_filename = input("yaml 파일을 입력하세요 (예: me.yaml은 me 입력): ")
-        if input_filename == 'input':
-            filename = os.path.join(self.script_dir, '../ai-concept-demo/data', input_filename + '.yaml')         
-        else:
-            filename = os.path.join(self.script_dir, '../data/', input_filename + '.yaml')
+        filename = os.path.join(self.script_dir, '../data/', input_filename + '.yaml')
         return filename
 
     def get_system_font(self):
