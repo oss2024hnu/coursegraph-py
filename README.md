@@ -21,3 +21,4 @@
 - 전에는 ai-concept-demo에서 수정했지만, 앞으로는 coursegraph 안에 내용을 수정 (ai-concept-demo를 pull requests할 시 점수 안줌)
 - 디렉토리 파일 경로를 처음에는 개발 편의를 위해 하드코딩으로 되어있는 경우도 남아있는데, 하드코딩 쓰지 않기
 - issues : pull requests = 4 : 1 비율로 등록하기
+- coursegraph-py 프로젝트에서 입력 yaml 파일에 뭘 추가하자는 이슈는 더 이상 받지 않습니다
