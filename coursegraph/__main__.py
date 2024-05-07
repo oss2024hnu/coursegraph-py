@@ -27,6 +27,7 @@ def main():
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose mode.')
     parser.add_argument('-s', '--show', action='store_true', help='Show data.')
     parser.add_argument('-u', '--update', action='store_true', help='update.')
+    parser.add_argument('-img', '--image', action='store_true', help='Show data and Create image')
     args = parser.parse_args()
 
     # Accessing the command line options
@@ -35,6 +36,7 @@ def main():
     verbose_mode = args.verbose
     show_data = args.show
     update_file = args.update
+    image_mode = args.image
 
 
     # Perform actions based on options
@@ -50,7 +52,7 @@ def main():
         data_processor.input_process(input_file)
     
     if show_data:
-        data_processor = ShowYaml()
+        data_processor = ShowYaml(image_mode)
         data_processor.process_data()
     if update_file:
         data_processor = Save_file()
