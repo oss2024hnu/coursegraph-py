@@ -1,6 +1,7 @@
 import pandas as pd
 import strictyaml as syaml
 import os
+
 import platform
 import matplotlib.pyplot as plt
 from fontutil import get_system_font
@@ -18,13 +19,7 @@ class ShowYaml:
         return filename
 
     def get_system_font(self):
-        system = platform.system()
-        if system == 'Windows':
-            return 'C:/Windows/Fonts/malgun.ttf'
-        elif system == 'Darwin':
-            return '/System/Library/Fonts/AppleGothic.ttf'
-        else:
-            return None
+        return get_system_font()[1]['file']
 
     def read_subjects(self, filename):
         try:
