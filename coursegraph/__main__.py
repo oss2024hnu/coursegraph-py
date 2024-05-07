@@ -7,6 +7,8 @@ import fontutil
 from tkinter import filedialog
 from parsing import parse_arguments
 
+from save_file import Save_file
+
 def open_select_yaml():
     root = tk.Tk()
     root.withdraw()
@@ -15,27 +17,36 @@ def open_select_yaml():
     return select_yaml
 
 def main():
+
     args = parse_arguments()
+
 
     # Accessing the command line options
     input_file = args.input
     output_file = args.output
     verbose_mode = args.verbose
     show_data = args.show
+    update_file = args.update
+
 
     # Perform actions based on options
     if verbose_mode:
         print("Verbose mode enabled.")
 
     if output_file:
-        print(f"Output file path: {output_file}")
+        data_processor = Save_file()
+        data_processor.output_process(output_file)
 
     if input_file:
-        print(f"Output file path: {input_file}")
+        data_processor = Save_file()
+        data_processor.input_process(input_file)
     
     if show_data:
         data_processor = ShowYaml()
         data_processor.process_data()
+    if update_file:
+        data_processor = Save_file()
+        data_processor.choice_file()
       
     # Add more functionality based on your application needs
 
