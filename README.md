@@ -22,3 +22,7 @@
 - 디렉토리 파일 경로를 처음에는 개발 편의를 위해 하드코딩으로 되어있는 경우도 남아있는데, 하드코딩 쓰지 않기
 - issues : pull requests = 4 : 1 비율로 등록하기
 - coursegraph-py 프로젝트에서 입력 yaml 파일에 뭘 추가하자는 이슈는 더 이상 받지 않습니다
+
+
+## 참고사항
+- pr과 이슈를 연결하는 법 github docs 링크: https://docs.github.com/ko/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
