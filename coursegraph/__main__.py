@@ -42,7 +42,6 @@ def main():
         raise Exception("input file not specified")
     
     if output_format=='graph':
-        print("use show_graph module to show graph")
         subjects = read_subjects(input_file)
         draw_course_structure(subjects, output_file)
     elif output_format=='table':
