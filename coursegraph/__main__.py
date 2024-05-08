@@ -14,8 +14,8 @@ def main():
     )
 
     # Adding command line options
-    parser.add_argument('-i', '--input', type=str, help='Specify the input YAML data file path.')
-    parser.add_argument('-o', '--output', type=str, help='Specify the output image file path.')
+    parser.add_argument('-i', '--input', type=str, help='Specify the input YAML data file path. (required)')
+    parser.add_argument('-o', '--output', type=str, help='Specify the output image file path. (optional).')
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose mode.')
     parser.add_argument('-f', '--format', choices=['graph','table'], default='graph', help='Sepcify the output format (graph, table). Defaults to graph.')
     args = parser.parse_args()
