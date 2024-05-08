@@ -98,7 +98,7 @@ def draw_course_structure(subjects):
     plt.show()
 
 if __name__ == "__main__":
-    filename = os.path.join(script_dir, './input.yaml')
+    filename = os.path.join(script_dir, '../data/input.yaml')
     subjects = read_subjects(filename)
     subjects = None
     while subjects is None:
