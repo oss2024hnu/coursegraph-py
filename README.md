@@ -40,9 +40,10 @@ python coursegraph -o [출력할 파일 주소]
 ```
 - -s 명령어 사용방법
 ```
-python coursegraph -s 입력
+python coursegraph -s
 ```
-파일을 입력하라고 나오는데 예를 들어서 me.yaml파일을 출력하고 싶으면 me만 입력하면 me.yaml 파일의 표가 나온다
+실행하면 파일을 입력하라고 나오는데 예를 들어서 me.yaml파일을 출력하고 싶으면 me만 입력하면 me.yaml 파일의 표가 나온다
+  - 지금 이거를 표준입력을 받는 게 아니라 `--input` 옵션으로 받도록 통일해야 함. 출력되는 이미지도 `--output` 옵션으로 받도록 좀 통일하고
 
 
 ## 참고사항
