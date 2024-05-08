@@ -24,5 +24,17 @@
 - coursegraph-py 프로젝트에서 입력 yaml 파일에 뭘 추가하자는 이슈는 더 이상 받지 않습니다
 
 
+## main.py사용방법
+- -i 명령어 사용 방법
+- python __main__.py -i [입력할 파일 주소]
+- -o 명령어 사용 방법
+- python __main__.py -o [출력할 파일 주소]
+- -u 명령어 사용방법
+- python __main__.py -u 입력하면 input을 바꾸건지 output을 변경할 건지 선택하는 화면이 나오는데 선택하고 주소를 입력하면 된다.
+- -s 명령어 사용방법
+- python __main__.py -s 입력
+- 파일을 입력하라고 나오는데 예를 들어서 me.yaml파일을 출력하고 싶으면 me만 입력하면 me.yaml 파일의 표가 나온다
+
+
 ## 참고사항
 - pr과 이슈를 연결하는 법 github docs 링크: https://docs.github.com/ko/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
