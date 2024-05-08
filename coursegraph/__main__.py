@@ -5,7 +5,7 @@ import sys
 from show_yaml import ShowYaml
 import fontutil
 
-from save_file import Save_file
+
 
 def open_select_yaml():
   try:
@@ -43,8 +43,8 @@ def main():
     output_file = args.output
     verbose_mode = args.verbose
     show_data = args.show
-    update_file = args.update
     image_mode = args.image
+
 
 
     # Perform actions based on options
@@ -52,24 +52,21 @@ def main():
         print("Verbose mode enabled.")
 
     if output_file:
-        data_processor = Save_file()
-        data_processor.output_process(output_file)
+        print("Specify the output file path.")
 
     if input_file:
-        data_processor = Save_file()
-        data_processor.input_process(input_file)
+        print('Specify the input file path.')
     
     if show_data:
         data_processor = ShowYaml(image_mode)
         data_processor.process_data()
     
+
   except Exception as e:
       print(f"An error occurred: {e}")
       sys.exit(1)
 
-  if update_file:
-      data_processor = Save_file()
-      data_processor.choice_file()
+
       
     # Add more functionality based on your application needs
 
