@@ -9,9 +9,11 @@ from matplotlib import font_manager, rc
 
 
 class ShowYaml:
-    def __init__(self):
+    def __init__(self, image_mode):
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         self.font_path = self.get_system_font()
+        self.filename = self.input_filename()
+        self.image_mode = image_mode
 
     def input_filename(self):
         input_filename = input("yaml 파일을 입력하세요 (예: me.yaml은 me 입력): ")
@@ -21,9 +23,9 @@ class ShowYaml:
     def get_system_font(self):
         return get_system_font()[0]['file']
 
-    def read_subjects(self, filename):
+    def read_subjects(self):
         try:
-            with open(filename, 'r', encoding='UTF8') as file:
+            with open(self.filename, 'r', encoding='UTF8') as file:
                 yaml_data = file.read()
                 data = syaml.load(yaml_data).data
                 return data
@@ -44,16 +46,18 @@ class ShowYaml:
             ax.axis('off')
             ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
             ax.set_title('과목 표')
+            if self.image_mode:
+                filename_without_ext = os.path.splitext(self.filename)[0]
+                plt.savefig(filename_without_ext + '_chart_image.png')
             plt.show()
         else:
             print("데이터에 '과목' 정보가 없습니다.")
 
     def process_data(self):
-        filename = self.input_filename()
-        subjects = self.read_subjects(filename)
+        subjects = self.read_subjects()
         if subjects:
             self.make_data(subjects)
 
 if __name__ == "__main__":
-    data_processor = ShowYaml()
+    data_processor = ShowYaml(None)
     data_processor.process_data()
