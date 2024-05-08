@@ -1,3 +1,4 @@
+from package_installer import PackageInstaller
 import argparse
 import tkinter as tk
 from tkinter import filedialog
@@ -36,6 +37,7 @@ def main():
     parser.add_argument('-s', '--show', action='store_true', help='Show data.')
     parser.add_argument('-u', '--update', action='store_true', help='update.')
     parser.add_argument('-img', '--image', action='store_true', help='Show data and Create image')
+    parser.add_argument('-l', '--install', action='store_true', help='Install Package')
     args = parser.parse_args()
 
     # Accessing the command line options
@@ -44,6 +46,7 @@ def main():
     verbose_mode = args.verbose
     show_data = args.show
     image_mode = args.image
+    install_package_file = args.install
 
 
 
@@ -60,6 +63,10 @@ def main():
     if show_data:
         data_processor = ShowYaml(image_mode)
         data_processor.process_data()
+
+    if install_package_file:
+        data_processor = PackageInstaller()
+        data_processor.install_packages()
     
 
   except Exception as e:
