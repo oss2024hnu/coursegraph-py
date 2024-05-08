@@ -17,14 +17,14 @@ def main():
     parser.add_argument('-i', '--input', type=str, help='Specify the input YAML data file path.')
     parser.add_argument('-o', '--output', type=str, help='Specify the output image file path.')
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose mode.')
-    parser.add_argument('-s', '--show', action='store_true', help='Show data.')
+    parser.add_argument('-f', '--format', choices=['graph','table'], default='graph', help='Sepcify the output format (graph, table). Defaults to graph.')
     args = parser.parse_args()
 
     # Accessing the command line options
     input_file = args.input
     output_file = args.output
+    output_format = args.format
     verbose_mode = args.verbose
-    show_data = args.show
 
     # Perform actions based on options
     if verbose_mode:
@@ -32,19 +32,27 @@ def main():
 
     if output_file:
         print("Specify the output file path.")
+    else:
+        show_mode = True
 
     if input_file:
         print('Specify the input file path.')
+    else:
+        parser.print_help(sys.stderr)
+        raise Exception("input file not specified")
     
     # kyahnu: 이 부분 --input 과 --output 을 활용하도록 일관된 인터페이스로 수정할 것
-    if show_data:
-        image_mode = True if output_file else False
-        data_processor = ShowTable(image_mode)
+    if output_format=='graph':
+        print("use show_graph module to show graph")
+    elif output_format=='table':
+        data_processor = ShowTable(not show_mode)
         data_processor.process_data()
+    else:
+        raise Exception(f"cannot handle output format {output_format}")
     
 
   except Exception as e:
-      print(file=sys.stderr, f"An error occurred: {e}",)
+      print(f"An error occurred: {e}", file=sys.stderr)
       sys.exit(1)
 
 
