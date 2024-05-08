@@ -40,8 +40,9 @@ python coursegraph -o [출력할 파일 주소]
 ```
 - -u 명령어 사용방법
 ```
-python coursegraph -u 입력하면 input을 바꾸건지 output을 변경할 건지 선택하는 화면이 나오는데 선택하고 주소를 입력하면 된다.
+python coursegraph -u
 ```
+입력하면 input을 바꾸건지 output을 변경할 건지 선택하는 화면이 나오는데 선택하고 주소를 입력하면 된다.
 - -s 명령어 사용방법
 ```
 python coursegraph -s 입력
