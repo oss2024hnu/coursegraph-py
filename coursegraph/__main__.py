@@ -67,9 +67,9 @@ def main():
       print(f"An error occurred: {e}")
       sys.exit(1)
 
-    if update_file:
-        data_processor = Save_file()
-        data_processor.choice_file()
+  if update_file:
+      data_processor = Save_file()
+      data_processor.choice_file()
       
     # Add more functionality based on your application needs
 
