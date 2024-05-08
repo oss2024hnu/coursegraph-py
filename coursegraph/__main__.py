@@ -3,6 +3,7 @@ import sys
 
 import fontutil
 from show_table import ShowTable
+from show_graph import read_subjects, draw_course_structure
 
 def main():
   try:
@@ -43,7 +44,7 @@ def main():
     
 
   except Exception as e:
-      print(f"An error occurred: {e}")
+      print(file=sys.stderr, f"An error occurred: {e}",)
       sys.exit(1)
 
 
