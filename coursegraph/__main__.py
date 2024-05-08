@@ -4,18 +4,26 @@ from tkinter import filedialog
 import sys
 from show_yaml import ShowYaml
 import fontutil
-from tkinter import filedialog
 
 
 
 def open_select_yaml():
+  try:
+
     root = tk.Tk()
     root.withdraw()
 
     select_yaml = filedialog.askopenfilename(initialdir="../data", title="Select file", filetypes=(("YAML files", "*.yaml"), ("all files", "*.*")))
     return select_yaml
+  
+  # 오류가 발생할 때 비정상적으로 종료되지 않도록 합니다
+  except tk.TclError as e:
+        print(f"An error occurred while opening file dialog: {e}")
+        sys.exit(1)
 
 def main():
+  try:
+
     parser = argparse.ArgumentParser(
         description='A CLI utility for processing data.',
         epilog='Enjoy using the CLI utility!'
@@ -27,6 +35,7 @@ def main():
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose mode.')
     parser.add_argument('-s', '--show', action='store_true', help='Show data.')
     parser.add_argument('-u', '--update', action='store_true', help='update.')
+    parser.add_argument('-img', '--image', action='store_true', help='Show data and Create image')
     args = parser.parse_args()
 
     # Accessing the command line options
@@ -34,7 +43,8 @@ def main():
     output_file = args.output
     verbose_mode = args.verbose
     show_data = args.show
-    
+    image_mode = args.image
+
 
 
     # Perform actions based on options
@@ -48,9 +58,15 @@ def main():
         print('Specify the input file path.')
     
     if show_data:
-        data_processor = ShowYaml()
+        data_processor = ShowYaml(image_mode)
         data_processor.process_data()
     
+
+  except Exception as e:
+      print(f"An error occurred: {e}")
+      sys.exit(1)
+
+
       
     # Add more functionality based on your application needs
 
