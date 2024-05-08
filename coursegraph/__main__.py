@@ -6,7 +6,7 @@ from show_yaml import ShowYaml
 import fontutil
 from tkinter import filedialog
 
-from save_file import Save_file
+
 
 def open_select_yaml():
     root = tk.Tk()
@@ -34,7 +34,7 @@ def main():
     output_file = args.output
     verbose_mode = args.verbose
     show_data = args.show
-    update_file = args.update
+    
 
 
     # Perform actions based on options
@@ -42,19 +42,15 @@ def main():
         print("Verbose mode enabled.")
 
     if output_file:
-        data_processor = Save_file()
-        data_processor.output_process(output_file)
+        print("Specify the output file path.")
 
     if input_file:
-        data_processor = Save_file()
-        data_processor.input_process(input_file)
+        print('Specify the input file path.')
     
     if show_data:
         data_processor = ShowYaml()
         data_processor.process_data()
-    if update_file:
-        data_processor = Save_file()
-        data_processor.choice_file()
+    
       
     # Add more functionality based on your application needs
 
