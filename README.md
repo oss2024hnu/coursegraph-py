@@ -29,21 +29,32 @@
 현재 디렉토리에 있는거 전부 다 추가하라는 git add . 같은 명령을 내리면 추가해서는 안되는 파일까지 저장소에 추가됩니다.
 하나하나 파일 입력하는 게 귀찮으면 쉘에서 지원되는 탭 자동완성 기능을 활용하던가 아니면 vscode 등에서 지원하는 GUI를 통해서 git 관련 작업을 하면 됩니다.
 
-## main.py사용방법
-- -i 명령어 사용 방법
+## `cousergraph\__main__.py` 사용방법
 ```
-python coursegraph -i [입력할 파일 주소]
+oss2024hnu/coursegraph-py$ python coursegraph --help
+usage: coursegraph [-h] [-i INPUT] [-o OUTPUT] [-v] [-f {graph,table}]
+
+A CLI utility for processing data.
+
+options:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        Specify the input YAML data file path. (required)
+  -o OUTPUT, --output OUTPUT
+                        Specify the output image file path. (optional)
+  -v, --verbose         Enable verbose mode.
+  -f {graph,table}, --format {graph,table}
+                        Sepcify the output format (graph, table). Defaults to graph.
+
+Enjoy using the CLI utility!
 ```
-- -o 명령어 사용 방법
-```
-python coursegraph -o [출력할 파일 주소]
-```
-- -s 명령어 사용방법
-```
-python coursegraph -s
-```
-실행하면 파일을 입력하라고 나오는데 예를 들어서 me.yaml파일을 출력하고 싶으면 me만 입력하면 me.yaml 파일의 표가 나온다
-  - 지금 이거를 표준입력을 받는 게 아니라 `--input` 옵션으로 받도록 통일해야 함. 출력되는 이미지도 `--output` 옵션으로 받도록 좀 통일하고
+- `-i` 혹은 `--input` 옵션에는 반드시 입력 데이터인 YAML 파일을 필수로 제공해야 함
+- `-o` 혹은 `--output` 옵션에는 생성할 이미지 파일의 이름을 제공하여 이미지를 생성하도록 할 수 있는데, 제공하지 않는 경우 팝업 다이얼로그 창으로 이미지를 띄워서 보여주려고 할 것임 (다만 그래픽을 지원하지 않는 환경에서는 작동하지 않음).
+- `-f graph` 혹은 `--format graph` 옵션을 제공하면 이수체계도를 방향그래프 형태로 보여줌.
+  `-f` 혹은 `--foramt` 옵션을 제공하지 한은 경우도 graph 모드로 동작. 아직 CLI 인터페이스와 실제 동작하는 코드가 연결되어 있지 않음. 연결해서 테스트 해봐야. 
+- `-f table` 혹은 `--format table` 옵션을 주었을 경우,
+  현재는 인터페이스 일관성이 좀 떨어지는 상태라 실행하면 파일을 입력하라고 나오는데, 예를 들어서 me.yaml파일을 출력하고 싶으면 표준입력에 me만 입력하면 me.yaml 파일의 표가 나온다.
+  이거는 앞으로 개선해야 하는 사항이다. 지금 이거를 표준입력을 받는 게 아니라 `--input` 옵션으로 받도록 통일해야 함. 출력되는 이미지도 `--output` 옵션으로 받도록 좀 통일하고.
 
 
 ## 참고사항
