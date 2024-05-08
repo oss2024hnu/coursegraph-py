@@ -30,11 +30,10 @@ def main():
     )
 
     # Adding command line options
-    parser.add_argument('-i', '--input', type=str, help='Specify the input file path.')
-    parser.add_argument('-o', '--output', type=str, help='Specify the output file path.')
+    parser.add_argument('-i', '--input', type=str, help='Specify the input YAML data file path.')
+    parser.add_argument('-o', '--output', type=str, help='Specify the output image file path.')
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose mode.')
     parser.add_argument('-s', '--show', action='store_true', help='Show data.')
-    parser.add_argument('-img', '--image', action='store_true', help='Show data and Create image')
     args = parser.parse_args()
 
     # Accessing the command line options
@@ -42,9 +41,6 @@ def main():
     output_file = args.output
     verbose_mode = args.verbose
     show_data = args.show
-    image_mode = args.image
-
-
 
     # Perform actions based on options
     if verbose_mode:
@@ -56,7 +52,9 @@ def main():
     if input_file:
         print('Specify the input file path.')
     
+    # kyahnu: 이 부분 --input 과 --output 을 활용하도록 일관된 인터페이스로 수정할 것
     if show_data:
+        image_mode = True if output_file else False
         data_processor = ShowYaml(image_mode)
         data_processor.process_data()
     
