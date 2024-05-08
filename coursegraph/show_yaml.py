@@ -19,7 +19,7 @@ class ShowYaml:
         return filename
 
     def get_system_font(self):
-        return get_system_font()[1]['file']
+        return get_system_font()[0]['file']
 
     def read_subjects(self, filename):
         try:
