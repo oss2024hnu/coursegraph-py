@@ -36,7 +36,7 @@ def adjust_coordinates(subjects):
                 adjusted_pos[pos_key][i] = (i - (num_positions - 1) / 2) * spacing
     return adjusted_pos
 
-def draw_course_structure(subjects):
+def draw_course_structure(subjects, output_file):
     font_name = get_system_font()[0]['name']
         
     G = nx.DiGraph()
@@ -66,5 +66,8 @@ def draw_course_structure(subjects):
     plt.xticks(range(1, 5))  # 학년
     plt.yticks(range(1, 3))  # 학기
     plt.grid(True)  # 그리드 표시
-    plt.show()
+    if output_file:
+        plt.savefig(output_file)
+    else:
+        plt.show()
 

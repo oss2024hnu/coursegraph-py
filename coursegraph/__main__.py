@@ -31,20 +31,22 @@ def main():
         print("Verbose mode enabled.")
 
     if output_file:
-        print("Specify the output file path.")
+        print(f"The output image file path has been specified: {output_file}")
     else:
         show_mode = True
 
     if input_file:
-        print('Specify the input file path.')
+        print(f"The input YAML file path has been specified: {input_file}")
     else:
         parser.print_help(sys.stderr)
         raise Exception("input file not specified")
     
-    # kyahnu: 이 부분 --input 과 --output 을 활용하도록 일관된 인터페이스로 수정할 것
     if output_format=='graph':
         print("use show_graph module to show graph")
+        subjects = read_subjects(input_file)
+        draw_course_structure(subjects, output_file)
     elif output_format=='table':
+        # kyahnu: 이 부분 --input 과 --output 을 활용하도록 일관된 인터페이스로 수정할 것
         data_processor = ShowTable(not show_mode)
         data_processor.process_data()
     else:
