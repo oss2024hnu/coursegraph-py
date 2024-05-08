@@ -28,7 +28,7 @@
   현재 디렉토리에 있는거 전부 다 추가하라는 `git add .` 같은 명령을 내리면 추가해서는 안되는 파일까지 저장소에 추가됩니다.
   하나하나 파일 입력하는 게 귀찮으면 쉘에서 지원되는 탭 자동완성 기능을 활용하던가 아니면 vscode 등에서 지원하는 GUI를 통해서 git 관련 작업을 하면 됩니다.
 
-## `cousergraph\__main__.py` 사용방법
+## `cousergraph/__main__.py` 사용방법
 ```
 oss2024hnu/coursegraph-py$ python coursegraph --help
 usage: coursegraph [-h] [-i INPUT] [-o OUTPUT] [-v] [-f {graph,table}]
