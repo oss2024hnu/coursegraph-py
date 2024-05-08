@@ -2,7 +2,7 @@ import argparse
 import sys
 
 import fontutil
-from show_yaml import ShowYaml
+from show_table import ShowTable
 
 def main():
   try:
@@ -38,7 +38,7 @@ def main():
     # kyahnu: 이 부분 --input 과 --output 을 활용하도록 일관된 인터페이스로 수정할 것
     if show_data:
         image_mode = True if output_file else False
-        data_processor = ShowYaml(image_mode)
+        data_processor = ShowTable(image_mode)
         data_processor.process_data()
     
 

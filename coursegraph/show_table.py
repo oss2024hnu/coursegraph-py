@@ -8,7 +8,7 @@ from fontutil import get_system_font
 from matplotlib import font_manager, rc
 
 
-class ShowYaml:
+class ShowTable:
     def __init__(self, image_mode):
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         self.font_path = self.get_system_font()
@@ -59,5 +59,5 @@ class ShowYaml:
             self.make_data(subjects)
 
 if __name__ == "__main__":
-    data_processor = ShowYaml(None)
+    data_processor = ShowTable(None)
     data_processor.process_data()
