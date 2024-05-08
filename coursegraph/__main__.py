@@ -34,7 +34,6 @@ def main():
     parser.add_argument('-o', '--output', type=str, help='Specify the output file path.')
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose mode.')
     parser.add_argument('-s', '--show', action='store_true', help='Show data.')
-    parser.add_argument('-u', '--update', action='store_true', help='update.')
     parser.add_argument('-img', '--image', action='store_true', help='Show data and Create image')
     args = parser.parse_args()
 
