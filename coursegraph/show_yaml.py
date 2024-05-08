@@ -1,7 +1,9 @@
 import pandas as pd
 import strictyaml as syaml
 import os
-
+import sys
+import tkinter as tk
+from tkinter import filedialog
 import platform
 import matplotlib.pyplot as plt
 from fontutil import get_system_font
@@ -12,8 +14,18 @@ class ShowYaml:
     def __init__(self, image_mode):
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         self.font_path = self.get_system_font()
-        self.filename = self.input_filename()
+        self.filename = None
         self.image_mode = image_mode
+    def open_select_yaml(self):
+        try:
+            root = tk.Tk()
+            root.withdraw()
+
+            select_yaml = filedialog.askopenfilename(initialdir="../data", title="Select file", filetypes=(("YAML files", "*.yaml"), ("all files", "*.*")))
+            return select_yaml
+        except tk.TclError as e:
+            print(f"An error occurred while opening file dialog: {e}")
+            sys.exit(1)
 
     def input_filename(self):
         input_filename = input("yaml 파일을 입력하세요 (예: me.yaml은 me 입력): ")
@@ -58,6 +70,11 @@ class ShowYaml:
         if subjects:
             self.make_data(subjects)
 
+    def process_data2(self):
+        self.filename = self.open_select_yaml()  # open_select_yaml() 호출 시 self를 전달
+        if self.filename:
+            self.make_data(self.read_subjects())
+
 if __name__ == "__main__":
     data_processor = ShowYaml(None)
-    data_processor.process_data()
+    data_processor.process_data2()
