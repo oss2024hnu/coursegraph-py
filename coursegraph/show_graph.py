@@ -1,7 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import sys
-from show_common import read_yaml, get_system_font
+from show_common import read_yaml, get_system_font, get_script_dir
 from fontutil import get_system_font
 
  def read_subjects(self):
