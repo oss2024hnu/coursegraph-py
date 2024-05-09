@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import platform
 import matplotlib.pyplot as plt
-from show_common import read_yaml, get_system_font, get_script_dir
+from show_common import read_yaml, get_system_font
 
 class ShowTable:
     def __init__(self, image_mode, input_filepath, output_filename):
