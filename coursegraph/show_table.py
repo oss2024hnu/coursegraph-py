@@ -57,6 +57,7 @@ class ShowTable:
             if self.image_mode:
                 if self.output_filename:
                     plt.savefig(self.output_filename)
+            plt.tight_layout()
             plt.show()
         else:
             print("데이터에 '과목' 정보가 없습니다.")
