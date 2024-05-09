@@ -8,20 +8,22 @@ from fontutil import get_system_font
 from matplotlib import font_manager, rc
 
 
-class ShowTable:
-    def __init__(self, image_mode):
+def get_system_font():
+    # 예시로 Windows 폰트 경로 지정
+    return 'C:/Windows/Fonts/malgun.ttf'
+
+class ShowtableYaml:
+    def __init__(self, image_mode=False):  # 기본값으로 False 설정
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
-        self.font_path = self.get_system_font()
+        self.font_path = get_system_font()
         self.filename = self.input_filename()
         self.image_mode = image_mode
 
     def input_filename(self):
         input_filename = input("yaml 파일을 입력하세요 (예: me.yaml은 me 입력): ")
-        filename = os.path.join(self.script_dir, '../data/', input_filename + '.yaml')
+        # 데이터 디렉토리가 한 단계 위에 위치하는 상황을 가정
+        filename = os.path.join(self.script_dir, '..', 'data', input_filename + '.yaml')
         return filename
-
-    def get_system_font(self):
-        return get_system_font()[0]['file']
 
     def read_subjects(self):
         try:
@@ -47,8 +49,8 @@ class ShowTable:
             ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
             ax.set_title('과목 표')
             if self.image_mode:
-                filename_without_ext = os.path.splitext(self.filename)[0]
-                plt.savefig(filename_without_ext + '_chart_image.png')
+                filename_without_ext = os.path.splitext(os.path.basename(self.filename))[0]
+                plt.savefig(os.path.join(self.script_dir, filename_without_ext + '_chart_image.png'))
             plt.show()
         else:
             print("데이터에 '과목' 정보가 없습니다.")
@@ -59,5 +61,6 @@ class ShowTable:
             self.make_data(subjects)
 
 if __name__ == "__main__":
-    data_processor = ShowTable(None)
+    image_mode = input("이미지 모드를 활성화하시겠습니까? (yes/no): ").lower() == 'yes'
+    data_processor = ShowtableYaml(image_mode)
     data_processor.process_data()
