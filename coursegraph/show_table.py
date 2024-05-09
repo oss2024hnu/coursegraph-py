@@ -9,10 +9,11 @@ from matplotlib import font_manager, rc
 
 
 class ShowTable:
-    def __init__(self, image_mode):
+    def __init__(self, image_mode, input_filepath, output_filename):
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         self.font_path = self.get_system_font()
-        self.filename = self.input_filename()
+        self.filename = input_filepath
+        self.output_filename = output_filename
         self.image_mode = image_mode
 
     def input_filename(self):
@@ -47,8 +48,8 @@ class ShowTable:
             ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
             ax.set_title('과목 표')
             if self.image_mode:
-                filename_without_ext = os.path.splitext(self.filename)[0]
-                plt.savefig(filename_without_ext + '_chart_image.png')
+                if self.output_filename:
+                    plt.savefig(self.output_filename)
             plt.show()
         else:
             print("데이터에 '과목' 정보가 없습니다.")
@@ -59,5 +60,5 @@ class ShowTable:
             self.make_data(subjects)
 
 if __name__ == "__main__":
-    data_processor = ShowTable(None)
+    data_processor = ShowTable(None, False, False)
     data_processor.process_data()
