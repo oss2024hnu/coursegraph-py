@@ -67,6 +67,7 @@ def draw_course_structure(subjects, output_file):
     plt.ylabel('학기')
     plt.xticks(range(1, 5))  # 학년
     plt.yticks(range(1, 3))  # 학기
+    plt.gca().invert_yaxis()
     plt.grid(True)  # 그리드 표시
     if output_file:
         plt.savefig(output_file)

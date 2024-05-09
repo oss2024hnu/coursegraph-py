@@ -6,6 +6,7 @@ import platform
 import matplotlib.pyplot as plt
 from fontutil import get_system_font
 from matplotlib import font_manager, rc
+import sys
 
 
 class ShowTable:
@@ -15,12 +16,7 @@ class ShowTable:
         self.filename = input_filepath
         self.output_filename = output_filename
         self.image_mode = image_mode
-
-    def input_filename(self):
-        input_filename = input("yaml 파일을 입력하세요 (예: me.yaml은 me 입력): ")
-        filename = os.path.join(self.script_dir, '../data/', input_filename + '.yaml')
-        return filename
-
+        
     def get_system_font(self):
         try:
             return get_system_font()[1]['file']
@@ -54,9 +50,10 @@ class ShowTable:
         if '과목' in data:
             df = pd.DataFrame(data['과목'])
             fig, ax = plt.subplots(figsize=(20, 10))
+            df.fillna('없음', inplace=True)
             ax.axis('off')
             ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
-            ax.set_title('과목 표')
+            ax.set_title('과목 표') 
             if self.image_mode:
                 if self.output_filename:
                     plt.savefig(self.output_filename)
@@ -73,3 +70,4 @@ class ShowTable:
 if __name__ == "__main__":
     data_processor = ShowTable(None, False, False)
     data_processor.process_data()
+
