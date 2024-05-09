@@ -44,6 +44,9 @@ python coursegraph -s 입력
 ```
 파일을 입력하라고 나오는데 예를 들어서 me.yaml파일을 출력하고 싶으면 me만 입력하면 me.yaml 파일의 표가 나온다
 
+##issue 등록시 참고사항
+- 어떤 이슈를 만들고자 할때 자신만이 알수 있게 적는 것이 아니라 처음 코드를 보는 사람 , 이슈를 보는 사람도 쉽게 이해할 수 있고 참여할 수 있게 자세하게 설명해주면 좋다. 
+- ex : 기존의 코드는 이러한 코드이나 이는 어떤 불편함을 제공하므로 다음 코드와 같이 바꾸면 좋을 것 같습니다. 
 
 ## 참고사항
 - pr과 이슈를 연결하는 법 github docs 링크: https://docs.github.com/ko/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
