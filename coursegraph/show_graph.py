@@ -1,13 +1,14 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import sys
-from show_common import CommonProcessor
+from show_common import read_yaml, get_system_font
 from fontutil import get_system_font
-
-common_processor = CommonProcessor()
 
 # 학년과 학기가 같은 강좌에 대한 좌표 조정 함수
 def adjust_coordinates(subjects):
+    script_dir = get_script_dir()
+    font_name = get_system_font()
+
     adjusted_pos = {}
     for subject in subjects:
         grade = int(subject['학년'])
@@ -27,7 +28,7 @@ def adjust_coordinates(subjects):
     return adjusted_pos
 
 def draw_course_structure(subjects, output_file):
-    font_name = common_processor.get_system_font()
+    font_name = get_system_font()
         
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)

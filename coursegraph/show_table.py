@@ -2,10 +2,7 @@ import pandas as pd
 import os
 import platform
 import matplotlib.pyplot as plt
-from show_common import CommonProcessor
-
-# CommonProcessor 인스턴스 생성
-common_processor = CommonProcessor()
+from show_common import read_yaml, get_system_font, get_script_dir
 
 class ShowTable:
     def __init__(self, image_mode, input_filepath, output_filename):
@@ -21,11 +18,11 @@ class ShowTable:
         return filename
                     
     def read_subjects(self):
-         subjects = common_processor.read_yaml(self.filename)
-         return subjects
+        subjects = read_yaml(self.filename)
+        return subjects
 
     def make_data(self, data):
-        font_name = common_processor.get_system_font()
+        font_name = get_system_font()
         rc('font', family=font_name)
 
         if '과목' in data:
