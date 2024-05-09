@@ -13,7 +13,6 @@ class ShowTable:
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         self.font_path = self.get_system_font()
         self.filename = "data/" + input_filepath
-
         self.filename = input_filepath
         self.output_filename = output_filename
         self.image_mode = image_mode
@@ -43,7 +42,6 @@ class ShowTable:
             fig, ax = plt.subplots(figsize=(20, 10))
             df.fillna('없음', inplace=True)
             ax.axis('off')
-            df.fillna('없음', inplace=True)
             ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
             ax.set_title('과목 표') 
             if self.image_mode:
