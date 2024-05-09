@@ -68,8 +68,15 @@ def draw_course_structure(subjects, output_file):
     plt.yticks(range(1, 3))  # 학기
     plt.gca().invert_yaxis()
     plt.grid(True)  # 그리드 표시
+    
+    # 학년별로 배경색 설정
+    for grade in range(1, 5):
+        if grade % 2 == 0:
+            plt.axvspan(grade - 0.5, grade + 0.5, color='lightgray', alpha=0.5)
+        else:
+            plt.axvspan(grade - 0.5, grade + 0.5, color='lightblue', alpha=0.5)
+            
     if output_file:
         plt.savefig(output_file)
     else:
         plt.show()
-
