@@ -14,7 +14,6 @@ class ShowTable:
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         self.font_path = self.get_system_font()
         self.filename = "data/" + input_filepath
-        self.filename = input_filepath
         self.output_filename = output_filename
         self.image_mode = image_mode
         
