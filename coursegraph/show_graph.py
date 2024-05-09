@@ -4,6 +4,10 @@ import sys
 from show_common import read_yaml, get_system_font
 from fontutil import get_system_font
 
+ def read_subjects(self):
+        subjects = read_yaml(self.filename)
+        return subjects
+
 # 학년과 학기가 같은 강좌에 대한 좌표 조정 함수
 def adjust_coordinates(subjects):
     script_dir = get_script_dir()
