@@ -22,8 +22,18 @@ class ShowTable:
         return filename
 
     def get_system_font(self):
-        return get_system_font()[0]['file']
-
+        try:
+            return get_system_font()[1]['file']
+        except:
+            try:
+                return get_system_font()[0]['file']
+            except:
+                try:
+                    return get_system_font()[2]['file']
+                except:
+                    print("시스템내에 적합한 한글 폰트 파일을 찾을 수 없습니다.")
+                    sys.exit(2)
+                    
     def read_subjects(self):
         try:
             with open(self.filename, 'r', encoding='UTF8') as file:
