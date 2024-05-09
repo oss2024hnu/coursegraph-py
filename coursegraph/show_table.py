@@ -49,7 +49,7 @@ class ShowTable:
             if self.image_mode:
                 filename_without_ext = os.path.splitext(self.filename)[0]
                 plt.savefig(filename_without_ext + '_chart_image.png')
-            plt.tight_layout()  
+            plt.tight_layout()
             plt.show()
         else:
             print("데이터에 '과목' 정보가 없습니다.")
@@ -62,3 +62,4 @@ class ShowTable:
 if __name__ == "__main__":
     data_processor = ShowTable(None)
     data_processor.process_data()
+
