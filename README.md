@@ -1,20 +1,6 @@
 # coursegraph-py
 과목 이수체계도를 그려주는 프로그램을 오픈소스SW개발 수강생 모두가 함께 참여하며 개발하는 프로젝트입니다.
 
-## 어떤 걸 해야하는가
-1. ~ 이런 기능이 추가되면 좋겠다 혹은 현재 코드나 데이터에 어떤 문제점이 확인된다 등의 주제로 issue 만들기 - 2점
-1. 현재 코드에서 ~ 이런 문제가 있어서 ~~ 이렇게 고쳤다는 pull request 올리기 - 3점
-   
-## 명령줄에서 실행법
-1. Python과 git이 없다면 설치
-1. 깃허브에서 coursegraph-py를 fork한 후 clone(복제), 아래 사이트 참고
-    - https://m.blog.naver.com/3tpepper/222268448702
-1. 현재 위치가 coursegraph-py가 아니라면 cd 명령어를 사용해 coursegraph-py 디렉터리로 이동
-1. 파일을 실행할 때는 `python [파일명]` 으로 실행, ex) `python concept-demo.py` 또는 `python coursegraph` 또는 `python coursegraph/show_yaml.py`
-1. `No module named`과 같은 에러 발생 시 "pip install [모듈이름]"으로 모듈 설치 (항상 이렇게 성공하진 않음. 모듈 이름과 패키지 이름이 다른 경우가 있기 때문)
-1. 파일 수정은 각자가 편리하게 활용하는 코드 에디터를 활용
-
-
 ## 새로 참여하는 분들을 위한 정보 및 주의사항
 onboarding 디렉토리의 문서들을 참고해 주세요
 
@@ -29,6 +15,18 @@ onboarding 디렉토리의 문서들을 참고해 주세요
   현재 디렉토리에 있는거 전부 다 추가하라는 `git add .` 같은 명령을 내리면 추가해서는 안되는 파일까지 저장소에 추가됩니다.
   하나하나 파일 입력하는 게 귀찮으면 쉘에서 지원되는 탭 자동완성 기능을 활용하던가 아니면 vscode 등에서 지원하는 GUI를 통해서 git 관련 작업을 하면 됩니다.
 - gui 같은 부가 작업은 main 함수가 아닌 gui함수에 따로 작업해주시면 됩니다. main함수에는 최소한의 기능만 남겨야 합니다.
+
+### 명령줄에서 실행법
+1. Python과 git이 없다면 설치
+1. 깃허브에서 coursegraph-py를 fork한 후 clone(복제), 아래 사이트 참고
+    - https://m.blog.naver.com/3tpepper/222268448702
+1. 현재 위치가 coursegraph-py가 아니라면 cd 명령어를 사용해 coursegraph-py 디렉터리로 이동
+1. 파일을 실행할 때는 `python [파일명]` 으로 실행, ex) `python coursegraph` 또는 `python coursegraph/__main__.py`
+1. `pip install -r requirements.txt`를 실행하면 필요한 모듈들이 모두 설치되도록 requirements.txt를 작성하고 있으나
+   개발 도중에 추가되는 기능에 필요한 모듈이 혹시 모자라서 `No module named`과 같은 에러 발생 시
+   "pip install [모듈이름]"으로 모듈 설치 (항상 이렇게 성공하진 않음. 모듈 이름과 패키지 이름이 다른 경우가 있기 때문)
+1. 파일 수정은 각자가 편리하게 활용하는 코드 에디터를 활용
+
 
 ## `cousergraph/__main__.py` 사용방법
 ```
