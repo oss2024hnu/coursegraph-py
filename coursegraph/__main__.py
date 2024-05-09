@@ -25,7 +25,7 @@ def main():
     output_file = args.output
     output_format = args.format
     verbose_mode = args.verbose
-
+    show_mode = False
     # Perform actions based on options
     if verbose_mode:
         print("Verbose mode enabled.")
@@ -40,13 +40,12 @@ def main():
     else:
         parser.print_help(sys.stderr)
         raise Exception("input file not specified")
-    
     if output_format=='graph':
         subjects = read_subjects(input_file)
         draw_course_structure(subjects, output_file)
     elif output_format=='table':
         # kyahnu: 이 부분 --input 과 --output 을 활용하도록 일관된 인터페이스로 수정할 것
-        data_processor = ShowTable(not show_mode)
+        data_processor = ShowTable(not show_mode, input_file, output_file)
         data_processor.process_data()
     else:
         raise Exception(f"cannot handle output format {output_format}")

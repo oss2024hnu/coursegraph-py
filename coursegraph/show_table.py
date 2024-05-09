@@ -9,17 +9,13 @@ from matplotlib import font_manager, rc
 
 
 class ShowTable:
-    def __init__(self, image_mode):
+    def __init__(self, image_mode, input_filepath, output_filename):
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         self.font_path = self.get_system_font()
-        self.filename = self.input_filename()
+        self.filename = "data/" + input_filepath
+        self.output_filename = output_filename
         self.image_mode = image_mode
-
-    def input_filename(self):
-        input_filename = input("yaml 파일을 입력하세요 (예: me.yaml은 me 입력): ")
-        filename = os.path.join(self.script_dir, '../data/', input_filename + '.yaml')
-        return filename
-
+        
     def get_system_font(self):
         return get_system_font()[0]['file']
 
@@ -43,12 +39,14 @@ class ShowTable:
         if '과목' in data:
             df = pd.DataFrame(data['과목'])
             fig, ax = plt.subplots(figsize=(20, 10))
+            df.fillna('없음', inplace=True)
             ax.axis('off')
+            df.fillna('없음', inplace=True)
             ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
-            ax.set_title('과목 표')
+            ax.set_title('과목 표') 
             if self.image_mode:
-                filename_without_ext = os.path.splitext(self.filename)[0]
-                plt.savefig(filename_without_ext + '_chart_image.png')
+                if self.output_filename:
+                    plt.savefig(self.output_filename)
             plt.show()
         else:
             print("데이터에 '과목' 정보가 없습니다.")
@@ -59,5 +57,5 @@ class ShowTable:
             self.make_data(subjects)
 
 if __name__ == "__main__":
-    data_processor = ShowTable(None)
+    data_processor = ShowTable(None, False, False)
     data_processor.process_data()
