@@ -1,21 +1,10 @@
-import strictyaml
 import networkx as nx
 import matplotlib.pyplot as plt
 import sys
+from show_common import CommonProcessor
 from fontutil import get_system_font
 
-def read_subjects(filename):
-    try:
-        with open(filename, 'r', encoding='UTF8') as file:
-            yaml_data = file.read()
-            data = strictyaml.load(yaml_data)
-            return data['과목']
-    except FileNotFoundError:
-        print("해당하는 파일이 없습니다.", file=sys.stderr)
-        return None
-    except strictyaml.YAMLValidationError as e:
-        print(f"YAML 데이터가 잘못되어있습니다: {e}", file=sys.stderr)
-        return None
+common_processor = CommonProcessor()
 
 # 학년과 학기가 같은 강좌에 대한 좌표 조정 함수
 def adjust_coordinates(subjects):
@@ -38,7 +27,7 @@ def adjust_coordinates(subjects):
     return adjusted_pos
 
 def draw_course_structure(subjects, output_file):
-    font_name = get_system_font()[0]['name']
+    font_name = common_processor.get_system_font()
         
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)

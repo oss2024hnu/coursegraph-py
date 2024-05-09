@@ -1,12 +1,11 @@
 import pandas as pd
-import strictyaml as syaml
 import os
-
 import platform
 import matplotlib.pyplot as plt
-from fontutil import get_system_font
-from matplotlib import font_manager, rc
+from show_common import CommonProcessor
 
+# CommonProcessor 인스턴스 생성
+common_processor = CommonProcessor()
 
 class ShowTable:
     def __init__(self, image_mode, input_filepath, output_filename):
@@ -20,35 +19,13 @@ class ShowTable:
         input_filename = input("yaml 파일을 입력하세요 (예: me.yaml은 me 입력): ")
         filename = os.path.join(self.script_dir, '../data/', input_filename + '.yaml')
         return filename
-
-    def get_system_font(self):
-        try:
-            return get_system_font()[1]['file']
-        except:
-            try:
-                return get_system_font()[0]['file']
-            except:
-                try:
-                    return get_system_font()[2]['file']
-                except:
-                    print("시스템내에 적합한 한글 폰트 파일을 찾을 수 없습니다.")
-                    sys.exit(2)
                     
     def read_subjects(self):
-        try:
-            with open(self.filename, 'r', encoding='UTF8') as file:
-                yaml_data = file.read()
-                data = syaml.load(yaml_data).data
-                return data
-        except FileNotFoundError:
-            print("파일을 찾을 수 없습니다.")
-            return None
-        except Exception as e:
-            print("파일을 읽는 중 오류가 발생했습니다:", e)
-            return None
+         subjects = common_processor.read_yaml(self.filename)
+         return subjects
 
     def make_data(self, data):
-        font_name = font_manager.FontProperties(fname=self.font_path).get_name()
+        font_name = common_processor.get_system_font()
         rc('font', family=font_name)
 
         if '과목' in data:
