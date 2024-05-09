@@ -2,6 +2,7 @@ import strictyaml
 import networkx as nx
 import matplotlib.pyplot as plt
 from fontutil import get_system_font
+import sys
 
 def read_subjects(filename):
     try:
