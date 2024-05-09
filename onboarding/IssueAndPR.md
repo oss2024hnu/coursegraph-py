@@ -36,7 +36,7 @@ python coursegraph -f graph -i data/input.yaml -o graph.png
 
 python coursegraph -f graph -i data/input.yaml -o table.png
 
-이 두개의 명령어를 실행한 후 각 이미지들이 잘 나오는지 확인해야합니다.
+최소한 이 두개의 명령어를 실행한 후 각 이미지들이 잘 나오는지 확인해야합니다.
 그리고 테스트 할 떄마다 graph.png와 table.png들은 다른 이름으로 지우거나 다른 이름으로 수정해서 확인해야합니다.
 
 저 이미지 파일들을 두고 계속 테스트를 진행하면 수정 전에 만들어진 이미지 파일이 그대로 남아 있어서 제대로 되는걸로 착각할 수 있습니다.
