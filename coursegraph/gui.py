@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
 #ui 파일이 실행파일과 같은 위치에 있어야함.
-form_class = uic.loadUiType("gui2.ui")[0]
+form_class = uic.loadUiType("Maingui.ui")[0]
 
 #화면을 띄우는데 사용되는 Class 선언
 class WindowClass(QMainWindow, form_class) :
