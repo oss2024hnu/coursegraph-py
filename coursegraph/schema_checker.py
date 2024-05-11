@@ -43,6 +43,8 @@ def validate_yaml(file_path):
             for index, subject in enumerate(data["과목"], start=1):
                 subject_name = subject["과목명"]
                 try:
+                    if subject["학년"] not in [1, 2, 3, 4, 5, 6]:
+                        raise ValueError("학년은 1부터 6까지의 정수여야 합니다.")
                     for field_name in ["과목명", "트랙", "마이크로디그리", "선수과목"]:
                         if field_name in subject:
                             validate_string_or_sequence(subject[field_name].data)
