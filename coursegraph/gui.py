@@ -1,18 +1,23 @@
 import sys
-import tkinter as tk
-from tkinter import filedialog
+from PyQt5.QtWidgets import *
+from PyQt5 import uic
 
-def open_select_yaml():
-  try:
+#ui 파일이 실행파일과 같은 위치에 있어야함.
+form_class = uic.loadUiType("gui2.ui")[0]
 
-    root = tk.Tk()
-    root.withdraw()
+#화면을 띄우는데 사용되는 Class 선언
+class WindowClass(QMainWindow, form_class) :
+    def __init__(self) :
+        super().__init__()
+        self.setupUi(self)
 
-    select_yaml = filedialog.askopenfilename(initialdir="../data", title="Select file", filetypes=(("YAML files", "*.yaml"), ("all files", "*.*")))
-    return select_yaml
-  
-  # 오류가 발생할 때 비정상적으로 종료되지 않도록 합니다
-  except tk.TclError as e:
-        print(f"An error occurred while opening file dialog: {e}")
-        sys.exit(1)
+# 에러 발생시 정상 종료하도록 정의
+def exception_hook(exctype, value, traceback):
+    print(exctype, value, traceback)
+    sys.exit(1)
 
+sys.excepthook = exception_hook
+app = QApplication(sys.argv) 
+myWindow = WindowClass() 
+myWindow.show()
+app.exec_()
