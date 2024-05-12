@@ -39,7 +39,7 @@ def adjust_coordinates(subjects):
 
 def adjust_ratio(ratio):
     circle = 1000 * ratio
-    font = 1 * ratio
+    font = 1* ratio
     return circle, font
 
 
@@ -60,7 +60,7 @@ def draw_course_structure(subjects, output_file):
         if '선수과목' in subject:
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
-        nodescale, fontscale = adjust_ratio(10) #노드와 폰트의 비율 함수 추가
+        nodescale, fontscale = adjust_ratio(7) #노드와 폰트의 비율 함수 추가
         pos = nx.get_node_attributes(G, 'pos')
         nx.draw(G, pos, with_labels=True, node_size=nodescale, node_color="skyblue",  font_family=font_name, font_size=fontscale, font_weight="bold")
         for edge in G.edges():
