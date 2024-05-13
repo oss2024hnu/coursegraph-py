@@ -1,8 +1,8 @@
 # PNG 파일을 보관할 디렉터리 변수 이름
-OUTDIR=out
+OUTDIR:=out
 
 DATA_YAMLS=$(wildcard data/*.yaml)
-OUT_YAMLS=$(DATA_YAMLS:data%=out%)
+OUT_YAMLS=$(DATA_YAMLS:data%=$(OUTDIR)%)
 
 OUT_GRAPHS=$(OUT_YAMLS:%.yaml=%_G.png)
 OUT_TABLES=$(OUT_YAMLS:%.yaml=%_T.png)
@@ -26,8 +26,8 @@ $(OUTDIR)/%_T.png: ./data/%.yaml
 
 # delete 타겟 정의
 delete_w:
-	rmdir /s /q $(DIR_A)
+	rmdir /s /q $(OUTDIR)
 
 # delete 타겟 정의
 delete_m:
-	rm -rf $(DIR_A)
+	rm -rf $(OUTDIR)
