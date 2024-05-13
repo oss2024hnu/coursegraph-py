@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>504</width>
+    <width>1027</width>
     <height>484</height>
    </rect>
   </property>
@@ -29,13 +29,17 @@
     </property>
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="0">
-       <widget class="QTextEdit" name="textEdit"/>
-      </item>
       <item row="1" column="0">
        <widget class="QPushButton" name="pushButton">
         <property name="text">
          <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>TextLabel</string>
         </property>
        </widget>
       </item>
@@ -49,23 +53,68 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>504</width>
+     <width>1027</width>
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menushow_yaml">
+   <widget class="QMenu" name="menu_file">
     <property name="title">
-     <string>show_table</string>
+     <string>파일</string>
+    </property>
+    <addaction name="action_open"/>
+    <addaction name="action_save"/>
+    <addaction name="action_othernamesave"/>
+   </widget>
+   <widget class="QMenu" name="menu_edit">
+    <property name="title">
+     <string>편집</string>
     </property>
    </widget>
-   <widget class="QMenu" name="menugraph">
+   <widget class="QMenu" name="menu_from">
     <property name="title">
-     <string>graph</string>
+     <string>서식</string>
     </property>
    </widget>
-   <addaction name="menushow_yaml"/>
-   <addaction name="menugraph"/>
+   <widget class="QMenu" name="menu_view">
+    <property name="title">
+     <string>보기</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_help">
+    <property name="title">
+     <string>도움말</string>
+    </property>
+   </widget>
+   <addaction name="menu_file"/>
+   <addaction name="menu_edit"/>
+   <addaction name="menu_from"/>
+   <addaction name="menu_view"/>
+   <addaction name="menu_help"/>
   </widget>
+  <action name="action_open">
+   <property name="text">
+    <string>열기</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_save">
+   <property name="text">
+    <string>저장</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="action_othernamesave">
+   <property name="text">
+    <string>다른 이름으로 저장</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
