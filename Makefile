@@ -27,34 +27,34 @@ $(DIR_A):
 	$(MD) $(DIR_A)
 
 $(DIR_G): $(DIR_A)
-	$(MD) $(DIR_A)\$(DIR_G)
+	$(MD) $(DIR_A)/$(DIR_G)
 
 $(DIR_T): $(DIR_A)
-	$(MD) $(DIR_A)\$(DIR_T)
+	$(MD) $(DIR_A)/$(DIR_T)
 
 $(IP)$(GR)$(PG):
-	$(PP) $(CO) -f $(GR) -i $(DA)input$(YY) -o $(DIR_A)\$(DIR_G)\$(IP)$(GR)$(PG)
+	$(PP) $(CO) -f $(GR) -i $(DA)input$(YY) -o $(DIR_A)/$(DIR_G)/$(IP)$(GR)$(PG)
 
 $(IP)$(TA)$(PG):
-	$(PP) $(CO) -f $(TA) -i $(DA)input$(YY) -o $(DIR_A)\$(DIR_T)\$(IP)$(TA)$(PG)
+	$(PP) $(CO) -f $(TA) -i $(DA)input$(YY) -o $(DIR_A)/$(DIR_T)/$(IP)$(TA)$(PG)
 
 $(CE)$(GR)$(PG):
-	$(PP) $(CO) -f $(GR) -i $(DA)ce$(YY) -o $(DIR_A)\$(DIR_G)\$(CE)$(GR)$(PG)
+	$(PP) $(CO) -f $(GR) -i $(DA)ce$(YY) -o $(DIR_A)/$(DIR_G)/$(CE)$(GR)$(PG)
 
 $(CE)$(TA)$(PG):
-	$(PP) $(CO) -f $(TA) -i $(DA)ce$(YY) -o $(DIR_A)\$(DIR_T)\$(CE)$(TA)$(PG)
+	$(PP) $(CO) -f $(TA) -i $(DA)ce$(YY) -o $(DIR_A)/$(DIR_T)/$(CE)$(TA)$(PG)
 
 $(ME)$(GR)$(PG):
-	$(PP) $(CO) -f $(GR) -i $(DA)me$(YY) -o $(DIR_A)\$(DIR_G)\$(ME)$(GR)$(PG)
+	$(PP) $(CO) -f $(GR) -i $(DA)me$(YY) -o $(DIR_A)/$(DIR_G)/$(ME)$(GR)$(PG)
 
 $(ME)$(TA)$(PG):
-	$(PP) $(CO) -f $(TA) -i $(DA)me$(YY) -o $(DIR_A)\$(DIR_T)\$(ME)$(TA)$(PG)
+	$(PP) $(CO) -f $(TA) -i $(DA)me$(YY) -o $(DIR_A)/$(DIR_T)/$(ME)$(TA)$(PG)
 
 $(AI)$(GR)$(PG):
-	$(PP) $(CO) -f $(GR) -i $(DA)ai$(YY) -o $(DIR_A)\$(DIR_G)\$(AI)$(GR)$(PG)
+	$(PP) $(CO) -f $(GR) -i $(DA)ai$(YY) -o $(DIR_A)/$(DIR_G)/$(AI)$(GR)$(PG)
 
 $(AI)$(TA)$(PG):
-	$(PP) $(CO) -f $(TA) -i $(DA)ai$(YY) -o $(DIR_A)\$(DIR_T)\$(AI)$(TA)$(PG)
+	$(PP) $(CO) -f $(TA) -i $(DA)ai$(YY) -o $(DIR_A)/$(DIR_T)/$(AI)$(TA)$(PG)
 
 # delete 타겟 정의
 delete_w:
