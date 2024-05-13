@@ -1,60 +1,28 @@
 # PNG 파일을 보관할 디렉터리 변수 이름
-DIR_A := A_png
-DIR_G := G_png
-DIR_T := T_png
-# 변수 정의
-PP = python
-CO = coursegraph
-GR = graph
-TA = table
-DA = data/
-MD = mkdir
-YY = .yaml
-PG = .png
-AI = ai_
-ME = me_
-CE = ce_
-IP = input_
+OUTDIR=out
 
+DATA_YAMLS=$(wildcard data/*.yaml)
+OUT_YAMLS=$(DATA_YAMLS:data%=out%)
 
+OUT_GRAPHS=$(OUT_YAMLS:%.yaml=%_G.png)
+OUT_TABLES=$(OUT_YAMLS:%.yaml=%_T.png)
+
+PYTHON=python
+CLICMD=$(PYTHON) coursegraph
 
 .PHONY: test delete
 
 # test 타겟 정의
-test: $(DIR_A) $(DIR_G) $(DIR_T) $(IP)$(GR)$(PG) $(IP)$(TA)$(PG) $(CE)$(GR)$(PG) $(CE)$(TA)$(PG) $(ME)$(GR)$(PG) $(ME)$(TA)$(PG) $(AI)$(GR)$(PG) $(AI)$(TA)$(PG)
+test: $(OUTDIR) $(OUT_GRAPHS) $(OUT_TABLES)
 
-$(DIR_A):
-	$(MD) $(DIR_A)
+$(OUTDIR):
+	mkdir $(OUTDIR)
 
-$(DIR_G): $(DIR_A)
-	$(MD) $(DIR_A)/$(DIR_G)
+$(OUTDIR)/%_G.png: ./data/%.yaml
+	$(CLICMD) -f graph -i $< -o $@
 
-$(DIR_T): $(DIR_A)
-	$(MD) $(DIR_A)/$(DIR_T)
-
-$(IP)$(GR)$(PG):
-	$(PP) $(CO) -f $(GR) -i $(DA)input$(YY) -o $(DIR_A)/$(DIR_G)/$(IP)$(GR)$(PG)
-
-$(IP)$(TA)$(PG):
-	$(PP) $(CO) -f $(TA) -i $(DA)input$(YY) -o $(DIR_A)/$(DIR_T)/$(IP)$(TA)$(PG)
-
-$(CE)$(GR)$(PG):
-	$(PP) $(CO) -f $(GR) -i $(DA)ce$(YY) -o $(DIR_A)/$(DIR_G)/$(CE)$(GR)$(PG)
-
-$(CE)$(TA)$(PG):
-	$(PP) $(CO) -f $(TA) -i $(DA)ce$(YY) -o $(DIR_A)/$(DIR_T)/$(CE)$(TA)$(PG)
-
-$(ME)$(GR)$(PG):
-	$(PP) $(CO) -f $(GR) -i $(DA)me$(YY) -o $(DIR_A)/$(DIR_G)/$(ME)$(GR)$(PG)
-
-$(ME)$(TA)$(PG):
-	$(PP) $(CO) -f $(TA) -i $(DA)me$(YY) -o $(DIR_A)/$(DIR_T)/$(ME)$(TA)$(PG)
-
-$(AI)$(GR)$(PG):
-	$(PP) $(CO) -f $(GR) -i $(DA)ai$(YY) -o $(DIR_A)/$(DIR_G)/$(AI)$(GR)$(PG)
-
-$(AI)$(TA)$(PG):
-	$(PP) $(CO) -f $(TA) -i $(DA)ai$(YY) -o $(DIR_A)/$(DIR_T)/$(AI)$(TA)$(PG)
+$(OUTDIR)/%_T.png: ./data/%.yaml
+	$(CLICMD) -f table -i $< -o $@
 
 # delete 타겟 정의
 delete_w:
