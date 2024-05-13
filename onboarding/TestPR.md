@@ -15,8 +15,8 @@ https://jstar0525.tistory.com/264
 #test를 하고 싶은 경우:
 `make test`
 #이미지 파일을 삭제하고 싶은 경우(윈도우):
-`make delete_w`
-#이미지 파일을 삭제하고 싶은 경우(맥):
-`make delete_m`
+`make clean_w`
+#이미지 파일을 삭제하고 싶은 경우(맥,리눅스):
+`make clean_m`
 
 

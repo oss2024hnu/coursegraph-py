@@ -24,10 +24,10 @@ $(OUTDIR)/%_G.png: ./data/%.yaml
 $(OUTDIR)/%_T.png: ./data/%.yaml
 	$(CLICMD) -f table -i $< -o $@
 
-# delete 타겟 정의
-delete_w:
+# clean 타겟 정의
+clean_w:
 	rmdir /s /q $(OUTDIR)
 
 # delete 타겟 정의
-delete_m:
+clean_m:
 	rm -rf $(OUTDIR)
