@@ -12,34 +12,19 @@ def get_system_font():
     flist = font_manager.findSystemFonts()
     data_list = []
     system = platform.system()
-
-    if system == 'Windows':
-        # Windows의 경우, 시스템 폰트 경로로 설정
-        for v in flist:
-            try:
-                fprop = font_manager.FontProperties(fname=v)
-                if fprop.get_name() == 'Malgun Gothic':
-                    data_list.append({"name": fprop.get_name(), "file": fprop.get_file()})
-            except:
-                continue
-        return data_list
     
-    elif system == 'Darwin':
-        for v in flist:
-            try:
-                fprop = font_manager.FontProperties(fname=v)
-                if fprop.get_name() == 'Apple SD Gothic Neo':
-                    data_list.append({"name": fprop.get_name(), "file": fprop.get_file()})
-            except:
-                continue
-        return data_list
+    font_mapping = {
+        'Windows': {'name': 'Malgun Gothic'},
+        'Darwin': {'name': 'Apple SD Gothic Neo'},
+        'Linux': {'name': 'NanumGothic'}
+    }
     
-    else:
-        for v in flist:
-            try:
-                fprop = font_manager.FontProperties(fname=v)
-                if fprop.get_name() == 'NanumGothic':
-                    data_list.append({"name": fprop.get_name(), "file": fprop.get_file()})
-            except:
-                continue
-        return data_list
+    for v in flist:
+        try:
+            fprop = font_manager.FontProperties(fname=v)
+            if fprop.get_name() == font_mapping[system]['name']:
+                data_list.append({"name": fprop.get_name(), "file": fprop.get_file()})
+        except:
+            continue
+    
+    return data_list
