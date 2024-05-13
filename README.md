@@ -5,7 +5,7 @@
 onboarding 디렉토리의 문서들을 참고해 주세요
 
 
-### 명령줄에서 실행법
+### 명령줄에서 실행법 <=== 이것도 onboarding 디렉토리로 옮길 내용에 포함됩니다
 1. Python과 git이 없다면 설치
 1. 깃허브에서 coursegraph-py를 fork한 후 clone(복제), 아래 사이트 참고
     - https://m.blog.naver.com/3tpepper/222268448702
