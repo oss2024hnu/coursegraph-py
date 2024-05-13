@@ -6,7 +6,7 @@ import platform
 import matplotlib.pyplot as plt
 from fontutil import get_system_font
 from matplotlib import font_manager, rc
-import sys
+
 
 class ShowTable:
     def __init__(self, image_mode, input_filepath, output_filename):
