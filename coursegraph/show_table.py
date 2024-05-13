@@ -48,12 +48,13 @@ class ShowTable:
             df.fillna('없음', inplace=True)
             ax.axis('off')
             ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
-            ax.set_title('과목 표') 
+            ax.set_title('과목 표')
+            plt.tight_layout()
             if self.image_mode:
                 if self.output_filename:
                     plt.savefig(self.output_filename)
-            plt.tight_layout()
-            plt.show()
+            else:
+                plt.show()
         else:
             print("데이터에 '과목' 정보가 없습니다.")
 
