@@ -18,17 +18,12 @@ class ShowTable:
         self.image_mode = image_mode
         
     def get_system_font(self):
-        try:
-            return get_system_font()[1]['file']
-        except:
-            try:
-                return get_system_font()[0]['file']
-            except:
-                try:
-                    return get_system_font()[2]['file']
-                except:
-                    print("시스템내에 적합한 한글 폰트 파일을 찾을 수 없습니다.")
-                    sys.exit(2)
+        system_fonts = get_system_font()
+        for font_info in system_fonts:
+            if font_info['lang'] == 'korean':
+                return font_info['file']
+        print("시스템내에 적합한 한글 폰트 파일을 찾을 수 없습니다.")
+        sys.exit(2)
                     
     def read_subjects(self):
         try:

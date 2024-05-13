@@ -67,6 +67,10 @@ def draw_course_structure(subjects, output_file):
     plt.ylabel('학기')
     plt.xticks(range(1, 5))  # 학년
     plt.yticks(range(1, 3))  # 학기
+    
+    # Y 축의 중간 지점에 선을 추가
+    plt.axhline((max(plt.yticks()[0]) + min(plt.yticks()[0])) / 2, color='gray', linestyle='--')
+    
     plt.gca().invert_yaxis()
     plt.grid(True)  # 그리드 표시
     
