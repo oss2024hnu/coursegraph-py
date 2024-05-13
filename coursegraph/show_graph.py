@@ -60,9 +60,9 @@ def draw_course_structure(subjects, output_file):
         if '선수과목' in subject:
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
-        nodescale, fontscale = adjust_ratio(7) #노드와 폰트의 비율 함수 추가
+        nodescale, fontscale = adjust_ratio(10) #노드와 폰트의 비율 함수 추가
         pos = nx.get_node_attributes(G, 'pos')
-        nx.draw(G, pos, with_labels=True, node_size=nodescale, node_color="skyblue",  font_family=font_name, font_size=fontscale, font_weight="bold")
+        nx.draw(G, pos, with_labels=True, node_size=2000, node_color="skyblue",  font_family=font_name, font_size=10, font_weight="bold")
         for edge in G.edges():
             nx.draw_networkx_edges(G, pos, edgelist=[edge], arrowstyle='->', arrowsize=10)
    
