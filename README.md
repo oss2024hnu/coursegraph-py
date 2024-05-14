@@ -16,8 +16,10 @@ onboarding 디렉토리의 문서들을 참고해 주세요
    "pip install [모듈이름]"으로 모듈 설치 (항상 이렇게 성공하진 않음. 모듈 이름과 패키지 이름이 다른 경우가 있기 때문)
 1. 파일 수정은 각자가 편리하게 활용하는 코드 에디터를 활용
 
+## 프로그램 사용법
 
-## `cousergraph/__main__.py` 사용방법
+## CLI 사용법
+다음과 같이 `cousergraph/__main__.py`를 파이썬으로 실행시켜 활용한다.
 ```
 oss2024hnu/coursegraph-py$ python coursegraph --help
 usage: coursegraph [-h] [-i INPUT] [-o OUTPUT] [-v] [-f {graph,table}]
@@ -41,6 +43,9 @@ Enjoy using the CLI utility!
 - `-f graph` 혹은 `--format graph` 옵션을 제공하면 이수체계도를 방향그래프 형태로 보여줌.
   `-f` 혹은 `--foramt` 옵션을 제공하지 않은 경우도 graph 모드로 동작.
 - `-f table` 혹은 `--format table` 옵션을 주었을 경우, yaml 파일의 전체 내용을 한꺼번에 보기 좋은 표의 형태로 보여준다.
+
+### GUI 사용법 <=== 아직 여기에 대한 문서가 프로젝트 내에 없느 거 같네요 이것도 이슈로 만들어서 진행해볼 만한 거리입니다
+TODO
 
 ## 참고사항
 - pr과 이슈를 연결하는 법 github docs 링크: https://docs.github.com/ko/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
