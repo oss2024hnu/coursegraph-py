@@ -44,8 +44,8 @@ Enjoy using the CLI utility!
   `-f` 혹은 `--foramt` 옵션을 제공하지 않은 경우도 graph 모드로 동작.
 - `-f table` 혹은 `--format table` 옵션을 주었을 경우, yaml 파일의 전체 내용을 한꺼번에 보기 좋은 표의 형태로 보여준다.
 
-### GUI 사용법 <=== 아직 여기에 대한 문서가 프로젝트 내에 없느 거 같네요 이것도 이슈로 만들어서 진행해볼 만한 거리입니다
-TODO
+### GUI 사용법
+TODO: 아직 GUI 사용법에 대한 문서가 프로젝트 내에 없느 거 같네요 이것도 이슈로 만들어서 진행해볼 만한 거리입니다
 
 ## 참고사항
 - pr과 이슈를 연결하는 법 github docs 링크: https://docs.github.com/ko/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
