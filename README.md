@@ -18,7 +18,7 @@ onboarding 디렉토리의 문서들을 참고해 주세요
 
 ## 프로그램 사용법
 
-## CLI 사용법
+### CLI 사용법
 다음과 같이 `cousergraph/__main__.py`를 파이썬으로 실행시켜 활용한다.
 ```
 oss2024hnu/coursegraph-py$ python coursegraph --help
