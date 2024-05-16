@@ -1,8 +1,10 @@
 GUI 계획도
 
-<img src=[https://media.discordapp.net/attachments/819067866972160012/1240612836753932298/image.png?ex=6647323d&is=6645e0bd&hm=d20c36274879bf1e708ddbf77f232cdf6f593a07376f6ad8099f19c50082e906&=&format=webp&quality=lossless&width=1237&height=676] height = 676>
+<img src="https://media.discordapp.net/attachments/819067866972160012/1240612836753932298/image.png?ex=6647323d&is=6645e0bd&hm=d20c36274879bf1e708ddbf77f232cdf6f593a07376f6ad8099f19c50082e906&=&format=webp&quality=lossless&width=1237&height=676" height = 676>
 
 간단하게는 위 사진처럼 예상을 그리고 있습니다.
+
+
 1. Graph를 클릭시 입력 받은 파일을 기반으로 그래프 이미지를 로드합니다.
 2. Table을 클릭시 입력 받은 파일을 기반으로 테이블 데이터를 로드합니다.
 3. Schema를 클릭시 입력 받은 파일을 기반으로 Schema를 확안합니다.
