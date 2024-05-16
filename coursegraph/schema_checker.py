@@ -12,11 +12,11 @@ def validate_string_or_sequence(value):
         for item in value:  # 리스트 내 각 항목을 확인
             if not isinstance(item, str):
                 raise ValueError("올바른 형식이 아닙니다.")
-            if not re.match(r'^[A-Za-z가-힣\w./]+$', item):
+            if not re.match(r'^[A-Za-z가-힣\w./&]+$', item):
                 raise ValueError("올바른 형식이 아닙니다.")
         return value
     elif isinstance(value, str):
-        if re.match(r'^[A-Za-z가-힣\w./]+$', value):
+        if re.match(r'^[A-Za-z가-힣\w./&]+$', value):
             return value
         else:
             raise ValueError("올바른 형식이 아닙니다.")
