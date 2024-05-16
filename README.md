@@ -51,5 +51,24 @@ coursegraph-py/coursegraph로 이동한 다음 'python gui.py'를 터미널에 �
 이미지를 초기화하는 기능은 아래에 이미지 초기화 버튼이 있는데 클릭하면 이미지가 초기화됩니다.
 gui파일에 대해서 사람들의 생각이 다르기 때문에 어떤 기능이나 내용을 추가할지 온보딩에 그림을 이용해서 의견을 공유하면 어떤 내용이 필요한지 보기 편할 것 같습니다.
 
+PyQt5 desiner 사용법
+
+-  Windows (터미널)
+- pip install pyqt5
+- pip install pyqt5-tools
+- 이후 본인 python 설치 폴더 내부 \Lib\site-packages\qt5_applications\Qt\bin 내부에 있는 desiner 실행
+
+- MacOS (터미널 OR VScode)
+- pip install pyqt
+- pip install pyqt5-tools
+- 이후 본인 python 설치 폴더 내부 \Lib\site-packages\qt5_applications\Qt\bin 내부에 있는 desiner 실행
+
+- Linux (터미널)
+- $ pip3 install pyqt5
+- $ sudo apt install python3-pyqt5
+- $ sudo apt install pyqt5-dev-tools
+- $ sudo apt install qttools5-dev-tools
+- 이후 터미널에서 $ desiner 로 실행
+
 ## 참고사항
 - pr과 이슈를 연결하는 법 github docs 링크: https://docs.github.com/ko/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
