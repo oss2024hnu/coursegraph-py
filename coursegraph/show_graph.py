@@ -24,7 +24,15 @@ def adjust_ratio(ratio):
     font = 1* ratio
     return circle, font
 
+def backcolor(grade):
+    for grade in range(1, 5):
+        if grade % 2 == 0:
+            plt.axvspan(grade - 0.5, grade + 0.5, color='lightgray', alpha=0.5)
+        else:
+            plt.axvspan(grade - 0.5, grade + 0.5, color='lightblue', alpha=0.5)
+
 # 데이터 읽어와서 배열로 
+# 배열안의 값 : x값 보정치
 def add_array(subjects):
     adjusted_pos = {}
     #for subject in subjects:
@@ -42,6 +50,8 @@ def add_array(subjects):
 
 
 
+#그래프 제작중 실질적인 위치값을 제어하는 함수 2개
+######################################################################################
 #노드 펼치는 함수
 def node_spreading(pos_key,adjusted_pos):
     for pos_key, positions in adjusted_pos.items():
@@ -49,26 +59,15 @@ def node_spreading(pos_key,adjusted_pos):
         if num_positions > 1:
                 spacing = 0.4
                 for i in range(num_positions):
-                    adjusted_pos[pos_key][i] = (i - (num_positions - 1) / 2) * spacing
-
-
-        
-##배열안의 값 : x값 보정치
-##실질적인 위치값 안들어감
-
-
-def backcolor(grade):
-    for grade in range(1, 5):
-        if grade % 2 == 0:
-            plt.axvspan(grade - 0.5, grade + 0.5, color='lightgray', alpha=0.5)
-        else:
-            plt.axvspan(grade - 0.5, grade + 0.5, color='lightblue', alpha=0.5)
+                    adjusted_pos[pos_key][i] = (i - (num_positions - 1) / 2) * spacing        
 
 #실질적인 위치를 지정하는 파트
 def positioning(grade, semester, adjusted_pos):
     x = grade
     y = semester + adjusted_pos[(grade, semester)].pop(0)
     return x,y
+######################################################################################
+
 
 def render(subjects, output_file):
     G = nx.DiGraph()
