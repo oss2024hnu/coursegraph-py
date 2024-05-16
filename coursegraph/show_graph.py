@@ -71,26 +71,31 @@ def positioning(grade, semester, adjusted_pos):
 ######################################################################################
 
 
+
 def render(subjects, output_file):
+
     G = nx.DiGraph()
     plt.figure(figsize=(10,10)) # figure 사이즈 조정
+
     font_name = get_system_font()[0]['name']
     rc('font', family = font_name)
     adjusted_pos = add_array(subjects)
     nodescale, fontscale = adjust_ratio(10) #노드와 폰트의 비율 함수 추가
 
 
+
     for subject in subjects:
         grade = int(subject['학년'])
         semester = int(subject['학기'])
         #x,y 좌표 조정
+
         x,y=positioning(grade,semester, adjusted_pos)
+
         G.add_node(subject['과목명'], pos=(x, y))
 
         if '선수과목' in subject:
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
-        
 
         pos = nx.get_node_attributes(G, 'pos')
         nx.draw(G, pos, with_labels=True, node_size=nodescale, node_color="skyblue",  font_family=font_name, font_size=fontscale, font_weight="bold")
@@ -98,6 +103,7 @@ def render(subjects, output_file):
             nx.draw_networkx_edges(G, pos, edgelist=[edge], arrowstyle='->', arrowsize=10)
 
     backcolor(grade)
+
     plt.rc('font', family=font_name)
 
     plt.title("과목 이수 체계도")
@@ -113,7 +119,7 @@ def render(subjects, output_file):
     plt.grid(True)  # 그리드 표시
 
     # 학년별로 배경색 설정
-    
+
     if output_file:
         plt.savefig(output_file)
     else:
