@@ -17,7 +17,7 @@ def read_subjects(filename):
         print(f"YAML 데이터가 잘못되어있습니다: {e}", file=sys.stderr)
         return None
 
-# 학년과 학기가 같은 강좌에 대한 좌표 조정 함수
+# 데이터 읽어와서 배열로 정렬파트
 def adjust_coordinates(subjects):
     adjusted_pos = {}
     for subject in subjects:
@@ -29,12 +29,7 @@ def adjust_coordinates(subjects):
         else:
             adjusted_pos[pos_key] = [0]
     # 겹치는 노드중 하나만 이동하도록 조정 하는 함수
-    for pos_key, positions in adjusted_pos.items():
-        num_positions = len(positions)
-        if num_positions > 1:
-            spacing = 0.4
-            for i in range(num_positions):
-                adjusted_pos[pos_key][i] = (i - (num_positions - 1) / 2) * spacing
+    anti_duplication(pos_key,adjusted_pos)
     return adjusted_pos
 
 def adjust_ratio(ratio):
@@ -42,6 +37,14 @@ def adjust_ratio(ratio):
     font = 1* ratio
     return circle, font
 
+#겹침 노드 함수 분리
+def anti_duplication(pos_key,adjusted_pos):
+    for pos_key, positions in adjusted_pos.items():
+        num_positions = len(positions)
+        if num_positions > 1:
+            spacing = 0.4
+            for i in range(num_positions):
+                adjusted_pos[pos_key][i] = (i - (num_positions - 1) / 2) * spacing
 
 def draw_course_structure(subjects, output_file):
     font_name = get_system_font()[0]['name']
