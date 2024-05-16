@@ -35,7 +35,7 @@ def backcolor(grade):
 # 배열안의 값 : x값 보정치
 def add_array(subjects):
     adjusted_pos = {}
-    #for subject in subjects:
+
     for subject in subjects:
         grade = int(subject['학년'])
         semester = int(subject['학기'])
