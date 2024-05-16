@@ -1,4 +1,4 @@
-# coursegraph-py
+1# coursegraph-py
 과목 이수체계도를 그려주는 프로그램을 오픈소스SW개발 수강생 모두가 함께 참여하며 개발하는 프로젝트입니다.
 
 ## 새로 참여하는 분들을 위한 정보 및 주의사항
@@ -45,7 +45,11 @@ Enjoy using the CLI utility!
 - `-f table` 혹은 `--format table` 옵션을 주었을 경우, yaml 파일의 전체 내용을 한꺼번에 보기 좋은 표의 형태로 보여준다.
 
 ### GUI 사용법
-TODO: 아직 GUI 사용법에 대한 문서가 프로젝트 내에 없느 거 같네요 이것도 이슈로 만들어서 진행해볼 만한 거리입니다
+coursegraph-py/coursegraph로 이동한 다음 'python gui.py'를 터미널에 넣고 실행하면 gui화면이 나온다.
+현재 사용가능한 기능은 파일 열기, 다른이름으로 저장하기, 연 이미지를 초기화 시키는 기능이 있다.
+파일 열기와 다른 이름으로 저장하기는 오른쪽위에 있는 파일을 클릭하면 기능을 사용할 수 있다.
+이미지를 초기화하는 기능은 아래에 이미지 초기화 버튼이 있는데 클릭하면 이미지가 초기화됩니다.
+gui파일에 대해서 사람들의 생각이 다르기 때문에 어떤 기능이나 내용을 추가할지 온보딩에 그림을 이용해서 의견을 공유하면 어떤 내용이 필요한지 보기 편할 것 같습니다.
 
 ## 참고사항
 - pr과 이슈를 연결하는 법 github docs 링크: https://docs.github.com/ko/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
