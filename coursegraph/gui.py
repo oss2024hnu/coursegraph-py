@@ -5,7 +5,7 @@ from PyQt5 import uic
 from PyQt5.QtGui import QPixmap
 
 # ui 파일이 실행 파일과 같은 위치에 있어야 함.
-form_class = uic.loadUiType("./coursegraph/Maingui.ui")[0]
+form_class = uic.loadUiType("Maingui.ui")[0]
 
 # 화면을 띄우는데 사용되는 Class 선언
 class WindowClass(QMainWindow, form_class):
