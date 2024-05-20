@@ -58,7 +58,7 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> dict:
     return adjusted_pos
 
 
-def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str):
+def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str, width: int, height: int):
     """
     파싱된 데이터를 기반으로, 과목의 위치를 조정하고, matplotlib 로 데이터를 그린 후 output_file 경로로 파일을 저장하는 함수입니다.
 
@@ -73,7 +73,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str)
 
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)
-    plt.figure(figsize=(10, 10))  # figure 사이즈 조정
+    plt.figure(figsize=(width, height))  # 사용자가 지정한 이미지 크기로 설정
 
     for subject in subjects:
         grade = int(subject['학년'])
