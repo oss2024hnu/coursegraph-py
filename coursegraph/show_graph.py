@@ -1,6 +1,7 @@
 import strictyaml
 import networkx as nx
 import matplotlib.pyplot as plt
+from matplotlib import rc
 import sys
 from fontutil import get_system_font
 from typing import Optional
@@ -71,6 +72,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str)
     """
     font_name = get_system_font()[0]['name']
 
+    rc('font', family=font_name)
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)
     plt.figure(figsize=(10, 10))  # figure 사이즈 조정
@@ -92,7 +94,6 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str)
         for edge in G.edges():
             nx.draw_networkx_edges(G, pos, edgelist=[edge], arrowstyle='->', arrowsize=10)
 
-    plt.rc('font', family=font_name)
     plt.title("과목 이수 체계도")
     plt.xlabel('학년')
     plt.ylabel('학기')
