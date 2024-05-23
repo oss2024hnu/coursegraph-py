@@ -86,8 +86,9 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
         grade = int(subject['학년'])
         semester = int(subject['학기'])
         # x, y 좌표 조정
-        x = grade + adjusted_pos[(grade, semester)].pop(0)
-        y = semester
+        x = grade
+        y = semester + adjusted_pos[(grade, semester)].pop(0)
+
         G.add_node(subject['과목명'], pos=(x, y))
         if '선수과목' in subject:
             for prereq in subject['선수과목']:
