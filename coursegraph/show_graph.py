@@ -64,7 +64,7 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
     return adjusted_pos
 
 def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str, width: int, height: int):
-   """
+    """
     파싱된 데이터를 기반으로, 과목의 위치를 조정하고, matplotlib로 데이터를 그린 후 output_file 경로로 파일을 저장하는 함수입니다.
 
     Parameters:
@@ -74,6 +74,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     return:
     이 함수는 반환값이 없습니다.
     """
+
     font_name = get_system_font()[0]['name']
 
     rc('font', family=font_name)
