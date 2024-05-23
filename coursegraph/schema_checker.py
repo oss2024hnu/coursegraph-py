@@ -30,6 +30,7 @@ schema = strictyaml.Map({
         strictyaml.Optional("트랙"): EmptyList() | strictyaml.Seq(strictyaml.Str()),
         strictyaml.Optional("마이크로디그리"): EmptyList() | strictyaml.Seq(strictyaml.Str()),
         strictyaml.Optional("선수과목"): EmptyList() | strictyaml.Seq(strictyaml.Str()),
+        strictyaml.Optional("코드쉐어"): EmptyList() | strictyaml.Seq(strictyaml.Str()),
         "실습여부": strictyaml.Str(),
         "구분": strictyaml.Str()
     }))
@@ -45,7 +46,7 @@ def validate_yaml(file_path):
                 try:
                     if subject["학년"] not in [1, 2, 3, 4, 5, 6]:
                         raise ValueError("학년은 1부터 6까지의 정수여야 합니다.")
-                    for field_name in ["과목명", "트랙", "마이크로디그리", "선수과목"]:
+                    for field_name in ["과목명", "트랙", "마이크로디그리", "선수과목","코드쉐어"]:
                         if field_name in subject:
                             validate_string_or_sequence(subject[field_name].data)
                 except ValueError as e:
