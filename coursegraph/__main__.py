@@ -19,6 +19,7 @@ def main():
         parser.add_argument('-o', '--output', type=str, help='Specify the output image file path. (optional).')
         parser.add_argument('-f', '--format', choices=['graph', 'table'], default='graph',
                             help='Sepcify the output format (graph, table). Defaults to graph.')
+        parser.add_argument('-s', '--size', type=str, help='Specify the size of the output image in format WIDTHxHEIGHT. (optional). Example: -s 800x600')
         args = parser.parse_args()
 
         # Accessing the command line options
@@ -27,6 +28,12 @@ def main():
         output_format = args.format
         show_mode = False
         # Perform actions based on options
+
+        if args.size:
+            width, height = map(int, args.size.split(','))
+        else:
+            # Default size
+            width, height = 20,10
 
         if output_file:
             print(f"The output image file path has been specified: {output_file}")
@@ -40,10 +47,10 @@ def main():
             raise Exception("input file not specified")
         if output_format == 'graph':
             subjects = read_subjects(input_file)
-            draw_course_structure(subjects, output_file)
+            draw_course_structure(subjects, output_file,width,height)
         elif output_format == 'table':
             # kyahnu: 이 부분 --input 과 --output 을 활용하도록 일관된 인터페이스로 수정할 것
-            data_processor = ShowTable(not show_mode, input_file, output_file)
+            data_processor = ShowTable(not show_mode, input_file, output_file,width,height)
             data_processor.process_data()
         else:
             raise Exception(f"cannot handle output format {output_format}")
