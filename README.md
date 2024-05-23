@@ -20,7 +20,7 @@ onboarding 디렉토리의 문서들을 참고해 주세요
 
 ## 한글 설치 방법
 1. Codespace를 실행한 뒤 터미널에 './install_fonts.sh' 실행
-2. 실행 완료 후 실행했던 Codespace의 중지 후 재부팅
+2. 실행 완료 후 실행했던 Codespace의 중지 후 재부팅 <== 이거는 안해도 되는데 혹시 안될때 해보라는 겁니다.
    1) 중지하려는 Codespace의 오른쪽에 있는 줄임표(...)를 클릭
    2) Codespace 중지를 클릭
    3) Codespace를 다시 재시작
