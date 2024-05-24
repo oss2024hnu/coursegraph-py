@@ -29,7 +29,8 @@ class WindowClass(QMainWindow, form_class):
             else:
                 QMessageBox.warning(self, "유효하지 않은 이미지 파일입니다.")
         else:
-            QMessageBox.warning(self, "파일을 선택하지 않았습니다.")
+            #QMessageBox.warning(self, "파일을 선택하지 않았습니다.")
+            return
 
     def clearImage(self):
         self.label.clear()  # QLabel에 표시된 이미지 제거
