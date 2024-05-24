@@ -61,6 +61,8 @@ def node_spreading(pos_key,adjusted_pos):
         if num_positions > 1:
                 spacing = 0.4
                 for i in range(num_positions):
+                   
+                    
                     adjusted_pos[pos_key][i] = (i - (num_positions - 1) / 2) * spacing        
 
 #실질적인 위치를 지정하는 파트
@@ -68,6 +70,8 @@ def positioning(grade, semester, adjusted_pos):
     x = grade
     y = semester + adjusted_pos[(grade, semester)].pop(0)
     return x,y
+
+
 ######################################################################################
 
 
