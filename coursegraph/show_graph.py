@@ -35,7 +35,23 @@ def read_subjects(filename: str) -> Optional[strictyaml.YAML]:
         print(f"YAML 데이터가 잘못되어있습니다: {e}", file=sys.stderr)
         return None
 
-def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, int], List[float]]:
+#노드&폰트 크기 비율제어
+def adjust_ratio(ratio):
+    circle = 1000 * ratio
+    font = 1* ratio
+    return circle, font
+
+def backcolor(grade):
+    for grade in range(1, 5):
+        if grade % 2 == 0:
+            plt.axvspan(grade - 0.5, grade + 0.5, color='lightgray', alpha=0.5)
+        else:
+            plt.axvspan(grade - 0.5, grade + 0.5, color='lightblue', alpha=0.5)
+
+# 데이터 읽어와서 배열로 
+# 배열안의 값 : x값 보정치
+def add_array(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, int], List[float]]:
+
     """
     학년과 학기가 같은 강좌에 대한 좌표 조정 함수입니다.
 
@@ -45,7 +61,9 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
     return:
     좌표가 조정되어야 할 부분이 dict 자료형으로 반환됩니다.
     """
+
     adjusted_pos = {}
+
     for subject in subjects:
         grade = int(subject['학년'])
         semester = int(subject['학기'])
@@ -54,18 +72,45 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
             adjusted_pos[pos_key].append(0)
         else:
             adjusted_pos[pos_key] = [0]
-    # 겹치는 노드 중 하나만 이동하도록 조정하는 함수
+
+    node_spreading(pos_key,adjusted_pos)
+    return adjusted_pos
+    #배열뱉음
+
+
+
+#그래프 제작중 실질적인 위치값을 제어하는 함수 2개
+#x , y : 실제 draw에 사용되는 pos에 들어가는 최종값
+#adjusted_pos[]배열의 값 : 노드끼리 겹칠시의 여백값을 지정하는 기능
+######################################################################################
+#노드 펼치는 함수
+def node_spreading(pos_key,adjusted_pos):
     for pos_key, positions in adjusted_pos.items():
         num_positions = len(positions)
         if num_positions > 1:
-            spacing = 0.4
-            for i in range(num_positions):
-                adjusted_pos[pos_key][i] = (i - (num_positions - 1) / 2) * spacing
-    return adjusted_pos
+                spacing = 0.4
+                for i in range(num_positions):
+                   
+                    
+                    adjusted_pos[pos_key][i] = (i - (num_positions - 1) / 2) * spacing        
 
-def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str, width: int, height: int):
+
+#실질적인 위치를 지정하는 파트
+def positioning(grade, semester, adjusted_pos):
+    x = grade
+    y = semester + adjusted_pos[(grade, semester)].pop(0)
+    return x,y
+
+
+######################################################################################
+
+
+    
+
+def render(subjects: Optional[strictyaml.YAML], output_file: str, width: int, height: int):
     """
     파싱된 데이터를 기반으로, 과목의 위치를 조정하고, matplotlib로 데이터를 그린 후 output_file 경로로 파일을 저장하는 함수입니다.
+
 
     Parameters:
     subjects (Optional[strictyaml.YAML]) : 파싱된 과목 부분의 strictyaml.YAML 유형 데이터를 받습니다.
@@ -74,33 +119,45 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     return:
     이 함수는 반환값이 없습니다.
     """
+    G = nx.DiGraph()
+    plt.figure(figsize=(width, height))  # 사용자가 지정한 이미지 크기로 설정
 
     font_name = get_system_font()[0]['name']
+    rc('font', family = font_name)
+    adjusted_pos = add_array(subjects)
+    nodescale, fontscale = adjust_ratio(10) #노드와 폰트의 비율 함수 추가
 
-    rc('font', family=font_name)
-    G = nx.DiGraph()
-    adjusted_pos = adjust_coordinates(subjects)
-    plt.figure(figsize=(width, height))  # 사용자가 지정한 이미지 크기로 설정
+
 
     for subject in subjects:
         grade = int(subject['학년'])
         semester = int(subject['학기'])
-        # x, y 좌표 조정
-        x = grade
-        y = semester + adjusted_pos[(grade, semester)].pop(0)
+
+        #x,y 좌표 조정
+
+        x,y=positioning(grade,semester, adjusted_pos)
+
 
         G.add_node(subject['과목명'], pos=(x, y))
+
         if '선수과목' in subject:
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
 
-    pos = nx.get_node_attributes(G, 'pos')
+
+        pos = nx.get_node_attributes(G, 'pos')
+        edge_attrs = EdgeAttributes(edgelist=list(G.edges()))
+        nx.draw(G, pos, with_labels=True, node_size=nodescale, node_color="skyblue",  font_family=font_name, font_size=fontscale, font_weight="bold")
+        nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist, arrowstyle=edge_attrs.arrowstyle, arrowsize=edge_attrs.arrowsize)
+
+    backcolor(grade)
+
+    plt.rc('font', family=font_name)
+
 
     # 엣지 속성 설정
-    edge_attrs = EdgeAttributes(edgelist=list(G.edges()))
+    
 
-    nx.draw(G, pos, with_labels=True, node_size=2000, node_color="skyblue", font_family=font_name, font_size=10, font_weight="bold")
-    nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist, arrowstyle=edge_attrs.arrowstyle, arrowsize=edge_attrs.arrowsize)
 
     plt.title("과목 이수 체계도")
     plt.xlabel('학년')
@@ -111,11 +168,6 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     plt.grid(True)  # 그리드 표시
 
     # 학년별로 배경색 설정
-    for grade in range(1, 5):
-        if grade % 2 == 0:
-            plt.axvspan(grade - 0.5, grade + 0.5, color='lightgray', alpha=0.5)
-        else:
-            plt.axvspan(grade - 0.5, grade + 0.5, color='lightblue', alpha=0.5)
 
     if output_file:
         plt.savefig(output_file)
