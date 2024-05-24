@@ -9,12 +9,14 @@ from matplotlib import font_manager, rc
 
 
 class ShowTable:
-    def __init__(self, image_mode, input_filepath, output_filename):
+    def __init__(self, image_mode, input_filepath, output_filename,width = None, height = None):
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         self.font_path = self.get_system_font()
         self.filename = input_filepath
         self.output_filename = output_filename
         self.image_mode = image_mode
+        self.width = width
+        self.height = height 
         
     def get_system_font(self):
         system_fonts = get_system_font()
@@ -38,22 +40,23 @@ class ShowTable:
             print("파일을 읽는 중 오류가 발생했습니다:", e)
             return None
 
-    def make_data(self, data):
+    def make_data(self, data, width, height):
         font_name = font_manager.FontProperties(fname=self.font_path).get_name()
         rc('font', family=font_name)
 
         if '과목' in data:
-            df = pd.DataFrame(data['과목'])
-            fig, ax = plt.subplots(figsize=(20, 10))
-            df.fillna('없음', inplace=True)
-            ax.axis('off')
-            ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
-            ax.set_title('과목 표')
-            plt.tight_layout()
-            if self.image_mode:
-                if self.output_filename:
-                    plt.savefig(self.output_filename)
-            else:
+           df = pd.DataFrame(data['과목'])
+           # NaN 값을 빈 문자열로 대체
+           df.fillna('', inplace=True)
+           fig, ax = plt.subplots(figsize=(width, height))
+           ax.axis('off')
+           ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
+           ax.set_title('과목 표')
+           plt.tight_layout()
+           if self.image_mode:
+              if self.output_filename:
+                plt.savefig(self.output_filename)
+           else:
                 plt.show()
         else:
             print("데이터에 '과목' 정보가 없습니다.")
@@ -61,7 +64,7 @@ class ShowTable:
     def process_data(self):
         subjects = self.read_subjects()
         if subjects:
-            self.make_data(subjects)
+            self.make_data(subjects,self.width,self.height)
 
 if __name__ == "__main__":
     data_processor = ShowTable(None, False, False)

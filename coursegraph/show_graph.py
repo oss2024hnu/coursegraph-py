@@ -4,8 +4,25 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 import sys
 from fontutil import get_system_font
+from typing import Optional, List, Dict, Tuple
+from dataclasses import dataclass
 
-def read_subjects(filename):
+@dataclass
+class EdgeAttributes:
+    edgelist: List[Tuple[str, str]]
+    arrowstyle: str = '->'
+    arrowsize: int = 10
+
+def read_subjects(filename: str) -> Optional[strictyaml.YAML]:
+    """
+    파일의 경로로 파일 열기를 시도합니다. 그리고 데이터 파일의 유효성을 검사하여, 에러를 처리하는 함수입니다.
+
+    Parameter:
+    filename (str) : 파일의 경로
+
+    return:
+    유효한 경우 '과목' 의 키값들을 strictyaml.YAML 유형으로 리턴합니다. 유효하지 않은 경우 None 을 반환합니다.
+    """
     try:
         with open(filename, 'r', encoding='UTF8') as file:
             yaml_data = file.read()
@@ -33,7 +50,18 @@ def backcolor(grade):
 
 # 데이터 읽어와서 배열로 
 # 배열안의 값 : x값 보정치
-def add_array(subjects):
+def add_array(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, int], List[float]]:
+
+    """
+    학년과 학기가 같은 강좌에 대한 좌표 조정 함수입니다.
+
+    Parameter:
+    subjects (Optional[strictyaml.YAML]): strictyaml.YAML 유형의 데이터를 받습니다.
+
+    return:
+    좌표가 조정되어야 할 부분이 dict 자료형으로 반환됩니다.
+    """
+
     adjusted_pos = {}
 
     for subject in subjects:
@@ -44,6 +72,7 @@ def add_array(subjects):
             adjusted_pos[pos_key].append(0)
         else:
             adjusted_pos[pos_key] = [0]
+
     node_spreading(pos_key,adjusted_pos)
     return adjusted_pos
     #배열뱉음
@@ -63,6 +92,7 @@ def node_spreading(pos_key,adjusted_pos):
                 for i in range(num_positions):
                     adjusted_pos[pos_key][i] = (i - (num_positions - 1) / 2) * spacing        
 
+
 #실질적인 위치를 지정하는 파트
 def positioning(grade, semester, adjusted_pos):
     x = grade
@@ -71,11 +101,22 @@ def positioning(grade, semester, adjusted_pos):
 ######################################################################################
 
 
+    
 
-def render(subjects, output_file):
+def render(subjects: Optional[strictyaml.YAML], output_file: str, width: int, height: int):
+    """
+    파싱된 데이터를 기반으로, 과목의 위치를 조정하고, matplotlib로 데이터를 그린 후 output_file 경로로 파일을 저장하는 함수입니다.
 
+
+    Parameters:
+    subjects (Optional[strictyaml.YAML]) : 파싱된 과목 부분의 strictyaml.YAML 유형 데이터를 받습니다.
+    output_file (str) : 출력 데이터를 저장할 경로와 이름입니다.
+
+    return:
+    이 함수는 반환값이 없습니다.
+    """
     G = nx.DiGraph()
-    plt.figure(figsize=(10,10)) # figure 사이즈 조정
+    plt.figure(figsize=(width, height))  # 사용자가 지정한 이미지 크기로 설정
 
     font_name = get_system_font()[0]['name']
     rc('font', family = font_name)
@@ -87,9 +128,11 @@ def render(subjects, output_file):
     for subject in subjects:
         grade = int(subject['학년'])
         semester = int(subject['학기'])
+
         #x,y 좌표 조정
 
         x,y=positioning(grade,semester, adjusted_pos)
+
 
         G.add_node(subject['과목명'], pos=(x, y))
 
@@ -97,24 +140,26 @@ def render(subjects, output_file):
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
 
+
         pos = nx.get_node_attributes(G, 'pos')
+        edge_attrs = EdgeAttributes(edgelist=list(G.edges()))
         nx.draw(G, pos, with_labels=True, node_size=nodescale, node_color="skyblue",  font_family=font_name, font_size=fontscale, font_weight="bold")
-        for edge in G.edges():
-            nx.draw_networkx_edges(G, pos, edgelist=[edge], arrowstyle='->', arrowsize=10)
+        nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist, arrowstyle=edge_attrs.arrowstyle, arrowsize=edge_attrs.arrowsize)
 
     backcolor(grade)
 
     plt.rc('font', family=font_name)
+
+
+    # 엣지 속성 설정
+    
+
 
     plt.title("과목 이수 체계도")
     plt.xlabel('학년')
     plt.ylabel('학기')
     plt.xticks(range(1, 5))  # 학년
     plt.yticks(range(1, 3))  # 학기
-    
-    # Y 축의 중간 지점에 선을 추가
-    plt.axhline((max(plt.yticks()[0]) + min(plt.yticks()[0])) / 2, color='gray', linestyle='--')
-    
     plt.gca().invert_yaxis()
     plt.grid(True)  # 그리드 표시
 
