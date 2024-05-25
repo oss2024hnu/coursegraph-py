@@ -1,10 +1,17 @@
 import strictyaml
 import networkx as nx
 import matplotlib.pyplot as plt
+from matplotlib import rc
 import sys
 from fontutil import get_system_font
-from typing import Optional
+from typing import Optional, List, Dict, Tuple
+from dataclasses import dataclass
 
+@dataclass
+class EdgeAttributes:
+    edgelist: List[Tuple[str, str]]
+    arrowstyle: str = '->'
+    arrowsize: int = 10
 
 def read_subjects(filename: str) -> Optional[strictyaml.YAML]:
     """
@@ -28,8 +35,7 @@ def read_subjects(filename: str) -> Optional[strictyaml.YAML]:
         print(f"YAML 데이터가 잘못되어있습니다: {e}", file=sys.stderr)
         return None
 
-
-def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> dict:
+def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, int], List[float]]:
     """
     학년과 학기가 같은 강좌에 대한 좌표 조정 함수입니다.
 
@@ -48,7 +54,7 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> dict:
             adjusted_pos[pos_key].append(0)
         else:
             adjusted_pos[pos_key] = [0]
-    # 겹치는 노드중 하나만 이동하도록 조정 하는 함수
+    # 겹치는 노드 중 하나만 이동하도록 조정하는 함수
     for pos_key, positions in adjusted_pos.items():
         num_positions = len(positions)
         if num_positions > 1:
@@ -57,20 +63,21 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> dict:
                 adjusted_pos[pos_key][i] = (i - (num_positions - 1) / 2) * spacing
     return adjusted_pos
 
-
 def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str, width: int, height: int):
     """
-    파싱된 데이터를 기반으로, 과목의 위치를 조정하고, matplotlib 로 데이터를 그린 후 output_file 경로로 파일을 저장하는 함수입니다.
+    파싱된 데이터를 기반으로, 과목의 위치를 조정하고, matplotlib로 데이터를 그린 후 output_file 경로로 파일을 저장하는 함수입니다.
 
     Parameters:
-    subjects (Optional[strictyaml.YAML]) : 파싱된 과목부분의 strictyaml.YAML 유형 데이터를 받습니다.
+    subjects (Optional[strictyaml.YAML]) : 파싱된 과목 부분의 strictyaml.YAML 유형 데이터를 받습니다.
     output_file (str) : 출력 데이터를 저장할 경로와 이름입니다.
 
     return:
     이 함수는 반환값이 없습니다.
     """
+
     font_name = get_system_font()[0]['name']
 
+    rc('font', family=font_name)
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)
     plt.figure(figsize=(width, height))  # 사용자가 지정한 이미지 크기로 설정
@@ -78,21 +85,23 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     for subject in subjects:
         grade = int(subject['학년'])
         semester = int(subject['학기'])
-        # x,y 좌표 조정
-        x = grade + adjusted_pos[(grade, semester)].pop(0)
-        y = semester
+        # x, y 좌표 조정
+        x = grade
+        y = semester + adjusted_pos[(grade, semester)].pop(0)
+
         G.add_node(subject['과목명'], pos=(x, y))
         if '선수과목' in subject:
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
 
-        pos = nx.get_node_attributes(G, 'pos')
-        nx.draw(G, pos, with_labels=True, node_size=2000, node_color="skyblue", font_family=font_name, font_size=10,
-                font_weight="bold")
-        for edge in G.edges():
-            nx.draw_networkx_edges(G, pos, edgelist=[edge], arrowstyle='->', arrowsize=10)
+    pos = nx.get_node_attributes(G, 'pos')
 
-    plt.rc('font', family=font_name)
+    # 엣지 속성 설정
+    edge_attrs = EdgeAttributes(edgelist=list(G.edges()))
+
+    nx.draw(G, pos, with_labels=True, node_size=2000, node_color="skyblue", font_family=font_name, font_size=10, font_weight="bold")
+    nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist, arrowstyle=edge_attrs.arrowstyle, arrowsize=edge_attrs.arrowsize)
+
     plt.title("과목 이수 체계도")
     plt.xlabel('학년')
     plt.ylabel('학기')
