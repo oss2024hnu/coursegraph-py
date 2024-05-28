@@ -12,24 +12,24 @@ class WindowClass(QMainWindow, form_class):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-
+        
         self.action_open.triggered.connect(self.openFunction) 
         self.action_othernamesave.triggered.connect(self.saveAsFunction) 
-        self.gridLayout_3.addWidget(self.label, 0, 0)
         self.pushButton.clicked.connect(self.clearImage)
 
-        
+    
+
     def openFunction(self):
         filename, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Image Files (*.png *.jpg *.bmp *.gif)")
         if filename:  # 파일이 선택되었는지 확인
             pixmap = QPixmap(filename)  # 파일을 QPixmap 객체로 로드
             if not pixmap.isNull():  # 유효한 이미지 파일인지 확인
-                self.label.setPixmap(pixmap)  # QLabel에 이미지 표시
+                self.label.setPixmap(pixmap)
+                self.label.setScaledContents(True)  # 이미지 크기에 맞게 QLabel 크기 조정
                 self.label.adjustSize()  # QLabel 크기 조정
             else:
                 QMessageBox.warning(self, "유효하지 않은 이미지 파일입니다.")
         else:
-            #QMessageBox.warning(self, "파일을 선택하지 않았습니다.")
             return
 
     def clearImage(self):
