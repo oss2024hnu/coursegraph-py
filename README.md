@@ -46,6 +46,7 @@ options:
                         Sepcify the output format (graph, table). Defaults to graph.
   -s WIDTH,HEIGHT , --size WIDTH,HEIGHT 
                         Specify the size of the output image in format WIDTH x HEIGHT(optional)
+
 Enjoy using the CLI utility!
 ```
 - `-i` 혹은 `--input` 옵션에는 반드시 입력 데이터인 YAML 파일을 필수로 제공해야 함
@@ -75,12 +76,12 @@ PyQt5 desiner 사용법
 - pip install pyqt5-tools
 - 이후 본인 python 설치 폴더 내부 \Lib\site-packages\qt5_applications\Qt\bin 내부에 있는 desiner 실행
 
-- Linux (터미널)
-- $ pip3 install pyqt5
-- $ sudo apt install python3-pyqt5
-- $ sudo apt install pyqt5-dev-tools
-- $ sudo apt install qttools5-dev-tools
-- 이후 터미널에서 $ desiner 로 실행
+- 데비안 계열(우분투 등) Linux (터미널)
+- `pip3 install pyqt5`  (시스템에 따라서는 pip3가 아니라 pip로 실행해도 되는 경우도 있음)
+- `sudo apt install python3-pyqt5`
+- `sudo apt install pyqt5-dev-tools`
+- `sudo apt install qttools5-dev-tools`
+- 이후 터미널에서 `desiner` 로 실행
 
 ## 참고사항
 - pr과 이슈를 연결하는 법 github docs 링크: https://docs.github.com/ko/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
