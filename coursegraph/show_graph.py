@@ -59,7 +59,7 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
             adjusted_pos[pos_key].append(0)
         else:
             adjusted_pos[pos_key] = [0]
-            
+
     for pos_key, positions in adjusted_pos.items():
         num_positions = len(positions)
         if num_positions > 1:
@@ -92,21 +92,22 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
 
     for subject in subjects:
         grade = int(subject['학년'])
-        semester = int(subject['학기'])
+        #semester = int(subject['학기'])
         # x, y 좌표 조정
         x = grade
-        y = semester*0.1 + adjusted_pos[grade].pop(0)
+        y = adjusted_pos[grade].pop(0) # + semester : 학기간 간격을 주고싶다면 주석을 풀것.
         G.add_node(subject['과목명'], pos=(x, y))
         if '선수과목' in subject:
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
 
-
+    
     pos = nx.get_node_attributes(G, 'pos')
 
     # 엣지 속성 설정
     edge_attrs = EdgeAttributes(edgelist=list(G.edges()))
-
+    
+    
     nx.draw(G, pos, with_labels=True, node_size=nodescale, node_color="skyblue", font_family=font_name, font_size=fontscale, font_weight="bold")
     nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist, arrowstyle=edge_attrs.arrowstyle, arrowsize=edge_attrs.arrowsize)
     
