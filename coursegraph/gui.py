@@ -51,18 +51,13 @@ class WindowClass(QMainWindow, form_class):
     def select_file(self):
         #QFileDialog.getOpenFileName함수를 사용해서 yaml파일만 가져올 수 있게 설정
         filename, _ = QFileDialog.getOpenFileName(self, "Open Yaml", "", "Yaml Files (*.yaml)")
+        #data/[yaml파일]이 시작되는 부분
+        index = 42
+        #주소만 가져올 수 있게 문자열 슬라이싱
+        new_filename = filename[index:]
+        print(new_filename)
+        self.command_list[1] = new_filename
 
-        print(filename)
-        # 파일 경로에서 뒤에서부터 '/'의 인덱스를 찾음
-        second_last_slash_index = filename.rfind('/', 0, filename.rfind('/'))
-
-        # 파일 경로에서 두 번째 '/'가 나올 때까지의 부분 문자열을 추출
-        desired_part = filename[second_last_slash_index + 1:]
-
-        print(desired_part)  # 결과: ce.yaml
-        self.command_list[1] = desired_part
-
-    #이미지 파일 만들기
     def make_image(self):
         #__main__.py에서 실행할 명령어 만들기
         input_file = os.path.join("../", self.command_list[1])
