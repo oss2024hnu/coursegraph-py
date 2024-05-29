@@ -7,7 +7,6 @@ from PyQt5 import uic
 from PyQt5.QtGui import QPixmap
 
 
-
 # ui 파일이 실행 파일과 같은 위치에 있어야 함.
 form_class = uic.loadUiType("Maingui.ui")[0]
 
@@ -52,6 +51,7 @@ class WindowClass(QMainWindow, form_class):
     def select_file(self):
         #QFileDialog.getOpenFileName함수를 사용해서 yaml파일만 가져올 수 있게 설정
         filename, _ = QFileDialog.getOpenFileName(self, "Open Yaml", "", "Yaml Files (*.yaml)")
+
         print(filename)
         # 파일 경로에서 뒤에서부터 '/'의 인덱스를 찾음
         second_last_slash_index = filename.rfind('/', 0, filename.rfind('/'))
@@ -61,6 +61,7 @@ class WindowClass(QMainWindow, form_class):
 
         print(desired_part)  # 결과: ce.yaml
         self.command_list[1] = desired_part
+
 
     def make_image(self):
         #__main__.py에서 실행할 명령어 만들기
