@@ -84,7 +84,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     """
 
     font_name = get_system_font()[0]['name']
-    nodescale, fontscale = adjust_ratio(11) #@@@지우지 말아주세요 노드할때 사용해야합니다
+   # nodescale, fontscale = adjust_ratio(11) #@@@지우지 말아주세요 노드할때 사용해야합니다
     rc('font', family=font_name)
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)
@@ -108,7 +108,13 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     edge_attrs = EdgeAttributes(edgelist=list(G.edges()))
     
     
-    nx.draw(G, pos, with_labels=True, node_size=nodescale, node_color="skyblue", font_family=font_name, font_size=fontscale, font_weight="bold")
+    nx.draw(G, pos, with_labels=True, node_size=0, node_color="skyblue", node_shape='s', font_family=font_name, font_size=10, font_weight="bold")
+
+     # 노드 라벨 그리기
+    for node, (x, y) in pos.items():
+        plt.text(x, y, node, fontsize=15, ha='center', va='center', 
+                 bbox=dict(facecolor='skyblue', edgecolor='black', boxstyle='round,pad=0.5'))
+        
     nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist, arrowstyle=edge_attrs.arrowstyle, arrowsize=edge_attrs.arrowsize)
     
     plt.title("과목 이수 체계도")
