@@ -3,7 +3,7 @@ import sys
 
 import fontutil
 from show_table import ShowTable
-from show_graph import read_subjects, draw_course_structure, cliprint
+from show_graph import read_subjects, draw_course_structure
 
 
 def main():
