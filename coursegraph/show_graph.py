@@ -71,13 +71,6 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
                 
     return adjusted_pos
 
-def clinput(x,y):
-    refarr =[x,y]
-    return refarr
-
-def cliprint(x,y):
-    refarr = clinput(x,y)
-    print(refarr[1][2])
 
 def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str, width: int, height: int):
     """
