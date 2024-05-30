@@ -31,7 +31,7 @@ onboarding 디렉토리의 문서들을 참고해 주세요
 다음과 같이 `cousergraph/__main__.py`를 파이썬으로 실행시켜 활용한다.
 ```
 oss2024hnu/coursegraph-py$ python coursegraph --help
-usage: coursegraph [-h] [-i INPUT] [-o OUTPUT] [-v] [-f {graph,table}]
+usage: coursegraph [-h] [-i INPUT] [-o OUTPUT] [-v] [-f {graph,table}] [-s WIDTH,HEIGHT]
 
 A CLI utility for processing data.
 
@@ -44,6 +44,8 @@ options:
   -v, --verbose         Enable verbose mode.
   -f {graph,table}, --format {graph,table}
                         Sepcify the output format (graph, table). Defaults to graph.
+  -s WIDTH,HEIGHT , --size WIDTH,HEIGHT 
+                        Specify the size of the output image in format WIDTH x HEIGHT(optional)
 
 Enjoy using the CLI utility!
 ```
@@ -52,6 +54,8 @@ Enjoy using the CLI utility!
 - `-f graph` 혹은 `--format graph` 옵션을 제공하면 이수체계도를 방향그래프 형태로 보여줌.
   `-f` 혹은 `--foramt` 옵션을 제공하지 않은 경우도 graph 모드로 동작.
 - `-f table` 혹은 `--format table` 옵션을 주었을 경우, yaml 파일의 전체 내용을 한꺼번에 보기 좋은 표의 형태로 보여준다.
+- '-s WIDTH,HEIGHT' 혹은 '--size WIDTH,HEIGHT' 옵션을 제공했을 경우 이미지의 크기를 가로,세로의 입력값으로 지정해준다.
+  '-s' 혹은 '--size' 옵션을 제공하지 않은 경우에는 이미지의 크기는 10,20 으로 지정된다. 
 
 ### GUI 사용법
 coursegraph-py/coursegraph로 이동한 다음 'python gui.py'를 터미널에 넣고 실행하면 gui화면이 나온다.
@@ -72,12 +76,12 @@ PyQt5 desiner 사용법
 - pip install pyqt5-tools
 - 이후 본인 python 설치 폴더 내부 \Lib\site-packages\qt5_applications\Qt\bin 내부에 있는 desiner 실행
 
-- Linux (터미널)
-- $ pip3 install pyqt5
-- $ sudo apt install python3-pyqt5
-- $ sudo apt install pyqt5-dev-tools
-- $ sudo apt install qttools5-dev-tools
-- 이후 터미널에서 $ desiner 로 실행
+- 데비안 계열(우분투 등) Linux (터미널)
+- `pip3 install pyqt5`  (시스템에 따라서는 pip3가 아니라 pip로 실행해도 되는 경우도 있음)
+- `sudo apt install python3-pyqt5`
+- `sudo apt install pyqt5-dev-tools`
+- `sudo apt install qttools5-dev-tools`
+- 이후 터미널에서 `desiner` 로 실행
 
 ## 참고사항
 - pr과 이슈를 연결하는 법 github docs 링크: https://docs.github.com/ko/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue

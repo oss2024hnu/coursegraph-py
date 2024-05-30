@@ -35,6 +35,11 @@ def read_subjects(filename: str) -> Optional[strictyaml.YAML]:
         print(f"YAML 데이터가 잘못되어있습니다: {e}", file=sys.stderr)
         return None
 
+def adjust_ratio(ratio):
+    circle = 400 * ratio
+    font = 1* ratio
+    return circle, font
+
 def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, int], List[float]]:
     """
     학년과 학기가 같은 강좌에 대한 좌표 조정 함수입니다.
@@ -46,25 +51,28 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
     좌표가 조정되어야 할 부분이 dict 자료형으로 반환됩니다.
     """
     adjusted_pos = {}
+    
     for subject in subjects:
         grade = int(subject['학년'])
-        semester = int(subject['학기'])
-        pos_key = (grade, semester)
+        pos_key = grade
         if pos_key in adjusted_pos:
             adjusted_pos[pos_key].append(0)
         else:
             adjusted_pos[pos_key] = [0]
-    # 겹치는 노드 중 하나만 이동하도록 조정하는 함수
+
     for pos_key, positions in adjusted_pos.items():
         num_positions = len(positions)
         if num_positions > 1:
-            spacing = 0.4
+            spacing = 0.6
+            
             for i in range(num_positions):
                 adjusted_pos[pos_key][i] = (i - (num_positions - 1) / 2) * spacing
+                
+                
     return adjusted_pos
 
 def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str, width: int, height: int):
-   """
+    """
     파싱된 데이터를 기반으로, 과목의 위치를 조정하고, matplotlib로 데이터를 그린 후 output_file 경로로 파일을 저장하는 함수입니다.
 
     Parameters:
@@ -74,8 +82,9 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     return:
     이 함수는 반환값이 없습니다.
     """
-    font_name = get_system_font()[0]['name']
 
+    font_name = get_system_font()[0]['name']
+    nodescale, fontscale = adjust_ratio(11) #@@@지우지 말아주세요 노드할때 사용해야합니다
     rc('font', family=font_name)
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)
@@ -83,23 +92,25 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
 
     for subject in subjects:
         grade = int(subject['학년'])
-        semester = int(subject['학기'])
+        #semester = int(subject['학기'])
         # x, y 좌표 조정
-        x = grade + adjusted_pos[(grade, semester)].pop(0)
-        y = semester
+        x = grade
+        y = adjusted_pos[grade].pop(0) # + semester : 학기간 간격을 주고싶다면 주석을 풀것.
         G.add_node(subject['과목명'], pos=(x, y))
         if '선수과목' in subject:
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
 
+    
     pos = nx.get_node_attributes(G, 'pos')
 
     # 엣지 속성 설정
     edge_attrs = EdgeAttributes(edgelist=list(G.edges()))
-
-    nx.draw(G, pos, with_labels=True, node_size=2000, node_color="skyblue", font_family=font_name, font_size=10, font_weight="bold")
+    
+    
+    nx.draw(G, pos, with_labels=True, node_size=nodescale, node_color="skyblue", font_family=font_name, font_size=fontscale, font_weight="bold")
     nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist, arrowstyle=edge_attrs.arrowstyle, arrowsize=edge_attrs.arrowsize)
-
+    
     plt.title("과목 이수 체계도")
     plt.xlabel('학년')
     plt.ylabel('학기')

@@ -9,6 +9,19 @@ from matplotlib import font_manager, rc
 
 
 class ShowTable:
+    """
+    테이블을 생성하는 Class
+
+    Attributes:
+        None
+
+    Methods:
+        __init__: 클래스 생성자
+        get_system_font: 시스템 폰트 확인
+        read_subjects: Yaml 데이터 파싱
+        make_data:
+        process_data:
+    """
     def __init__(self, image_mode, input_filepath, output_filename,width = None, height = None):
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         self.font_path = self.get_system_font()
@@ -19,6 +32,16 @@ class ShowTable:
         self.height = height 
         
     def get_system_font(self):
+        """
+        시스템 폰트의 파일 경로를 가져옵니다.
+        사용 가능한 시스템 폰트를 검색하여 첫 번째로 찾은 폰트의 파일 경로를 반환합니다.
+
+        Return:
+            str: 첫 번째로 찾은 시스템 폰트의 파일 경로.
+
+        Raises:
+            SystemExit: 시스템 내에 적합한 한글 폰트 파일을 찾을 수 없는 경우, 오류 메시지를 출력하고 상태 코드 2로 프로그램이 종료됩니다.
+        """
         system_fonts = get_system_font()
         try:
             for font_info in system_fonts:
@@ -28,6 +51,18 @@ class ShowTable:
             sys.exit(2)
                     
     def read_subjects(self):
+        """
+        테이블을 생성하는데 있어서 필요한 데이터를 가져옵니다.
+        파일을 UTF-8로 읽고 Yaml 데이터로 파싱합니다.
+
+        Returns:
+            UTF-8로 인코딩 된 Yaml 데이터를 파싱해 반환합니다.
+            오류가 발생한 경우 None 을 반환합니다.
+
+        Raises:
+            FileNotFoundError: 파일을 찾을 수 없는 경우, 오류 메시지를 출력하고 None을 반환합니다.
+            Exception: 파일을 읽는 중 다른 오류가 발생한 경우, 오류 메시지와 예외 정보를 출력하고 None을 반환합니다.
+        """
         try:
             with open(self.filename, 'r', encoding='UTF8') as file:
                 yaml_data = file.read()
@@ -41,6 +76,14 @@ class ShowTable:
             return None
 
     def make_data(self, data, width, height):
+        """
+        데이터로부터 테이블을 생성하거나 이미지를 저장한다.
+
+        Args:
+            data: 테이블 생성의 데이터, '과목' 키가 포함되어야함
+            width: 생성될 테이블의 너비 
+            height: 생성될 테이블의 높이
+        """
         font_name = font_manager.FontProperties(fname=self.font_path).get_name()
         rc('font', family=font_name)
 
@@ -62,6 +105,9 @@ class ShowTable:
             print("데이터에 '과목' 정보가 없습니다.")
 
     def process_data(self):
+        """
+        필요한 데이터를 가져오는 함수와 데이터로부터 테이블을 생성하는 역할을 연결한다.
+        """
         subjects = self.read_subjects()
         if subjects:
             self.make_data(subjects,self.width,self.height)
