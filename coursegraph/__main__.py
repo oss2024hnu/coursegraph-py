@@ -3,10 +3,11 @@ import sys
 
 import fontutil
 from show_table import ShowTable
-from show_graph import read_subjects, draw_course_structure
+from show_graph import read_subjects, draw_course_structure, cliprint
 
 
 def main():
+    
     try:
 
         parser = argparse.ArgumentParser(
@@ -47,7 +48,11 @@ def main():
             raise Exception("input file not specified")
         if output_format == 'graph':
             subjects = read_subjects(input_file)
-            draw_course_structure(subjects, output_file,width,height)
+            ref = draw_course_structure(subjects, output_file,width,height)
+            sorted_ref = dict(sorted(ref.items()))
+            for key, value in sorted_ref.items():
+                print(f"{key}: {value}")
+                
         elif output_format == 'table':
             # kyahnu: 이 부분 --input 과 --output 을 활용하도록 일관된 인터페이스로 수정할 것
             data_processor = ShowTable(not show_mode, input_file, output_file,width,height)
