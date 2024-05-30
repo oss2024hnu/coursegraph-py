@@ -51,32 +51,34 @@ class WindowClass(QMainWindow, form_class):
     def select_file(self):
         #QFileDialog.getOpenFileName함수를 사용해서 yaml파일만 가져올 수 있게 설정
         filename, _ = QFileDialog.getOpenFileName(self, "Open Yaml", "", "Yaml Files (*.yaml)")
-
-        print(filename)
-        # 파일 경로에서 뒤에서부터 '/'의 인덱스를 찾음
-        second_last_slash_index = filename.rfind('/', 0, filename.rfind('/'))
-
-        # 파일 경로에서 두 번째 '/'가 나올 때까지의 부분 문자열을 추출
-        desired_part = filename[second_last_slash_index + 1:]
-
-        print(desired_part)  # 결과: ce.yaml
-        self.command_list[1] = desired_part
-
+        #data/[yaml파일]이 시작되는 부분
+        index = 42
+        #주소만 가져올 수 있게 문자열 슬라이싱
+        new_filename = filename[index:]
+        print(new_filename)
+        self.command_list[1] = new_filename
 
     def make_image(self):
         #__main__.py에서 실행할 명령어 만들기
         input_file = os.path.join("../", self.command_list[1])
         print("사용할 파일 : " + input_file)
         #출력할 파일 이름 가져오기
-        output_file = self.textEdit.toPlainText()
+        output_file = os.path.join("../out/", self.textEdit.toPlainText())
         print("출력할 파일이름 : " + output_file)
         #어떤 방법으로 출력할 건지 명령어 가져오기
         format = self.command_list[0]
         print("출력할 방법 : " + format)
+
+        #만든 이미지 파일 저장할 디렉터리
+        find_dir = '../out'
+        if os.path.isdir(find_dir):
+            pass
+        else:
+            self.move_path("out")
         #명령어 실행
         result = subprocess.run([sys.executable, "__main__.py", "-i", input_file, "-o", output_file, "-f", format])
         #output_file변수에 .png를 추가해서 주소를 찾을 수 있게 변경
-        output_file = self.textEdit.toPlainText() + ".png"
+        output_file = output_file + ".png"
         if result.returncode == 0:
             # 프로세스가 성공적으로 종료된 경우
             if os.path.exists(output_file):
@@ -120,6 +122,25 @@ class WindowClass(QMainWindow, form_class):
                     QMessageBox.warning(self, "Warning", "이미지가 없습니다.", QMessageBox.Ok)
         except TypeError:
             QMessageBox.warning(self, "Warning", "파일 저장에 실패했습니다.", QMessageBox.Ok)
+
+    def move_path(self, new_dir):
+      # 현재 작업 디렉터리 저장
+      original_directory = os.getcwd()
+
+      # 현재 스크립트의 디렉터리 경로 얻기
+      current_directory = os.path.dirname(os.path.abspath(__file__))
+      
+      # 상위 디렉터리 경로 계산
+      parent_directory = os.path.dirname(current_directory)
+      
+      # 상위 디렉터리로 이동
+      os.chdir(parent_directory)
+      
+      #생성한 이미지를 저장할 디렉터리 생성
+      os.mkdir(new_dir)
+
+      # 원래 디렉터리로 이동
+      os.chdir(original_directory)
 
 # 에러 발생 시 정상 종료하도록 정의
 def exception_hook(exctype, value, traceback):

@@ -67,6 +67,11 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
                 
     return adjusted_pos
 
+def cliprint(ref):
+    sorted_ref = dict(sorted(ref.items()))
+    for key, value in sorted_ref.items():
+        print(f"{key}: {value}")
+
 def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str, width: int, height: int):
     """
     파싱된 데이터를 기반으로, 과목의 위치를 조정하고, matplotlib로 데이터를 그린 후 output_file 경로로 파일을 저장하는 함수입니다.
@@ -85,13 +90,18 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)
     plt.figure(figsize=(width, height))  # 사용자가 지정한 이미지 크기로 설정
-
+    ref ={}
+    ind =0
     for subject in subjects:
         grade = int(subject['학년'])
-        #semester = int(subject['학기'])
+        # semester = int(subject['학기'])
         # x, y 좌표 조정
         x = grade
         y = adjusted_pos[grade].pop(0) # + semester : 학기간 간격을 주고싶다면 주석을 풀것.
+        ref[ind] = [(x,y)]
+        ind += 1
+        
+        # print(ref)
         G.add_node(subject['과목명'], pos=(x, y))
         if '선수과목' in subject:
             for prereq in subject['선수과목']:
@@ -131,3 +141,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
         plt.savefig(output_file)
     else:
         plt.show()
+    
+    
+    
+    return ref
