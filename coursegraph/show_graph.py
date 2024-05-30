@@ -71,6 +71,10 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
                 
     return adjusted_pos
 
+def cliprint(ref):
+    sorted_ref = dict(sorted(ref.items()))
+    for key, value in sorted_ref.items():
+        print(f"{key}: {value}")
 
 def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str, width: int, height: int):
     """
