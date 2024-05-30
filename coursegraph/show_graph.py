@@ -35,10 +35,6 @@ def read_subjects(filename: str) -> Optional[strictyaml.YAML]:
         print(f"YAML 데이터가 잘못되어있습니다: {e}", file=sys.stderr)
         return None
 
-def adjust_ratio(ratio):
-    circle = 400 * ratio
-    font = 1* ratio
-    return circle, font
 
 def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, int], List[float]]:
     """
@@ -108,8 +104,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     edge_attrs = EdgeAttributes(edgelist=list(G.edges()))
     
     
-    nx.draw(G, pos, with_labels=True, node_size=0, node_color="skyblue", node_shape='s', font_family=font_name, font_size=10, font_weight="bold")
-
+    
      # 노드 라벨 그리기
     for node, (x, y) in pos.items():
         plt.text(x, y, node, fontsize=15, ha='center', va='center', 
