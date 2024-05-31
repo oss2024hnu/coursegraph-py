@@ -74,7 +74,15 @@ class ShowTable:
         except Exception as e:
             print("파일을 읽는 중 오류가 발생했습니다:", e)
             return None
-
+        
+    def dpi_ratio(self,width,height):
+        
+        dpi = width * height
+        # if (dpi> 350 or dpi <=100):
+        #     dpi =350  렌더링이 컴퓨터 부하가 걸리면 주석을 풀고 아래의 코드줄을 지울 것.
+        dpi = 350
+        return dpi
+    
     def make_data(self, data, width, height):
         """
         데이터로부터 테이블을 생성하거나 이미지를 저장한다.
@@ -84,14 +92,15 @@ class ShowTable:
             width: 생성될 테이블의 너비 
             height: 생성될 테이블의 높이
         """
+        
         font_name = font_manager.FontProperties(fname=self.font_path).get_name()
         rc('font', family=font_name)
-
         if '과목' in data:
            df = pd.DataFrame(data['과목'])
            # NaN 값을 빈 문자열로 대체
            df.fillna('', inplace=True)
-           fig, ax = plt.subplots(figsize=(width, height))
+           res = self.dpi_ratio(width,height)
+           fig, ax = plt.subplots(figsize=(width, height),dpi = res)#
            ax.axis('off')
            ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
            ax.set_title('과목 표')
