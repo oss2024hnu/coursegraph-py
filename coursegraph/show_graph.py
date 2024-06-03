@@ -7,6 +7,7 @@ from fontutil import get_system_font
 from typing import Optional, List, Dict, Tuple
 from dataclasses import dataclass
 import matplotlib.patches as mpatches
+from schema_checker import schema
 
 @dataclass
 class EdgeAttributes:
@@ -27,7 +28,7 @@ def read_subjects(filename: str) -> Optional[strictyaml.YAML]:
     try:
         with open(filename, 'r', encoding='UTF8') as file:
             yaml_data = file.read()
-            data = strictyaml.load(yaml_data)
+            data = strictyaml.load(yaml_data, schema)
             return data['과목']
     except FileNotFoundError:
         print("해당하는 파일이 없습니다.", file=sys.stderr)
