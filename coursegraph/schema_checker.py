@@ -77,5 +77,6 @@ def validate_yaml(file_path : str):
         print(f"오류: {e}")
 
 
-file_path = input("파일명을 입력해주세요: ")
-validate_yaml(file_path)
+if __name__ == '__main__':
+    file_path = input("파일명을 입력해주세요: ")
+    validate_yaml(file_path)
