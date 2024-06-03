@@ -6,6 +6,7 @@ import sys
 from fontutil import get_system_font
 from typing import Optional, List, Dict, Tuple
 from dataclasses import dataclass
+import matplotlib.patches as mpatches
 from schema_checker import schema
 
 @dataclass
@@ -64,14 +65,25 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
             
             for i in range(num_positions):
                 adjusted_pos[pos_key][i] = (i - (num_positions - 1) / 2) * spacing
-                
-                
+
+
     return adjusted_pos
+
 
 def cliprint(ref):
     sorted_ref = dict(sorted(ref.items()))
     for key, value in sorted_ref.items():
         print(f"{key}: {value}")
+
+
+def get_edge_color(category : str):
+    colors = {
+        '전기':'red',
+        '전선':'blue',
+        '교필':'green'
+    }
+    return colors.get(category, 'black')
+
 
 def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str, width: int, height: int):
     """
@@ -93,6 +105,8 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     plt.figure(figsize=(width, height))  # 사용자가 지정한 이미지 크기로 설정
     ref ={}
     ind =0
+    edge_color = []
+
     for subject in subjects:
         grade = int(subject['학년'])
         # semester = int(subject['학기'])
@@ -117,9 +131,11 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     
     
      # 노드 라벨 그리기
-    for node, (x, y) in pos.items():
+    for subject in subjects:
+        node = subject['과목명']
+        x, y = pos[node]
         plt.text(x, y, node, fontsize=15, ha='center', va='center', 
-                 bbox=dict(facecolor='skyblue', edgecolor='black', boxstyle='round,pad=0.5'))
+                 bbox=dict(facecolor='white', edgecolor=get_edge_color(subject['구분']), boxstyle='round,pad=0.5', linewidth=3))
         
     nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist, arrowstyle=edge_attrs.arrowstyle, arrowsize=edge_attrs.arrowsize)
     
@@ -137,6 +153,11 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
             plt.axvspan(grade - 0.5, grade + 0.5, color='lightgray', alpha=0.5)
         else:
             plt.axvspan(grade - 0.5, grade + 0.5, color='lightblue', alpha=0.5)
+
+    categories = ['전기', '전선', '교필']
+    colors = ['red', 'blue', 'green']
+    patches = [mpatches.Patch(color=color, label=category) for category, color in zip(categories, colors)]
+    plt.legend(handles=patches, loc='lower right', ncol=3, bbox_to_anchor=(1, -0.05), frameon=False)
 
     if output_file:
         plt.savefig(output_file)
