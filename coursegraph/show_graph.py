@@ -102,7 +102,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     """
 
     font_name = get_system_font()[0]['name']
-   # nodescale, fontscale = adjust_ratio(11) #@@@지우지 말아주세요 노드할때 사용해야합니다
+   
     rc('font', family=font_name)
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)
