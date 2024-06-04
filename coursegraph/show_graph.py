@@ -60,11 +60,15 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
 
     for pos_key, positions in adjusted_pos.items():
         num_positions = len(positions)
-        if num_positions > 1:
-            spacing = 0.6
-            
+        if num_positions > 0:
+            spacing = 0.5
+            init = 0
+
             for i in range(num_positions):
-                adjusted_pos[pos_key][i] = (i - (num_positions - 1) / 2) * spacing
+                #6/3변경점 1
+                adjusted_pos[pos_key][i] = init + spacing
+                init = adjusted_pos[pos_key][i]
+                
 
 
     return adjusted_pos
@@ -98,7 +102,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     """
 
     font_name = get_system_font()[0]['name']
-   # nodescale, fontscale = adjust_ratio(11) #@@@지우지 말아주세요 노드할때 사용해야합니다
+   
     rc('font', family=font_name)
     G = nx.DiGraph()
     adjusted_pos = adjust_coordinates(subjects)
