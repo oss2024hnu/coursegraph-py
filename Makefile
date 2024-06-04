@@ -19,10 +19,10 @@ $(OUTDIR):
 	mkdir $(OUTDIR)
 
 $(OUTDIR)/%_G.png: ./data/%.yaml
-	$(CLICMD) -f graph -i $< -o $@
+	$(CLICMD) -f graph $< -o $@
 
 $(OUTDIR)/%_T.png: ./data/%.yaml
-	$(CLICMD) -f table -i $< -o $@
+	$(CLICMD) -f table $< -o $@
 
 # clean 타겟 정의
 clean_w:
