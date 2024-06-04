@@ -16,10 +16,10 @@ def main():
         )
 
         # Adding command line options
-        parser.add_argument('-i', '--input', type=str, help='Specify the input YAML data file path. (required)')
+        parser.add_argument('input', type=str, help='Specify the input YAML data file path. (required)')
         parser.add_argument('-o', '--output', type=str, help='Specify the output image file path. (optional).')
         parser.add_argument('-f', '--format', choices=['graph', 'table'], default='graph',
-                            help='Sepcify the output format (graph, table). Defaults to graph.')
+                            help='Specify the output format (graph, table). Defaults to graph.')
         parser.add_argument('-s', '--size', type=str, help='Specify the size of the output image in format WIDTHxHEIGHT. (optional). Example: -s 800x600')
         args = parser.parse_args()
 
