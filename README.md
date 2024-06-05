@@ -25,7 +25,6 @@ A CLI utility for processing data.
 
 positional arguments:
   input                 Specify the input YAML data file path. (required)
-                        ex) python3 coursegraph/__main__.py ./data/ai.yaml
 
 options:
   -h, --help            show this help message and exit
