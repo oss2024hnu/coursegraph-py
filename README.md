@@ -19,14 +19,15 @@ onboarding 디렉토리의 문서들을 참고해 주세요
 다음과 같이 `cousergraph/__main__.py`를 파이썬으로 실행시켜 활용한다.
 ```
 oss2024hnu/coursegraph-py$ python coursegraph --help
-usage: coursegraph [-h] [-i INPUT] [-o OUTPUT] [-v] [-f {graph,table}] [-s WIDTH,HEIGHT]
+usage: coursegraph [-h] [-o OUTPUT] [-f {graph,table}] [-s SIZE] input
 
 A CLI utility for processing data.
 
+positional arguments:
+  input                 Specify the input YAML data file path. (required)
+
 options:
   -h, --help            show this help message and exit
-  -i INPUT, --input INPUT
-                        Specify the input YAML data file path. (required)
   -o OUTPUT, --output OUTPUT
                         Specify the output image file path. (optional)
   -v, --verbose         Enable verbose mode.
@@ -37,7 +38,6 @@ options:
 
 Enjoy using the CLI utility!
 ```
-- `-i` 혹은 `--input` 옵션에는 반드시 입력 데이터인 YAML 파일을 필수로 제공해야 함
 - `-o` 혹은 `--output` 옵션에는 생성할 이미지 파일의 이름을 제공하여 이미지를 생성하도록 할 수 있는데, 제공하지 않는 경우 팝업 다이얼로그 창으로 이미지를 띄워서 보여주려고 할 것임 (다만 그래픽을 지원하지 않는 환경에서는 작동하지 않음).
 - `-f graph` 혹은 `--format graph` 옵션을 제공하면 이수체계도를 방향그래프 형태로 보여줌.
   `-f` 혹은 `--foramt` 옵션을 제공하지 않은 경우도 graph 모드로 동작.
