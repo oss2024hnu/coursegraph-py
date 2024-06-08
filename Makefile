@@ -7,7 +7,7 @@ OUT_YAMLS=$(DATA_YAMLS:data%=$(OUTDIR)%)
 OUT_GRAPHS=$(OUT_YAMLS:%.yaml=%_G.png)
 OUT_TABLES=$(OUT_YAMLS:%.yaml=%_T.png)
 
-PYTHON=python3
+PYTHON=python
 CLICMD=$(PYTHON) coursegraph
 
 .PHONY: test delete
