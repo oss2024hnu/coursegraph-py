@@ -1,10 +1,24 @@
 import argparse
 import sys
+import logging
 
 import fontutil
 from show_table import ShowTable
 from show_graph import read_subjects, draw_course_structure, cliprint
 
+def verbose_0():
+    logging.warning('Verbose level 0')
+def verbose_1(width, height, input_file, output_file):
+    logging.info('Verbose level 1 : Summary Information')
+    print('width * height :', width, '*', height)
+    print(f"The input YAML file path has been specified: {input_file}")
+    print(f"The output image file path has been specified: {output_file}")
+def verbose_2(width, height, input_file, output_file):
+    logging.debug('Verbose level 2 : Detailed Developer Information')
+    print('width * height :', width, '*', height)
+    print(f"The input YAML file path has been specified: {input_file}")
+    print(f"The output image file path has been specified: {output_file}")
+    
 
 def main():
     
@@ -21,6 +35,12 @@ def main():
         parser.add_argument('-f', '--format', choices=['graph', 'table'], default='graph',
                             help='Specify the output format (graph, table). Defaults to graph.')
         parser.add_argument('-s', '--size', type=str, help='Specify the size of the output image in format WIDTHxHEIGHT. (optional). Example: -s 800x600')
+        parser.add_argument('-v', '--verbose', type=int, choices = [0, 1, 2],
+                            default = 0, 
+                            help = 'Set the verbose level (optional)\n'
+                            '0 - Minium output, option for end user\n'
+                            '1 - Standard output, informational message\n'
+                            '2 - Debug output, detailed information')
         args = parser.parse_args()
 
         # Accessing the command line options
@@ -36,22 +56,32 @@ def main():
             # Default size
             width, height = 20,10
 
-        if output_file:
-            print(f"The output image file path has been specified: {output_file}")
-        else:
-            show_mode = True
-
         if input_file:
-            print(f"The input YAML file path has been specified: {input_file}")
+            pass
         else:
             parser.print_help(sys.stderr)
             raise Exception("input file not specified")
+
+        if output_file:
+            pass
+        else:
+            show_mode = True
+
+        if args.verbose == 0: # 일반사용자를 위해 아무것도 출력하지 않음
+            logging.basicConfig(level = logging.WARNING)
+            verbose_0()
+        elif args.verbose == 1: # 요약된 정보 출력
+            logging.basicConfig(level = logging.INFO)
+            verbose_1(width, height, input_file, output_file)
+        elif args.verbose == 2: # 상세 정보 출력
+            logging.basicConfig(level = logging.DEBUG)
+            verbose_2(width, height, input_file, output_file)
+        
         if output_format == 'graph':
             subjects = read_subjects(input_file)
-            ref = draw_course_structure(subjects, output_file,width,height)
-            #노드좌표출력
-            cliprint(ref)
-
+            ref = draw_course_structure(subjects, output_file, width, height)
+            if args.verbose == 2:
+                cliprint(ref)
         elif output_format == 'table':
             # kyahnu: 이 부분 --input 과 --output 을 활용하도록 일관된 인터페이스로 수정할 것
             data_processor = ShowTable(not show_mode, input_file, output_file,width,height)
