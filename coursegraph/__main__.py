@@ -34,7 +34,7 @@ def main():
         parser.add_argument('-o', '--output', type=str, help='Specify the output image file path. (optional).')
         parser.add_argument('-f', '--format', choices=['graph', 'table'], default='graph',
                             help='Specify the output format (graph, table). Defaults to graph.')
-        parser.add_argument('-s', '--size', type=str, help='Specify the size of the output image in format WIDTHxHEIGHT. (optional). Example: -s 800x600')
+        parser.add_argument('-s', '--size', type=str, help='Specify the size of the output image in format WIDTH,HEIGHT. Example: -s 20,10', default='20,10')
         parser.add_argument('-v', '--verbose', type=int, choices = [0, 1, 2],
                             default = 0, 
                             help = 'Set the verbose level (optional)\n'
@@ -51,10 +51,14 @@ def main():
         # Perform actions based on options
 
         if args.size:
-            width, height = map(int, args.size.split(','))
+            try:
+                width, height = map(int, args.size.split(','))
+                if width <= 0 or height <= 0:
+                    raise ValueError
+            except ValueError:
+                parser.error("Size must be in the format WIDTH,HEIGHT with positive integer values. Example: -s 20,10")
         else:
-            # Default size
-            width, height = 20,10
+            width, height = 20, 10
 
         if input_file:
             pass
