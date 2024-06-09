@@ -6,6 +6,8 @@ import platform
 import matplotlib.pyplot as plt
 from fontutil import get_system_font
 from matplotlib import font_manager, rc
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 
 class ShowTable:
@@ -74,15 +76,7 @@ class ShowTable:
         except Exception as e:
             print("파일을 읽는 중 오류가 발생했습니다:", e)
             return None
-        
-    def dpi_ratio(self,width,height):
-        
-        dpi = width * height
-        # if (dpi> 350 or dpi <=100):
-        #     dpi =350  렌더링이 컴퓨터 부하가 걸리면 주석을 풀고 아래의 코드줄을 지울 것.
-        dpi = 350
-        return dpi
-    
+
     def make_data(self, data, width, height):
         """
         데이터로부터 테이블을 생성하거나 이미지를 저장한다.
@@ -92,15 +86,14 @@ class ShowTable:
             width: 생성될 테이블의 너비 
             height: 생성될 테이블의 높이
         """
-        
         font_name = font_manager.FontProperties(fname=self.font_path).get_name()
         rc('font', family=font_name)
+
         if '과목' in data:
            df = pd.DataFrame(data['과목'])
            # NaN 값을 빈 문자열로 대체
            df.fillna('', inplace=True)
-           res = self.dpi_ratio(width,height)
-           fig, ax = plt.subplots(figsize=(width, height),dpi = res)#
+           fig, ax = plt.subplots(figsize=(width, height))
            ax.axis('off')
            ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
            ax.set_title('과목 표')
@@ -108,10 +101,35 @@ class ShowTable:
            if self.image_mode:
               if self.output_filename:
                 plt.savefig(self.output_filename)
+                if self.output_filename.endswith('.pdf'):
+                    self.create_pdf(df)
+                else:
+                    self.create_image(df, width, height)
            else:
                 plt.show()
         else:
             print("데이터에 '과목' 정보가 없습니다.")
+
+    def create_pdf(self, df):
+        c = canvas.Canvas(self.output_filename, pagesize=letter)
+        c.setFont("Helvetica", 10)
+        width, height = letter
+
+        x_offset = 50
+        y_offset = height - 50
+        c.drawString(x_offset, y_offset, "과목 표")
+        y_offset -= 30
+
+        for i, col in enumerate(df.columns):
+            c.drawString(x_offset + i * 100, y_offset, col)
+
+        y_offset -= 20
+        for index, row in df.iterrows():
+            for i, item in enumerate(row):
+                c.drawString(x_offset + i * 100, y_offset, str(item))
+            y_offset -= 20
+
+        c.save()
 
     def process_data(self):
         """
@@ -124,4 +142,3 @@ class ShowTable:
 if __name__ == "__main__":
     data_processor = ShowTable(None, False, False)
     data_processor.process_data()
-
