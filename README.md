@@ -71,5 +71,11 @@ PyQt5 desiner 사용법
 - `sudo apt install qttools5-dev-tools`
 - 이후 터미널에서 `desiner` 로 실행
 
+PyQt5 desiner 주의사항
+- PyQt5는 파이썬 3.9까지만 지원가능함.
+- 파이썬 3.10 이상버전에서는 https://www.riverbankcomputing.com/software/pyqt/download 해당경로에서 다운로드 받아서 직접 경로에 넣거나 3.9로 다운그레이드 요망
+
+
+
 ## 참고사항
 - pr과 이슈를 연결하는 법 github docs 링크: https://docs.github.com/ko/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
