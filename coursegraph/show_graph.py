@@ -63,7 +63,7 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
     for pos_key, positions in adjusted_pos.items():
         num_positions = len(positions)
         if num_positions > 0:
-            spacing = 0.5
+            spacing = 0.3
             init = 0
 
             for i in range(num_positions):
@@ -137,6 +137,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
         plt.text(x, y, node, fontsize=15, ha='center', va='center',
                  bbox=dict(facecolor='white', edgecolor=get_edge_color(subject['구분']), boxstyle='round,pad=0.5',
                            linewidth=3))
+######
 
     # 학년 노드 추가
     non_empty_positions = [max(y_values) for y_values in adjusted_pos.values() if y_values]
@@ -151,14 +152,17 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
         x, y = pos[f"{grade}학년"]
         bbox_props = dict(boxstyle=f"round,pad=0.5", ec='black', lw=2, facecolor='white')
         plt.text(x, y, f"{grade}학년", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
-
+######
     nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist,
                            arrowstyle=edge_attrs.arrowstyle,
                            arrowsize=edge_attrs.arrowsize)
-
+    
+    
     plt.title("과목 이수 체계도")
     plt.xlabel('학년')
     plt.ylabel('학기')
+    #그래프상하좌우여백
+    plt.subplots_adjust(left=0.03,bottom=0.07,right=0.98,top=0.95)
     plt.xticks(range(1, 5))  # 학년
     plt.yticks(range(1, 3))  # 학기
     plt.gca().invert_yaxis()
