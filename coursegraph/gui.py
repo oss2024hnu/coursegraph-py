@@ -103,6 +103,9 @@ class WindowClass(QMainWindow, form_class):
                 self.label.setPixmap(pixmap)
                 self.label.setScaledContents(True)  # 이미지 크기에 맞게 QLabel 크기 조정
                 self.label.adjustSize()  # QLabel 크기 조정
+                self.adjustSize() # 윈도우 크기 조정
+                self.statusBar().showMessage(f"Opened image: {filename}", 5000) # 상태바에 메시지 표시
+                self.addRecentFile(filename) # 최근 파일 목록에 추가
             else:
                 QMessageBox.warning(self, "유효하지 않은 이미지 파일입니다.")
         else:
