@@ -108,7 +108,28 @@ class ShowTable:
             else:
                 plt.show()
         else:
-            print("데이터에 '과목' 정보가 없습니다.")
+            print("데이터에 '과목' 정보가 없습니다.") 
+            
+    def create_pdf(self, df):
+        c = canvas.Canvas(self.output_filename, pagesize=letter)
+        c.setFont("Helvetica", 10)
+        width, height = letter
+
+        x_offset = 50
+        y_offset = height - 50
+        c.drawString(x_offset, y_offset, "과목 표")
+        y_offset -= 30
+
+        for i, col in enumerate(df.columns):
+            c.drawString(x_offset + i * 100, y_offset, col)
+
+        y_offset -= 20
+        for index, row in df.iterrows():
+            for i, item in enumerate(row):
+                c.drawString(x_offset + i * 100, y_offset, str(item))
+            y_offset -= 20
+
+        c.save()
 
     def process_data(self):
         """
