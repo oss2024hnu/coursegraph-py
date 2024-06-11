@@ -9,6 +9,8 @@ from matplotlib import font_manager, rc
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
+logging.basicConfig(filename='app.log', level=logging.INFO, 
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 class ShowTable:
     """
