@@ -151,6 +151,10 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
         x, y = pos[f"{grade}학년"]
         bbox_props = dict(boxstyle=f"round,pad=0.5", ec='black', lw=2, facecolor='white')
         plt.text(x, y, f"{grade}학년", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
+         
+        nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist,
+                           arrowstyle=edge_attrs.arrowstyle,
+                           arrowsize=edge_attrs.arrowsize)
 
     # 학기 노드 추가
     max_x = max([x for x, y in pos.values()]) + 0.3  # x 좌표의 최대값
@@ -191,7 +195,14 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
 
     categories = ['전기', '전선', '교필']
     colors = ['red', 'blue', 'green']
-    patches = [mpatches.Patch(color=color, label=category) for category, color in zip(categories, colors)]
+    
+    patches = [] # 객체들을 담을 리스트 초기화
+
+    # 각 범중와 색상 쌍을 처리하여 객체 생성
+    for category, color in zip(categories, colors):
+        patch = mpatches.Patch(color=color, label=category)
+        patches.append(patch)
+
     plt.legend(handles=patches, loc='lower right', ncol=3, bbox_to_anchor=(1, -0.05), frameon=False)
 
     if output_file:
