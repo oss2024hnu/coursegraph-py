@@ -196,9 +196,9 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     categories = ['전기', '전선', '교필']
     colors = ['red', 'blue', 'green']
     
-    patches = [] # 객체들을 담을 리스트 초기화
+    patches = [] # Patch 객체들을 담을 리스트 초기화
 
-    # 각 범중와 색상 쌍을 처리하여 객체 생성
+    # 각 범주와 색상 쌍을 처리하여 Patch 객체 생성
     for category, color in zip(categories, colors):
         patch = mpatches.Patch(color=color, label=category)
         patches.append(patch)
