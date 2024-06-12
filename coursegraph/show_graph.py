@@ -152,10 +152,6 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
         bbox_props = dict(boxstyle=f"round,pad=0.5", ec='black', lw=2, facecolor='white')
         plt.text(x, y, f"{grade}학년", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
          
-        nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist,
-                           arrowstyle=edge_attrs.arrowstyle,
-                           arrowsize=edge_attrs.arrowsize)
-
     # 학기 노드 추가
     max_x = max([x for x, y in pos.values()]) + 0.3  # x 좌표의 최대값
     semester_positions = [1.5, 4.5] # 각 학기의 y 좌표 
