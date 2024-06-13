@@ -6,8 +6,6 @@ import platform
 import matplotlib.pyplot as plt
 from fontutil import get_system_font
 from matplotlib import font_manager, rc
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
 
 
 class ShowTable:
@@ -21,18 +19,17 @@ class ShowTable:
         __init__: 클래스 생성자
         get_system_font: 시스템 폰트 확인
         read_subjects: Yaml 데이터 파싱
-        make_data:
-        process_data:
+        make_data: 테이블 생성
+        process_data: 데이터를 처리하고 테이블 생성
     """
-    def __init__(self, image_mode, input_filepath, output_filename,width = None, height = None):
-        self.script_dir = os.path.dirname(os.path.abspath(__file__))
+    def __init__(self, image_mode, input_filepath, output_filename, width=None, height=None):
         self.font_path = self.get_system_font()
         self.filename = input_filepath
         self.output_filename = output_filename
         self.image_mode = image_mode
-        self.width = width
-        self.height = height 
-        
+        self.width = width or 10  # 기본 너비 설정
+        self.height = height or 6  # 기본 높이 설정
+
     def get_system_font(self):
         """
         시스템 폰트의 파일 경로를 가져옵니다.
@@ -48,10 +45,10 @@ class ShowTable:
         try:
             for font_info in system_fonts:
                 return font_info['file']
-        except:
+        except Exception:
             print("시스템내에 적합한 한글 폰트 파일을 찾을 수 없습니다.")
             sys.exit(2)
-                    
+
     def read_subjects(self):
         """
         테이블을 생성하는데 있어서 필요한 데이터를 가져옵니다.
@@ -77,6 +74,13 @@ class ShowTable:
             print("파일을 읽는 중 오류가 발생했습니다:", e)
             return None
 
+    def dpi_ratio(self, width, height):
+        dpi = width * height
+        # if (dpi > 350 or dpi <= 100):
+        #     dpi = 350  # 렌더링이 컴퓨터 부하가 걸리면 주석을 풀고 아래의 코드줄을 지울 것.
+        dpi = 350
+        return dpi
+
     def make_data(self, data, width, height):
         """
         데이터로부터 테이블을 생성하거나 이미지를 저장한다.
@@ -88,28 +92,24 @@ class ShowTable:
         """
         font_name = font_manager.FontProperties(fname=self.font_path).get_name()
         rc('font', family=font_name)
-
         if '과목' in data:
-           df = pd.DataFrame(data['과목'])
-           # NaN 값을 빈 문자열로 대체
-           df.fillna('', inplace=True)
-           fig, ax = plt.subplots(figsize=(width, height))
-           ax.axis('off')
-           ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2]*len(df.columns))
-           ax.set_title('과목 표')
-           plt.tight_layout()
-           if self.image_mode:
-              if self.output_filename:
-                plt.savefig(self.output_filename)
-                if self.output_filename.endswith('.pdf'):
-                    self.create_pdf(df)
-                else:
-                    self.create_image(df, width, height)
-           else:
+            df = pd.DataFrame(data['과목'])
+            # NaN 값을 빈 문자열로 대체
+            df.fillna('', inplace=True)
+            res = self.dpi_ratio(width, height)
+            fig, ax = plt.subplots(figsize=(width, height), dpi=res)
+            ax.axis('off')
+            ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2] * len(df.columns))
+            ax.set_title('과목 표')
+            plt.tight_layout()
+            if self.image_mode:
+                if self.output_filename:
+                    plt.savefig(self.output_filename)
+            else:
                 plt.show()
         else:
-            print("데이터에 '과목' 정보가 없습니다.")
-
+            print("데이터에 '과목' 정보가 없습니다.") 
+            
     def create_pdf(self, df):
         c = canvas.Canvas(self.output_filename, pagesize=letter)
         c.setFont("Helvetica", 10)
@@ -137,8 +137,10 @@ class ShowTable:
         """
         subjects = self.read_subjects()
         if subjects:
-            self.make_data(subjects,self.width,self.height)
+            self.make_data(subjects, self.width, self.height)
+
 
 if __name__ == "__main__":
-    data_processor = ShowTable(None, False, False)
+    # 필요한 인자를 전달하여 객체 생성
+    data_processor = ShowTable(image_mode=True, input_filepath="input.yaml", output_filename="output.png", width=10, height=6)
     data_processor.process_data()
