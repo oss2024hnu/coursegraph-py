@@ -10,7 +10,13 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
         semester = int(subject['학기'])
         sd[(grade, semester)].append( subject )
     
-    graph = gvgen.GvGen()
+    graph = gvgen.GvGen(options="rankdir=TB;ranksep=1.25;")
+
+    graph.styleAppend("note", "shape", "note") # node shape note
+
+    graph.styleAppend("dashed", "color", "green")
+    graph.styleAppend("dashed", "style", "dashed")
+
     subGitems = [((1,1), graph.newItem("1-1")), ((1,2), graph.newItem("1-2")),
                  ((2,1), graph.newItem("2-1")), ((2,2), graph.newItem("2-2")),
                  ((3,1), graph.newItem("3-1")), ((3,2), graph.newItem("3-2")),
@@ -20,21 +26,27 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
     for key, subG in sorted(subGdict.items(), key=lambda x: x[0], reverse=True):
         for subject in sd[key]:
             node = graph.newItem(subject['과목명'], subG)
+            graph.styleApply("note",node)
             nd[subject['과목명']] = node
             nodedict[key].append(node)
 
-    maxh = max(map(len,nodedict.values()))
-
     for key, ns in nodedict.items():
-        for _ in range(maxh - len(ns)):
-            node = graph.newItem("", subGdict[key])
-            nodedict[key].append( node )
+        # if len(ns)==0:
+             node = graph.newItem("", subGdict[key])
+             graph.styleApply("dashed",node)
+             nodedict[key].insert(0, node)
 
-    graph.styleAppend("dashed", "color", "green")
-    graph.styleAppend("dashed", "style", "dashed")
+    # maxh = max(map(len,nodedict.values()))
+    # for key, ns in nodedict.items():
+    #     for _ in range(maxh - len(ns)):
+    #         node = graph.newItem("\t \t", subGdict[key])
+    #         graph.styleApply("dashed",node)
+    #         nodedict[key].append( node )
+
     nodeitems = sorted(nodedict.items(), key=lambda x: x[0])
     for (_,ns1),(_,ns2) in zip(nodeitems, nodeitems[1:]):
-        for n1,n2 in zip(ns1,ns2):
+            n1,n2 = ns1[0],ns2[0]
+        # for n1,n2 in zip(ns1,ns2):
             e = graph.newLink(n1,n2)
             graph.styleApply("dashed",e)
 
