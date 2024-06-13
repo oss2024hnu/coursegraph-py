@@ -1,7 +1,6 @@
 import strictyaml
 from typing import *
 import gvgen
-from random import shuffle
 
 def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
     nd = {} # dict from name to node 
@@ -28,16 +27,13 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
 
     for key, ns in nodedict.items():
         for _ in range(maxh - len(ns)):
-            nodedict[key].append( graph.newItem("", subGdict[key]) )
+            node = graph.newItem("", subGdict[key])
+            nodedict[key].append( node )
 
     graph.styleAppend("dashed", "color", "green")
     graph.styleAppend("dashed", "style", "dashed")
     nodeitems = sorted(nodedict.items(), key=lambda x: x[0])
     for (_,ns1),(_,ns2) in zip(nodeitems, nodeitems[1:]):
-        ns1 = ns1[:]
-        ns2 = ns2[:]
-        shuffle(ns1)
-        shuffle(ns2)
         for n1,n2 in zip(ns1,ns2):
             e = graph.newLink(n1,n2)
             graph.styleApply("dashed",e)
