@@ -75,10 +75,9 @@ class ShowTable:
             return None
 
     def dpi_ratio(self, width, height):
-        dpi = width * height
-        if (dpi > 350 or dpi <= 100):
-            
-            dpi = 350  # 렌더링이 컴퓨터 부하가 걸리면 주석을 풀고 아래의 코드줄을 지울 것.
+        #dpi = width * height
+        
+        dpi = 100
         return dpi
 
     def make_data(self, data, width, height):
