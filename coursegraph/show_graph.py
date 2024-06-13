@@ -78,13 +78,33 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
     return adjusted_pos
 
 
-def cliprint(ref):
+def cliprint(ref: dict):
+    """
+    CLI 상에서 ref 의 값을 출력해주는 함수입니다.
+
+    Parameter:
+    ref (dict) : 키값이 과목, 학기 들로 구성되어 있는 딕셔너리입니다.
+
+    return:
+    해당 함수는 반환값이 없습니다.
+
+    """
     sorted_ref = dict(sorted(ref.items()))
     for key, value in sorted_ref.items():
         print(f"{key}: {value}")
 
 
-def get_edge_color(category: str):
+def get_edge_color(category: str) -> str:
+    """
+    각 edge 의 컬러를 결정해주는 함수입니다. category 값을 기반으로 컬러를 결정합니다.
+
+    Parameters:
+    category (str) : 과목이 전선, 전기, 교필 중에 무엇인지 알려주는 문자열입니다.
+
+    return:
+    colors 에서 알맞은 값을 찾아 해당 컬러의 문자열을 반환해줍니다. 아무것도 해당하지 않는다면 black을 반환합니다.
+
+    """
     colors = {
         '전기': 'red',
         '전선': 'blue',
@@ -100,9 +120,11 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     Parameters:
     subjects (Optional[strictyaml.YAML]) : 파싱된 과목 부분의 strictyaml.YAML 유형 데이터를 받습니다.
     output_file (str) : 출력 데이터를 저장할 경로와 이름입니다.
+    width (int) : 사용자 임의 너비값입니다.
+    height (int) : 사용자 임의 높이값입니다.
 
     return:
-    이 함수는 반환값이 없습니다.
+    키값쌍이 과목, 학기 로 구성되어 있는 dict 자료형을 반환합니다.
     """
 
     font_name = get_system_font()[0]['name']
