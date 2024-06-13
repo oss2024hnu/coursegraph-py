@@ -13,10 +13,10 @@ onboarding 디렉토리의 문서들을 참고해 주세요
    2) Codespace 중지를 클릭
    3) Codespace를 다시 재시작
 3. Codespace 실행 후 정상적으로 작동하는지 확인
-    'python coursegraph -i data/input.yaml -o out.png' 명령어 실행
+    'python coursegraph data/input.yaml -o out.png' 명령어 실행
 
 ### CLI 사용법
-다음과 같이 `cousergraph/__main__.py`를 파이썬으로 실행시켜 활용한다.
+다음과 같이 `coursegraph/__main__.py`를 파이썬으로 실행시켜 활용한다.
 ```
 oss2024hnu/coursegraph-py$ python coursegraph --help
 usage: coursegraph [-h] [-o OUTPUT] [-f {graph,table}] [-s SIZE] input
