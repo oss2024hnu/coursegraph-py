@@ -4,3 +4,4 @@ strictyaml
 pandas
 PyQt5
 reportlab
+gvgen
