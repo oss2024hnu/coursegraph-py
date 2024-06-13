@@ -23,6 +23,7 @@ $(OUTDIR)/%_G.dot: ./data/%.yaml
 	$(CLICMD) -f dot $< -o $@ 
 	# $(CLICMD) -f dot $< -o $@ -v 1 # 아직 dot에는 verbose level 적용안됨
 	# $(CLICMD) -f dot $< -o $@ -v 2 # 아직 dot에는 verbose level 적용안됨
+	- dot -Tsvg -O $@  # graphviz dot 유틸리티로 svg생성 (실패해도 넘어감)
 
 $(OUTDIR)/%_G.png: ./data/%.yaml
 	$(CLICMD) -f graph $< -o $@ 
