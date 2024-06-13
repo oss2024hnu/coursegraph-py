@@ -50,6 +50,10 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
     return:
     좌표가 조정되어야 할 부분이 dict 자료형으로 반환됩니다.
     """
+
+    if subjects is None:
+        return {}
+        
     adjusted_pos = {}
 
     for subject in subjects:
