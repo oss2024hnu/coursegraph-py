@@ -3,8 +3,18 @@ import sys
 import strictyaml
 from strictyaml import EmptyList
 
+
 # 과목명,트랙,마이크로디그리,선수과목에는 문자만 사용되었는지 확인하는 함수
-def validate_string_or_sequence(value):
+def validate_string_or_sequence(value : str) -> str:
+    """
+    과목명, 트랙, 마이크로디그리, 선수 과목에 문자만 사용되었는지 확인하는 함수입니다.
+
+    parameter:
+    value(str) : 과목 하나당 문자열
+
+    return:
+    값이 유효하다면 value를 반환학고, 그렇지 않다면 ValueError 를 발생시킵니다.
+    """
     if value is None or value ==  None:
         value
         return value
@@ -35,7 +45,17 @@ schema = strictyaml.Map({
     }))
 })
 
-def validate_yaml(file_path):
+
+def validate_yaml(file_path : str):
+    """
+    데이터가 들어있는 yaml 파일의 유효성을 검사합니다. validate_string_or_sequence 함수를 사용합니다.
+
+    Parameter:
+    file_path(str) : yaml 파일의 경로
+
+    return:
+    반환값은 없습니다 하지만 유효하지 않다면, ValueError 를 출력합니다.
+    """
     try:
         with open(file_path, 'r', encoding='UTF8') as file:
             yaml_content = file.read()
@@ -57,5 +77,10 @@ def validate_yaml(file_path):
         print(f"오류: {e}")
 
 
-file_path = input("파일명을 입력해주세요: ")
-validate_yaml(file_path)
+def main():
+    file_path = input("파일명을 입력해주세요: ")
+    validate_yaml(file_path)
+
+
+if __name__ == '__main__':
+    main()

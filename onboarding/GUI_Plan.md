@@ -1,7 +1,6 @@
 GUI 계획도
 
-<img src="https://media.discordapp.net/attachments/819067866972160012/1240612836753932298/image.png?ex=6647323d&is=6645e0bd&hm=d20c36274879bf1e708ddbf77f232cdf6f593a07376f6ad8099f19c50082e906&=&format=webp&quality=lossless&width=1237&height=676" height = 676>
-
+![GUI구상도](https://github.com/SiRyung/coursegraph-py/blob/main/onboarding/GUI%EA%B5%AC%EC%83%81%EB%8F%84.PNG)
 간단하게는 위 사진처럼 예상을 그리고 있습니다.
 
 
