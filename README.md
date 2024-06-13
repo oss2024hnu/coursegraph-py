@@ -13,10 +13,10 @@ onboarding 디렉토리의 문서들을 참고해 주세요
    2) Codespace 중지를 클릭
    3) Codespace를 다시 재시작
 3. Codespace 실행 후 정상적으로 작동하는지 확인
-    'python coursegraph -i data/input.yaml -o out.png' 명령어 실행
+    'python coursegraph data/input.yaml -o out.png' 명령어 실행
 
 ### CLI 사용법
-다음과 같이 `cousergraph/__main__.py`를 파이썬으로 실행시켜 활용한다.
+다음과 같이 `coursegraph/__main__.py`를 파이썬으로 실행시켜 활용한다.
 ```
 oss2024hnu/coursegraph-py$ python coursegraph --help
 usage: coursegraph [-h] [-o OUTPUT] [-f {graph,table}] [-s SIZE] input
@@ -57,19 +57,25 @@ PyQt5 desiner 사용법
 -  Windows (터미널)
 - pip install pyqt5
 - pip install pyqt5-tools
-- 이후 본인 python 설치 폴더 내부 \Lib\site-packages\qt5_applications\Qt\bin 내부에 있는 desiner 실행
+- 이후 본인 python 설치 폴더 내부 \Lib\site-packages\qt5_applications\Qt\bin 내부에 있는 designer 실행
 
 - MacOS (터미널 OR VScode)
 - pip install pyqt
 - pip install pyqt5-tools
-- 이후 본인 python 설치 폴더 내부 \Lib\site-packages\qt5_applications\Qt\bin 내부에 있는 desiner 실행
+- 이후 본인 python 설치 폴더 내부 \Lib\site-packages\qt5_applications\Qt\bin 내부에 있는 designer 실행
 
 - 데비안 계열(우분투 등) Linux (터미널)
 - `pip3 install pyqt5`  (시스템에 따라서는 pip3가 아니라 pip로 실행해도 되는 경우도 있음)
 - `sudo apt install python3-pyqt5`
 - `sudo apt install pyqt5-dev-tools`
 - `sudo apt install qttools5-dev-tools`
-- 이후 터미널에서 `desiner` 로 실행
+- 이후 터미널에서 `designer` 로 실행
+
+PyQt5 desiner 주의사항
+- PyQt5는 파이썬 3.9까지만 지원가능함.
+- 파이썬 3.10 이상버전에서는 https://www.riverbankcomputing.com/software/pyqt/download 해당경로에서 다운로드 받아서 직접 경로에 넣거나 3.9로 다운그레이드 요망
+
+
 
 ## 참고사항
 - pr과 이슈를 연결하는 법 github docs 링크: https://docs.github.com/ko/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
