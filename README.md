@@ -30,7 +30,12 @@ options:
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
                         Specify the output image file path. (optional)
-  -v, --verbose         Enable verbose mode.
+  -v, --verbose {0, 1, 2}
+                        Specify the level of output of information
+                        Set the verbose level (optional)
+                        0 - Minimun option, option for end user
+                        1 - Standard option, informational message
+                        2 - Debug option, detailed information, for programmer 
   -f {graph,table}, --format {graph,table}
                         Sepcify the output format (graph, table). Defaults to graph.
   -s WIDTH,HEIGHT , --size WIDTH,HEIGHT 
@@ -44,6 +49,8 @@ Enjoy using the CLI utility!
 - `-f table` 혹은 `--format table` 옵션을 주었을 경우, yaml 파일의 전체 내용을 한꺼번에 보기 좋은 표의 형태로 보여준다.
 - '-s WIDTH,HEIGHT' 혹은 '--size WIDTH,HEIGHT' 옵션을 제공했을 경우 이미지의 크기를 가로,세로의 입력값으로 지정해준다.
   '-s' 혹은 '--size' 옵션을 제공하지 않은 경우에는 이미지의 크기는 10,20 으로 지정된다. 
+  `-v {0,1,2}` 혹은 `--verbose {0,1,2}` 옵션을 제공했을 경우 출력되는 정보의 상세 수준을 지정한다. 0은 최소한의 출력, 1은 요약 정보, 2는 상세 디버그 정보를 출력한다.
+  '-v' 혹은 '--verbose' 옵션을 제공하지 않는 경우에는 최소한의 출력으로 보여준다.
 
 ### GUI 사용법
 coursegraph-py/coursegraph로 이동한 다음 'python gui.py'를 터미널에 넣고 실행하면 gui화면이 나온다.
