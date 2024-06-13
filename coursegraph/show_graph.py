@@ -186,10 +186,8 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     plt.gca().invert_yaxis()
     plt.grid(True)  # 그리드 표시
 
-    min_y = min(y for _, y in pos.values())
-    max_y = max(y for _, y in pos.values())
-    center_y = (min_y + max_y) / 1.75
-    plt.axhline(center_y, color='black', linestyle='-', linewidth=2)
+    
+    plt.axhline(2, color='black', linestyle='-', linewidth=2)
 
     # 학년별로 배경색 설정
     for grade in range(1, 5):
