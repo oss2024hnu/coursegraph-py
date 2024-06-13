@@ -50,6 +50,10 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
     return:
     좌표가 조정되어야 할 부분이 dict 자료형으로 반환됩니다.
     """
+
+    if subjects is None:
+        return {}
+        
     adjusted_pos = {}
 
     for subject in subjects:
@@ -63,7 +67,7 @@ def adjust_coordinates(subjects: Optional[strictyaml.YAML]) -> Dict[Tuple[int, i
     for pos_key, positions in adjusted_pos.items():
         num_positions = len(positions)
         if num_positions > 0:
-            spacing = 0.5
+            spacing = 0.3
             init = 0
 
             for i in range(num_positions):
@@ -137,6 +141,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
         plt.text(x, y, node, fontsize=15, ha='center', va='center',
                  bbox=dict(facecolor='white', edgecolor=get_edge_color(subject['구분']), boxstyle='round,pad=0.5',
                            linewidth=3))
+######
 
     # 학년 노드 추가
     non_empty_positions = [max(y_values) for y_values in adjusted_pos.values() if y_values]
@@ -152,17 +157,39 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
         bbox_props = dict(boxstyle=f"round,pad=0.5", ec='black', lw=2, facecolor='white')
         plt.text(x, y, f"{grade}학년", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
 
+    # 학기 노드 추가
+    max_x = max([x for x, y in pos.values()]) + 0.3  # x 좌표의 최대값
+    semester_positions = [1.5, 4.5] # 각 학기의 y 좌표 
+    for semester in range(1, 3):  # 1학기, 2학기
+        G.add_node(f"{semester}학기", pos=(max_x - 4.15, semester_positions[semester-1]))
+
+    pos = nx.get_node_attributes(G, 'pos')
+
+    for semester in range(1, 3):  # 1학기, 2학기
+        x, y = pos[f"{semester}학기"]
+        bbox_props = dict(boxstyle=f"round,pad=0.5", ec='black', lw=2, facecolor='white')
+        plt.text(x, y, f"{semester}학기", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
+
+
     nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist,
                            arrowstyle=edge_attrs.arrowstyle,
                            arrowsize=edge_attrs.arrowsize)
-
+    
+    
     plt.title("과목 이수 체계도")
     plt.xlabel('학년')
     plt.ylabel('학기')
+    #그래프상하좌우여백
+    plt.subplots_adjust(left=0.03,bottom=0.07,right=0.98,top=0.95)
     plt.xticks(range(1, 5))  # 학년
     plt.yticks(range(1, 3))  # 학기
     plt.gca().invert_yaxis()
     plt.grid(True)  # 그리드 표시
+
+    min_y = min(y for _, y in pos.values())
+    max_y = max(y for _, y in pos.values())
+    center_y = (min_y + max_y) / 1.75
+    plt.axhline(center_y, color='black', linestyle='-', linewidth=2)
 
     # 학년별로 배경색 설정
     for grade in range(1, 5):
@@ -173,7 +200,14 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
 
     categories = ['전기', '전선', '교필']
     colors = ['red', 'blue', 'green']
-    patches = [mpatches.Patch(color=color, label=category) for category, color in zip(categories, colors)]
+    
+    patches = [] # Patch 객체들을 담을 리스트 초기화
+
+    # 각 범주와 색상 쌍을 처리하여 Patch 객체 생성
+    for category, color in zip(categories, colors):
+        patch = mpatches.Patch(color=color, label=category)
+        patches.append(patch)
+
     plt.legend(handles=patches, loc='lower right', ncol=3, bbox_to_anchor=(1, -0.05), frameon=False)
 
     if output_file:

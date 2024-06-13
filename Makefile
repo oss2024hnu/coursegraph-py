@@ -19,11 +19,14 @@ $(OUTDIR):
 	mkdir $(OUTDIR)
 
 $(OUTDIR)/%_G.png: ./data/%.yaml
-	$(CLICMD) -f graph $< -o $@
+	$(CLICMD) -f graph $< -o $@ 
+	$(CLICMD) -f graph $< -o $@ -v 1
+	$(CLICMD) -f graph $< -o $@ -v 2
 
 $(OUTDIR)/%_T.png: ./data/%.yaml
 	$(CLICMD) -f table $< -o $@
-
+	$(CLICMD) -f table $< -o $@ -v 1
+	$(CLICMD) -f table $< -o $@ -v 2
 # clean 타겟 정의
 clean_w:
 	rmdir /s /q $(OUTDIR)
