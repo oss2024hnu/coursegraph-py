@@ -5,6 +5,7 @@ import logging
 import fontutil
 from show_table import ShowTable
 from show_graph import read_subjects, draw_course_structure, cliprint
+from show_dot import print_dot
 
 def verbose_0():
     logging.warning('Verbose level 0')
@@ -87,7 +88,9 @@ def main():
             if args.verbose == 2:
                 cliprint(ref)
         elif output_format == 'dot':
-            raise Exception(f"cannot handle output format {output_format}") # 아직 dot 파일 형식에 대한 내용 없음
+            subjects = read_subjects(input_file)
+            print_dot(subjects, output_file)
+            # raise Exception(f"cannot handle output format {output_format}") # 아직 dot 파일 형식에 대한 내용 없음
         elif output_format in ['table', 'pdf']:
             data_processor = ShowTable(not show_mode, input_file, output_file, width, height)
             data_processor.process_data()
