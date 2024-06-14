@@ -18,8 +18,7 @@ OUT_TABLES=$(OUT_YAMLS:%.yaml=%_T.png)
 .PHONY: test delete clean_w clean_m
 
 # test 타겟 정의
-test: $(OUTDIR) $(OUT_GRAPHS) $(OUT_TABLES)
-#test: $(OUTDIR) $(OUT_DOTS) $(OUT_GRAPHS) $(OUT_TABLES)
+test: $(OUTDIR) $(OUT_DOTS) $(OUT_GRAPHS) $(OUT_TABLES)
 
 $(OUTDIR):
 	mkdir $(OUTDIR)
