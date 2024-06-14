@@ -208,7 +208,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
 
     min_y = min(y for _, y in pos.values())
     max_y = max(y for _, y in pos.values())
-    center_y = (min_y + max_y) / 1.75
+    center_y = (min_y + max_y) / 1.7
     plt.axhline(center_y, color='black', linestyle='-', linewidth=2)
 
     # 학년별로 배경색 설정
