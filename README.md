@@ -82,7 +82,30 @@ PyQt5 desiner 주의사항
 - PyQt5는 파이썬 3.9까지만 지원가능함.
 - 파이썬 3.10 이상버전에서는 https://www.riverbankcomputing.com/software/pyqt/download 해당경로에서 다운로드 받아서 직접 경로에 넣거나 3.9로 다운그레이드 요망
 
+dot 사용법
 
+-현재 디렉토리의 파일 목록을 표시하는 방법은 'ls .' 명령어를 사용하면 됩니다.
+
+-현재 디렉토리에서 'myfile.txt' 파일을 편집하는 방법은 'nano ./myfile.txt' 명령어를 사용하면 됩니다.
+
+-현재 디렉토리의 숨김 파일 포함 모든 파일 목록을 표시할 수 있는 방법은
+-ls -a
+
+-숨김 파일 생성방법으로는 아래의 명령어들을 사용하면 됩니다.
+-touch .hiddenfile
+-현재 셸에서 'script.sh'를 실행하려면 '.'명령어는 쉘 스크립트를 현재 셸에서 실행합니다.
+-. script.sh
+
+-두 개의 Dot (..)은 상위 디렉토리를 의미합니다. 파일 경로나 명령어에서 상위 디렉토리를 지정할 때 사용합니다. 예를 들어서 아래의 명령어들을 사용하면 됩니다.
+-상위 디렉토리로 이동하려면 'cd ..' 명령어를 사용해야합니다.
+-상위 디렉토리의 파일 목록을 표시하려면 'ls ..' 명령어를 사용해야합니다.
+
+-Dot(.)을 사용하여 상대 경로를 지정하기 위해서는 아래의 명령어들을 사용해야합니다.
+-현재 디렉토리의 'subdir' 디렉토리로 이동하려면 'cd ./subdir' 명령어를 사용해야합니다.
+-현재 디렉토리의 상위 디렉토리의 'file.txt' 파일을 편집하기 위해서는 'nano ../file.txt' 명령어를 사용해야합니다.
+
+-환경 변수 설정 (Bash 예제)로 사용하면
+-# 'myenv.sh' 파일에서 환경 변수를 설정하기 위해선 '. ./myenv.sh' 명령어를 사용하면 됩니다.
 
 ## 참고사항
 - pr과 이슈를 연결하는 법 github docs 링크: https://docs.github.com/ko/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
