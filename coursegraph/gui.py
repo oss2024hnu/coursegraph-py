@@ -96,6 +96,7 @@ class WindowClass(QMainWindow, form_class):
         
 
     def openFunction(self):
+        initial_dir = os.path.expanduser("~")  # 사용자 홈 디렉토리 경로
         filename, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Image Files (*.png *.jpg *.bmp *.gif)")
         if filename:  # 파일이 선택되었는지 확인
             pixmap = QPixmap(filename)  # 파일을 QPixmap 객체로 로드
@@ -116,6 +117,7 @@ class WindowClass(QMainWindow, form_class):
 
     def saveAsFunction(self):
         try:
+            initial_dir = os.path.expanduser("~")  # 사용자 홈 디렉토리 경로
             filename, _ = QFileDialog.getSaveFileName(self, "Save Image As", "", "PNG Files (*.png);;JPEG Files (*.jpg);;BMP Files (*.bmp);;GIF Files (*.gif)")
             if filename:  # 파일이 선택되었는지 확인
                 pixmap = self.label.pixmap()  # QLabel에 표시된 이미지 가져오기
