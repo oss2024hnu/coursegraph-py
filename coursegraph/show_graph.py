@@ -8,7 +8,11 @@ from typing import Optional, List, Dict, Tuple
 from dataclasses import dataclass
 import matplotlib.patches as mpatches
 from schema_checker import schema
+import logging
 
+# 로깅 설정
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 @dataclass
 class EdgeAttributes:
@@ -34,10 +38,10 @@ def read_subjects(filename: str) -> Optional[strictyaml.YAML]:
             data = strictyaml.load(yaml_data, schema)
             return data['과목']
     except FileNotFoundError:
-        print("해당하는 파일이 없습니다.", file=sys.stderr)
+        logger.error("해당하는 파일이 없습니다.")
         return None
     except strictyaml.YAMLValidationError as e:
-        print(f"YAML 데이터가 잘못되어있습니다: {e}", file=sys.stderr)
+        logger.error(f"YAML 데이터가 잘못되어 있습니다: {e}")
         return None
 
 
@@ -137,6 +141,10 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     plt.figure(figsize=(width, height))  # 사용자가 지정한 이미지 크기로 설정
     ref = {}
     ind = 0
+
+    if subjects is None:
+        logger.error("과목 데이터가 없습니다.")
+        return
 
     for subject in subjects:
         grade = int(subject['학년'])
