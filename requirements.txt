@@ -1,7 +1,7 @@
-matplotlib
-networkx
-strictyaml
-pandas
-PyQt5
-reportlab
-gvgen
+matplotlib ==3.9.0
+networkx ==3.3
+strictyaml ==1.7.3
+pandas == 2.2.2
+PyQt5 == 5.15.10
+reportlab == 4.2.0
+gvgen == 1.0
