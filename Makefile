@@ -8,7 +8,19 @@ OUT_DOTS=$(OUT_YAMLS:%.yaml=%_G.dot)
 OUT_GRAPHS=$(OUT_YAMLS:%.yaml=%_G.png)
 OUT_TABLES=$(OUT_YAMLS:%.yaml=%_T.png)
 
-PYTHON=python
+PYTHON := $(shell \
+  if command -v python3 > /dev/null 2>&1; then \
+    echo python3; \
+  elif command -v python > /dev/null 2>&1; then \
+    echo python; \
+  elif where python3 > nul 2>&1; then \
+    echo python3; \
+  elif where python > nul 2>&1; then \
+    echo python; \
+  else \
+    echo ""; \
+  fi \
+)
 CLICMD=$(PYTHON) coursegraph
 
 .PHONY: test delete
