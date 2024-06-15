@@ -92,11 +92,7 @@ class ShowTable:
         font_name = font_manager.FontProperties(fname=self.font_path).get_name()
         rc('font', family=font_name)
         if '과목' in data:
-            df = pd.DataFrame(data['과목'])
-            # NaN 값을 빈 문자열로 대체
-            df.fillna('', inplace=True)
-            # DataFrame을 스택 형태로 변환하여 각 셀을 변환
-            df = df.stack().map(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x).unstack()
+            df = pd.DataFrame(data['과목']).fillna('').applymap(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x)
             res = self.dpi_ratio(width, height)
             fig, ax = plt.subplots(figsize=(width, height), dpi=res)
             ax.axis('off')
