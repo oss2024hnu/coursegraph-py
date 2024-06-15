@@ -27,8 +27,8 @@ class ShowTable:
         self.filename = input_filepath
         self.output_filename = output_filename
         self.image_mode = image_mode
-        self.width = width or 10  # 기본 너비 설정
-        self.height = height or 6  # 기본 높이 설정
+        self.width = width or 5  # 기본 너비 설정
+        self.height = height or 3  # 기본 높이 설정
 
     def get_system_font(self):
         """
@@ -75,10 +75,9 @@ class ShowTable:
             return None
 
     def dpi_ratio(self, width, height):
-        dpi = width * height
-        # if (dpi > 350 or dpi <= 100):
-        #     dpi = 350  # 렌더링이 컴퓨터 부하가 걸리면 주석을 풀고 아래의 코드줄을 지울 것.
-        dpi = 350
+        #dpi = width * height
+        
+        dpi = 100
         return dpi
 
     def make_data(self, data, width, height):
@@ -96,6 +95,8 @@ class ShowTable:
             df = pd.DataFrame(data['과목'])
             # NaN 값을 빈 문자열로 대체
             df.fillna('', inplace=True)
+            # DataFrame을 스택 형태로 변환하여 각 셀을 변환
+            df = df.stack().map(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x).unstack()
             res = self.dpi_ratio(width, height)
             fig, ax = plt.subplots(figsize=(width, height), dpi=res)
             ax.axis('off')

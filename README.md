@@ -15,6 +15,15 @@ onboarding 디렉토리의 문서들을 참고해 주세요
 3. Codespace 실행 후 정상적으로 작동하는지 확인
     'python coursegraph data/input.yaml -o out.png' 명령어 실행
 
+## Makefile 실행 방법
+1. https://jstar0525.tistory.com/264 이 사이트에 들어가서 make 명령어를 설치하라는 대로 설치한다(설치할 때 주소를 복사해놓기).
+2. 윈도우 검색에서 시스템 환경 변수 설정에 들어가 환경변수의 path에 설치할 때 주소를 저장한다.
+3. cmd 창에서 'make-v' 명령어를 수행한다.
+
+수행 명령어 = make test
+(윈도우 버전)삭제 명령어 = make clean_w
+(Mac, Linux버전)삭제 명령어 = make clean_m
+
 ### CLI 사용법
 다음과 같이 `coursegraph/__main__.py`를 파이썬으로 실행시켜 활용한다.
 ```
