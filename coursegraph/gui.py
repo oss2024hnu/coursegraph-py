@@ -76,7 +76,7 @@ class WindowClass(QMainWindow, form_class):
         else:
             self.move_path("out")
         #명령어 실행
-        result = subprocess.run([sys.executable, "__main__.py", "-i", input_file, "-o", output_file, "-f", format])
+        result = subprocess.run([sys.executable, "__main__.py", "-f", format, input_file, "-o", output_file])
         #output_file변수에 .png를 추가해서 주소를 찾을 수 있게 변경
         output_file = output_file + ".png"
         if result.returncode == 0:
@@ -96,6 +96,7 @@ class WindowClass(QMainWindow, form_class):
         
 
     def openFunction(self):
+        initial_dir = os.path.expanduser("~")  # 사용자 홈 디렉토리 경로
         filename, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Image Files (*.png *.jpg *.bmp *.gif)")
         if filename:  # 파일이 선택되었는지 확인
             pixmap = QPixmap(filename)  # 파일을 QPixmap 객체로 로드
@@ -105,7 +106,7 @@ class WindowClass(QMainWindow, form_class):
                 self.label.adjustSize()  # QLabel 크기 조정
                 self.adjustSize() # 윈도우 크기 조정
                 self.statusBar().showMessage(f"Opened image: {filename}", 5000) # 상태바에 메시지 표시
-                self.addRecentFile(filename) # 최근 파일 목록에 추가
+                #self.addRecentFile(filename) # 최근 파일 목록에 추가
             else:
                 QMessageBox.warning(self, "유효하지 않은 이미지 파일입니다.")
         else:
@@ -116,6 +117,7 @@ class WindowClass(QMainWindow, form_class):
 
     def saveAsFunction(self):
         try:
+            initial_dir = os.path.expanduser("~")  # 사용자 홈 디렉토리 경로
             filename, _ = QFileDialog.getSaveFileName(self, "Save Image As", "", "PNG Files (*.png);;JPEG Files (*.jpg);;BMP Files (*.bmp);;GIF Files (*.gif)")
             if filename:  # 파일이 선택되었는지 확인
                 pixmap = self.label.pixmap()  # QLabel에 표시된 이미지 가져오기

@@ -78,8 +78,13 @@ def validate_yaml(file_path : str):
 
 
 def main():
-    file_path = input("파일명을 입력해주세요: ")
-    validate_yaml(file_path)
+    while True:
+        file_path = input("파일명을 입력해주세요: ").strip()
+        try:
+            validate_yaml(file_path)
+            break  # 유효성 검사 통과 시 반복문 종료
+        except ValueError:
+            continue  # 유효하지 않은 입력이면 다시 입력 받음
 
 
 if __name__ == '__main__':
