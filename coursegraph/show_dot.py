@@ -1,7 +1,7 @@
 import strictyaml
 from typing import *
 import gvgen
-
+import graphviz
 def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
     nd = {} # dict from name to node 
     sd = {(1,1):[], (1,2):[], (2,1):[], (2,2):[], (3,1):[], (3,2):[], (4,1):[], (4,2):[]}
@@ -61,5 +61,8 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
     else:
         with open(output_file, "w", encoding= "utf-8") as outfile:
             graph.dot(outfile)
+
+
+
 
  
