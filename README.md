@@ -29,17 +29,13 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
-                        Specify the output image file path. (optional)
-  -v, --verbose {0, 1, 2}
-                        Specify the level of output of information
-                        Set the verbose level (optional)
-                        0 - Minimun option, option for end user
-                        1 - Standard option, informational message
-                        2 - Debug option, detailed information, for programmer 
-  -f {graph,table}, --format {graph,table}
-                        Sepcify the output format (graph, table). Defaults to graph.
-  -s WIDTH,HEIGHT , --size WIDTH,HEIGHT 
-                        Specify the size of the output image in format WIDTH x HEIGHT(optional)
+                        Specify the output image file path. (optional).
+  -f {graph,dot,table}, --format {graph,dot,table}
+                        Specify the output format (graph, table). Defaults to graph.
+  -s SIZE, --size SIZE  Specify the size of the output image in format WIDTH,HEIGHT. Example: -s 20,10
+  -v {0,1,2}, --verbose {0,1,2}
+                        Set the verbose level (optional) 0 - Minium output, option for end user 1 - Standard output, informational message 2 - Debug output,   
+                        detailed information
 
 Enjoy using the CLI utility!
 ```
