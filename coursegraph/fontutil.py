@@ -18,6 +18,9 @@ def get_system_font():
         'Darwin': {'name': 'Apple SD Gothic Neo'},
         'Linux': {'name': 'NanumGothic'}
     }
+
+    # 변경된 부분: 기본값 설정 추가
+    font_name = font_mapping.get(system, {'name': 'Default Font'})['name']
     
     for v in flist:
         try:
