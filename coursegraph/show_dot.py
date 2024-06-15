@@ -14,7 +14,7 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
 
     graph.styleAppend("note", "shape", "note") # node shape note
 
-    graph.styleAppend("dashed", "color", "green")
+    graph.styleAppend("dashed", "color", "White")
     graph.styleAppend("dashed", "style", "dashed")
 
     subGitems = [((1,1), graph.newItem("1-1")), ((1,2), graph.newItem("1-2")),
