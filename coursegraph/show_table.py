@@ -80,36 +80,37 @@ class ShowTable:
         dpi = 100
         return dpi
 
-    def make_data(self, data, width, height):
-        """
-        데이터로부터 테이블을 생성하거나 이미지를 저장한다.
+def make_data(self, data, width, height):
+    """
+    데이터로부터 테이블을 생성하거나 이미지를 저장한다.
 
-        Args:
-            data: 테이블 생성의 데이터, '과목' 키가 포함되어야함
-            width: 생성될 테이블의 너비 
-            height: 생성될 테이블의 높이
-        """
-        font_name = font_manager.FontProperties(fname=self.font_path).get_name()
-        rc('font', family=font_name)
-        if '과목' in data:
-            df = pd.DataFrame(data['과목'])
-            # NaN 값을 빈 문자열로 대체
-            df.fillna('', inplace=True)
-            # DataFrame을 스택 형태로 변환하여 각 셀을 변환
-            df = df.stack().map(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x).unstack()
-            res = self.dpi_ratio(width, height)
-            fig, ax = plt.subplots(figsize=(width, height), dpi=res)
-            ax.axis('off')
-            ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2] * len(df.columns))
-            ax.set_title('과목 표')
-            plt.tight_layout()
-            if self.image_mode:
-                if self.output_filename:
-                    plt.savefig(self.output_filename)
-            else:
-                plt.show()
+    Args:
+        data: 테이블 생성의 데이터, '과목' 키가 포함되어야 함
+        width: 생성될 테이블의 너비
+        height: 생성될 테이블의 높이
+    """
+    font_name = font_manager.FontProperties(fname=self.font_path).get_name()
+    rc('font', family=font_name)
+    if '과목' in data:
+        df = pd.DataFrame(data['과목'])
+        # NaN 값을 빈 문자열로 대체
+        df.fillna('', inplace=True)
+        # DataFrame의 각 셀에 함수 적용, 리스트를 문자열로 변환
+        df = df.applymap(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x)
+        res = self.dpi_ratio(width, height)
+        fig, ax = plt.subplots(figsize=(width, height), dpi=res)
+        ax.axis('off')
+        ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2] * len(df.columns))
+        ax.set_title('과목 표')
+        plt.tight_layout()
+        if self.image_mode:
+            if self.output_filename:
+                plt.savefig(self.output_filename)
         else:
-            print("데이터에 '과목' 정보가 없습니다.") 
+            plt.show()
+    else:
+        print("데이터에 '과목' 정보가 없습니다.")
+ 
             
     def create_pdf(self, df):
         c = canvas.Canvas(self.output_filename, pagesize=letter)
