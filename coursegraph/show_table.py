@@ -6,6 +6,8 @@ import platform
 import matplotlib.pyplot as plt
 from fontutil import get_system_font
 from matplotlib import font_manager, rc
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
 
 
 class ShowTable:
