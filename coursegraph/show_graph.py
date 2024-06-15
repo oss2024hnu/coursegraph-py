@@ -27,7 +27,6 @@ def read_subjects(filename: str) -> Optional[strictyaml.YAML]:
     return:
     유효한 경우 '과목' 의 키값들을 strictyaml.YAML 유형으로 리턴합니다. 유효하지 않은 경우 None 을 반환합니다.
     """
-
     try:
         with open(filename, 'r', encoding='UTF8') as file:
             yaml_data = file.read()
@@ -36,8 +35,17 @@ def read_subjects(filename: str) -> Optional[strictyaml.YAML]:
     except FileNotFoundError:
         print("해당하는 파일이 없습니다.", file=sys.stderr)
         return None
+    except PermissionError:
+        print("파일 읽기 권한이 없습니다.", file=sys.stderr)
+        return None
+    except IOError:
+        print("파일 읽기 중 오류가 발생했습니다.", file=sys.stderr)
+        return None
     except strictyaml.YAMLValidationError as e:
         print(f"YAML 데이터가 잘못되어있습니다: {e}", file=sys.stderr)
+        return None
+    except Exception as e:
+        print(f"알 수 없는 오류가 발생했습니다: {e}", file=sys.stderr)
         return None
 
 
