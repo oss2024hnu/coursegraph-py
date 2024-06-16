@@ -61,17 +61,19 @@ def validate_yaml(file_path):
         with open(file_path, 'r', encoding='UTF8') as file:
             yaml_content = file.read()
             data = strictyaml.load(yaml_content, schema)
-            for subject in data["과목"]:
+            for index, subject in enumerate(data["과목"], start=1):
                 subject_name = subject["과목명"]
                 try:
-                    if subject["학년"] not in range(1, 7):
-                        raise ValueError(f"과목 '{subject_name}'의 학년은 1부터 6까지의 정수여야 합니다.")
+                    if subject["학년"] not in [1, 2, 3, 4, 5, 6]:
+                        raise ValueError("학년은 1부터 6까지의 정수여야 합니다.")
                     for field_name in ["과목명", "트랙", "마이크로디그리", "선수과목"]:
                         if field_name in subject:
                             validate_string_or_sequence(subject[field_name].data)
                 except ValueError as e:
-                    raise ValueError(f"과목 '{subject_name}'의 '{field_name}' 필드에 유효하지 않은 값이 있습니다: {e}") from e
+                    raise ValueError(f"과목 '{subject_name}'의 '{field_name}'에 유효하지 않은 값이 있습니다.") from e
             print("파일이 유효합니다.")
+    except FileNotFoundError:
+        print(f"파일 '{file_path}'을(를) 찾을 수 없습니다. 경로를 확인해 주세요.")
     except YAMLValidationError as e:
         print(f"YAML 오류: {e}")
     except ValueError as e:
