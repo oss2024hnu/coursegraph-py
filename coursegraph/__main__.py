@@ -63,15 +63,11 @@ def main():
         else:
             width, height = 20, 10
 
-        if input_file:
-            pass
-        else:
+        if not input_file :
             parser.print_help(sys.stderr)
             raise Exception("input file not specified")
 
-        if output_file:
-            pass
-        else:
+        if not output_file : 
             show_mode = True
         
         logging.basicConfig(level = logging.WARNING)
