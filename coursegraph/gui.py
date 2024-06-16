@@ -16,9 +16,15 @@ class WindowClass(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
         
+        self.original_pixmap = None
+        
         self.action_open.triggered.connect(self.openFunction) 
         self.action_othernamesave.triggered.connect(self.saveAsFunction) 
         self.pushButton.clicked.connect(self.clearImage)
+
+        self.ZoomIn.triggered.connect(self.zoomIn)
+        self.ZoomOut.triggered.connect(self.zoomOut)
+
 
         #사용할 명령어를 배열로 저장
         #0으로 초기화
@@ -101,8 +107,10 @@ class WindowClass(QMainWindow, form_class):
         if filename:  # 파일이 선택되었는지 확인
             pixmap = QPixmap(filename)  # 파일을 QPixmap 객체로 로드
             if not pixmap.isNull():  # 유효한 이미지 파일인지 확인
+                scaled_pixmap = pixmap.scaled(pixmap.size() * 0.5, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                self.original_pixmap = scaled_pixmap
                 self.label.setPixmap(pixmap)
-                self.label.setScaledContents(True)  # 이미지 크기에 맞게 QLabel 크기 조정
+                self.label.setPixmap(scaled_pixmap)
                 self.label.adjustSize()  # QLabel 크기 조정
                 self.adjustSize() # 윈도우 크기 조정
                 self.statusBar().showMessage(f"Opened image: {filename}", 5000) # 상태바에 메시지 표시
@@ -146,6 +154,17 @@ class WindowClass(QMainWindow, form_class):
 
       # 원래 디렉터리로 이동
       os.chdir(original_directory)
+
+    def zoomIn(self):
+        current_pixmap = self.label.pixmap()
+        if current_pixmap:
+            scaled_pixmap = current_pixmap.scaled(current_pixmap.size() * 1.2, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.label.setPixmap(scaled_pixmap)
+
+    def zoomOut(self):
+        if self.original_pixmap:
+            self.label.setPixmap(self.original_pixmap)
+        
 
 # 에러 발생 시 정상 종료하도록 정의
 def exception_hook(exctype, value, traceback):
