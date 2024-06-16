@@ -27,8 +27,8 @@ class ShowTable:
         self.filename = input_filepath
         self.output_filename = output_filename
         self.image_mode = image_mode
-        self.width = width or 5  # 기본 너비 설정
-        self.height = height or 3  # 기본 높이 설정
+        self.width = width or 20  # 기본 너비 설정
+        self.height = height or 10  # 기본 높이 설정
 
     def get_system_font(self):
         """
