@@ -2,6 +2,9 @@ import strictyaml
 from typing import *
 import gvgen
 
+def apply_style(graph, style, node):
+    graph.styleApply(style, node)
+
 def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
     nd = {} # dict from name to node 
     sd = {(1,1):[], (1,2):[], (2,1):[], (2,2):[], (3,1):[], (3,2):[], (4,1):[], (4,2):[]}
@@ -26,14 +29,14 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
     for key, subG in sorted(subGdict.items(), key=lambda x: x[0], reverse=True):
         for subject in sd[key]:
             node = graph.newItem(subject['과목명'], subG)
-            graph.styleApply("note",node)
+            apply_style(graph, "note", node)
             nd[subject['과목명']] = node
             nodedict[key].append(node)
 
     for key, ns in nodedict.items():
         # if len(ns)==0:
              node = graph.newItem("", subGdict[key])
-             graph.styleApply("dashed",node)
+             apply_style(graph, "dashed", node)
              nodedict[key].insert(0, node)
 
     # maxh = max(map(len,nodedict.values()))
@@ -48,7 +51,7 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
             n1,n2 = ns1[0],ns2[0]
         # for n1,n2 in zip(ns1,ns2):
             e = graph.newLink(n1,n2)
-            graph.styleApply("dashed",e)
+            apply_style(graph, "dashed", e)
 
     for subject in subjects:
         if '선수과목' not in subject:
