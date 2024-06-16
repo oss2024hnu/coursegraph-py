@@ -8,20 +8,20 @@ from show_graph import read_subjects, draw_course_structure, cliprint
 from show_dot import print_dot
 
 
+def verbose_info(level , width , height , input_file , output_file) :
+    if level == 0 : 
+        logging.warning('Verbose level 0')
+    elif level == 1 :
+        logging.info('Verbose level 1 : Summary Information')
+        print('width * height :', width, '*', height)
+        print(f"The input YAML file path has been specified: {input_file}")
+        print(f"The output image file path has been specified: {output_file}") 
+    elif level == 2 : 
+         logging.debug('Verbose level 2 : Detailed Developer Information')
+         print('width * height :', width, '*', height)
+         print(f"The input YAML file path has been specified: {input_file}")
+         print(f"The output image file path has been specified: {output_file}")
 
-def verbose_0():
-    logging.warning('Verbose level 0')
-def verbose_1(width, height, input_file, output_file):
-    logging.info('Verbose level 1 : Summary Information')
-    print('width * height :', width, '*', height)
-    print(f"The input YAML file path has been specified: {input_file}")
-    print(f"The output image file path has been specified: {output_file}")
-def verbose_2(width, height, input_file, output_file):
-    logging.debug('Verbose level 2 : Detailed Developer Information')
-    print('width * height :', width, '*', height)
-    print(f"The input YAML file path has been specified: {input_file}")
-    print(f"The output image file path has been specified: {output_file}")
-    
 
 def main():
     
@@ -73,16 +73,15 @@ def main():
             pass
         else:
             show_mode = True
+        
+        logging.basicConfig(level = logging.WARNING)
 
-        if args.verbose == 0: # 일반사용자를 위해 아무것도 출력하지 않음
-            logging.basicConfig(level = logging.WARNING)
-            verbose_0()
-        elif args.verbose == 1: # 요약된 정보 출력
-            logging.basicConfig(level = logging.INFO)
-            verbose_1(width, height, input_file, output_file)
+        if args.verbose == 1: # 요약된 정보 출력
+            logging.getLogger().setLevel(logging.INFO)
         elif args.verbose == 2: # 상세 정보 출력
-            logging.basicConfig(level = logging.DEBUG)
-            verbose_2(width, height, input_file, output_file)
+            logging.getLogger().setLevel(logging.DEBUG)
+        
+        verbose_info(args.verbose , width , height , input_file , output_file)
         
         if output_format == 'graph':
             subjects = read_subjects(input_file)
