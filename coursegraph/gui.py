@@ -155,12 +155,13 @@ class WindowClass(QMainWindow, form_class):
       # 원래 디렉터리로 이동
       os.chdir(original_directory)
 
+    #보기 드롭다운 메뉴 확대 기능
     def zoomIn(self):
         current_pixmap = self.label.pixmap()
         if current_pixmap:
             scaled_pixmap = current_pixmap.scaled(current_pixmap.size() * 1.2, Qt.KeepAspectRatio, Qt.SmoothTransformation)
             self.label.setPixmap(scaled_pixmap)
-
+    #보기 드롭다운 메뉴 축소 기능
     def zoomOut(self):
         if self.original_pixmap:
             self.label.setPixmap(self.original_pixmap)
