@@ -189,8 +189,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     #학년 노드 최상단
     bbox_props = dict(boxstyle=f"round,pad=0.5", ec='black', lw=2, facecolor='white')
     for x in range(1,5):
-        plt.text(x,0, f"{x}학년", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
-    
+        plt.text(x,-0.18, f"{x}학년", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
     
 
     nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist,
