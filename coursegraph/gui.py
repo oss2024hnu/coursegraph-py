@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import QPixmap
 import webbrowser
+from schema_checker import validate_yaml
 
 # ui 파일이 실행 파일과 같은 위치에 있어야 함.
 form_class = uic.loadUiType("Maingui.ui")[0]
@@ -33,10 +34,12 @@ class WindowClass(QMainWindow, form_class):
 
         self.command_list = [0, 0]
 
-        # table, graph, schema 체크박스와 연결
+        # table, grapha 체크박스와 연결
         self.radioButton_1.clicked.connect(self.check_radio)
         self.radioButton_2.clicked.connect(self.check_radio)
-        self.radioButton_3.clicked.connect(self.check_radio)
+
+        #schema버튼 연결
+        self.schemaButton.clicked.connect(self.open_schema_file)
         
         # 파일 찾기 버튼을 push버튼과 연결
         self.pushButton_3.clicked.connect(self.select_file)
@@ -55,19 +58,35 @@ class WindowClass(QMainWindow, form_class):
         elif self.radioButton_2.isChecked():
             print("graph")
             self.command_list[0] = "graph"
-        elif self.radioButton_3.isChecked():
-            print("schema")
-            self.command_list[0] = "schema"
+
+        
 
     def select_file(self):
-        # QFileDialog.getOpenFileName함수를 사용해서 yaml파일만 가져올 수 있게 설정
+        #QFileDialog.getOpenFileName함수를 사용해서 yaml파일만 가져올 수 있게 설정
         filename, _ = QFileDialog.getOpenFileName(self, "Open Yaml", "", "Yaml Files (*.yaml)")
+        # 파일 경로에서 뒤에서부터 '/'의 인덱스를 찾음
+        second_last_slash_index = filename.rfind('/', 0, filename.rfind('/'))
 
-        if filename:
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            relative_path = os.path.relpath(filename, current_dir)
-            self.command_list[1] = relative_path
-            print(relative_path)
+        # 파일 경로에서 두 번째 '/'가 나올 때까지의 부분 문자열을 추출
+        desired_part = filename[second_last_slash_index + 1:]
+
+        print(desired_part)  # 결과: ce.yaml
+        self.command_list[1] = desired_part
+
+
+    def open_schema_file(self):
+        initial_dir = os.path.expanduser("~")  # 사용자 홈 디렉토리 경로
+        filename, _ = QFileDialog.getOpenFileName(self, "Open Schema File", initial_dir, "YAML Files (*.yaml *.yml)")
+        if filename:  # 파일이 선택되었는지 확인
+            print(filename)
+            slicing_yaml = filename.rfind('/', 0, filename.rfind('/'))
+            desired_part = filename[slicing_yaml + 1:]
+            print(desired_part)
+            filename = "../" + desired_part
+            
+            result_yaml = validate_yaml(filename)
+            QMessageBox.warning(self, "Validation Result", result_yaml)
+
 
 
     def make_image(self):
@@ -95,7 +114,10 @@ class WindowClass(QMainWindow, form_class):
             self.move_path("out")
 
         #명령어 실행
-        result = subprocess.run([sys.executable, "__main__.py", "-f", format, input_file, "-o", output_file])
+        if format == "schema":
+            checker_result = validate_yaml(output_file)
+        else:
+            result = subprocess.run([sys.executable, "__main__.py", "-f", format, input_file, "-o", output_file])
         #output_file변수에 .png를 추가해서 주소를 찾을 수 있게 변경
 
         output_file = output_file + ".png"

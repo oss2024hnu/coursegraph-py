@@ -1,6 +1,7 @@
 import re
 from typing import Union, List
-
+import strictyaml
+from strictyaml import EmptyList, Str, Int, Map, Seq, Optional
 
 # 과목명,트랙,마이크로디그리,선수과목에는 문자만 사용되었는지 확인하는 함수
 def validate_string_or_sequence(value: Union[str, List[str], int]) -> Union[str, List[str], int]:
@@ -69,10 +70,13 @@ def validate_yaml(file_path : str):
                 except ValueError as e:
                     raise ValueError(f"과목 '{subject_name}'의 '{field_name}'에 유효하지 않은 값이 있습니다.") from e
             print("파일이 유효합니다.")
+            return "파일이 유효합니다."
     except strictyaml.YAMLValidationError as e:
         print(f"오류: {e}")
+        return f"오류: {e}"
     except ValueError as e:
         print(f"오류: {e}")
+        return f"오류: {e}"
 
 
 def main():
