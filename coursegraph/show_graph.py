@@ -176,7 +176,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
 
     pos = nx.get_node_attributes(G, 'pos')
 
-    edge_attrs = EdgeAttributes(edgelist=list(G.edges()), arrowsize=20, arrowstyle=ArrowStyle("Fancy", head_length=.4, head_width=.3, tail_width=.05))
+    edge_attrs = EdgeAttributes(edgelist=list(G.edges()), arrowsize=20, arrowstyle='->')
 
     for subject in subjects:
         node = subject['과목명']
