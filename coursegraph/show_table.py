@@ -68,6 +68,8 @@ class ShowTable:
             with open(self.filename, 'r', encoding='UTF8') as file:
                 yaml_data = file.read()
                 data = syaml.load(yaml_data).data
+                if not isinstance(data, dict) or '과목' not in data:
+                    raise ValueError("유효한 데이터 형식이 아닙니다.")
                 return data
         except FileNotFoundError:
             print("파일을 찾을 수 없습니다.")
