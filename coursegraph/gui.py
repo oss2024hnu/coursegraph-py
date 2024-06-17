@@ -34,9 +34,10 @@ class WindowClass(QMainWindow, form_class):
 
         self.command_list = [0, 0]
 
-        # table, grapha 체크박스와 연결
+        # table, grapha, dot 체크박스와 연결
         self.radioButton_1.clicked.connect(self.check_radio)
         self.radioButton_2.clicked.connect(self.check_radio)
+        self.radioButton.clicked.connect(self.check_radio)
 
         #schema버튼 연결
         self.schemaButton.clicked.connect(self.open_schema_file)
@@ -58,6 +59,8 @@ class WindowClass(QMainWindow, form_class):
         elif self.radioButton_2.isChecked():
             print("graph")
             self.command_list[0] = "graph"
+        elif self.radioButton.isChecked():
+            self.command_list[0] = "dot"
 
         
 
@@ -119,11 +122,14 @@ class WindowClass(QMainWindow, form_class):
         #명령어 실행
         if format == "schema":
             checker_result = validate_yaml(output_file)
+        elif format =="dot":
+            result = subprocess.run([sys.executable, "__main__.py", "-f", format, input_file, "-o", output_file + ".dot"])
         else:
             result = subprocess.run([sys.executable, "__main__.py", "-f", format, input_file, "-o", output_file])
+            output_file = output_file + ".png"
         #output_file변수에 .png를 추가해서 주소를 찾을 수 있게 변경
 
-        output_file = output_file + ".png"
+    
         if result.returncode == 0:
             # 프로세스가 성공적으로 종료된 경우
             if os.path.exists(output_file):
@@ -134,6 +140,8 @@ class WindowClass(QMainWindow, form_class):
                     self.label.adjustSize()  # QLabel 크기 조정
                 else:
                     QMessageBox.warning(self, "Warning", "유효하지 않은 이미지 파일입니다.")
+            elif format == "dot":
+                QMessageBox.warning(self, "Warning", "dot파일이 생성되었습니다.")
             else:
                 QMessageBox.warning(self, "Warning", "출력 파일을 찾을 수 없습니다.")
         else:
@@ -141,7 +149,7 @@ class WindowClass(QMainWindow, form_class):
 
     def openFunction(self):
         initial_dir = os.path.expanduser("~")  # 사용자 홈 디렉토리 경로
-        filename, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Image Files (*.png *.jpg *.bmp *.gif)")
+        filename, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Image Files (*.png *.jpg *.bmp *.gif *.dot)")
         if filename:  # 파일이 선택되었는지 확인
             pixmap = QPixmap(filename)  # 파일을 QPixmap 객체로 로드
             if not pixmap.isNull():  # 유효한 이미지 파일인지 확인
