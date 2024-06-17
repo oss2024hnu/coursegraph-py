@@ -46,7 +46,7 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
 
         # 노드 스타일 설정
         graph.styleAppend("note", "shape", "note")
-        graph.styleAppend("dashed", "color", "White")
+        graph.styleAppend("dashed", "color", "invis")
         graph.styleAppend("dashed", "style", "dashed")
 
         graph.styleAppend("전선", "color", "blue")
@@ -66,7 +66,7 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
             for subject in sd[key]:
                 node = graph.newItem(subject['과목명'], subG)
 
-                course_type = subject['구분']
+                course_type = subject['구분'].data
                 if course_type in ["전선", "전기", "교필"]:
                     graph.styleApply(course_type, node)
                 else:
