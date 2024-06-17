@@ -10,12 +10,16 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
         semester = int(subject['학기'])
         sd[(grade, semester)].append( subject )
     
-    graph = gvgen.GvGen(options="rankdir=TB;ranksep=1.25;")
+    graph = gvgen.GvGen(options="rankdir=LR;ranksep=1.25;")
 
     graph.styleAppend("note", "shape", "note") # node shape note
 
-    graph.styleAppend("dashed", "color", "green")
+    graph.styleAppend("dashed", "color", "White")
     graph.styleAppend("dashed", "style", "dashed")
+
+    graph.styleAppend("전선", "color", "blue")
+    graph.styleAppend("전기", "color", "red")
+    graph.styleAppend("교필", "color", "limegreen")
 
     subGitems = [((1,1), graph.newItem("1-1")), ((1,2), graph.newItem("1-2")),
                  ((2,1), graph.newItem("2-1")), ((2,2), graph.newItem("2-2")),
@@ -23,10 +27,17 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
                  ((4,1), graph.newItem("4-1")), ((4,2), graph.newItem("4-2"))]
     subGdict = dict(subGitems)
     nodedict = {(1,1):[], (1,2):[], (2,1):[], (2,2):[], (3,1):[], (3,2):[], (4,1):[], (4,2):[]}
+
     for key, subG in sorted(subGdict.items(), key=lambda x: x[0], reverse=True):
         for subject in sd[key]:
             node = graph.newItem(subject['과목명'], subG)
-            graph.styleApply("note",node)
+
+            course_type = subject['구분'].data
+            if course_type in ["전선", "전기", "교필"]:
+                graph.styleApply(course_type, node)
+            else:
+                graph.styleApply("note", node)
+
             nd[subject['과목명']] = node
             nodedict[key].append(node)
 
@@ -55,6 +66,16 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
             continue
         for prereq in subject['선수과목']:
             graph.newLink(nd[prereq], nd[subject['과목명']])
+
+    legend = graph.newItem("Legend")
+    legend_item = {
+        "전선":graph.newItem("전선", legend),
+        "전기":graph.newItem("전기", legend),
+        "교필":graph.newItem("교필", legend)
+    }
+
+    for key, item in legend_item.items():
+        graph.styleApply(key, item)
 
     if output_file is None:
         graph.dot()

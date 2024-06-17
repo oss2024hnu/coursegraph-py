@@ -8,7 +8,11 @@ from typing import Optional, List, Dict, Tuple
 from dataclasses import dataclass
 import matplotlib.patches as mpatches
 from schema_checker import schema
+import logging
 
+# 로깅 설정
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 @dataclass
 class EdgeAttributes:
@@ -27,17 +31,25 @@ def read_subjects(filename: str) -> Optional[strictyaml.YAML]:
     return:
     유효한 경우 '과목' 의 키값들을 strictyaml.YAML 유형으로 리턴합니다. 유효하지 않은 경우 None 을 반환합니다.
     """
-
     try:
         with open(filename, 'r', encoding='UTF8') as file:
             yaml_data = file.read()
             data = strictyaml.load(yaml_data, schema)
             return data['과목']
     except FileNotFoundError:
-        print("해당하는 파일이 없습니다.", file=sys.stderr)
+        logger.error("해당하는 파일이 없습니다.")
+        return None
+    except PermissionError:
+        print("파일 읽기 권한이 없습니다.", file=sys.stderr)
+        return None
+    except IOError:
+        print("파일 읽기 중 오류가 발생했습니다.", file=sys.stderr)
         return None
     except strictyaml.YAMLValidationError as e:
-        print(f"YAML 데이터가 잘못되어있습니다: {e}", file=sys.stderr)
+        logger.error(f"YAML 데이터가 잘못되어 있습니다: {e}")
+        return None
+    except Exception as e:
+        print(f"알 수 없는 오류가 발생했습니다: {e}", file=sys.stderr)
         return None
 
 
@@ -108,8 +120,7 @@ def get_edge_color(category: str) -> str:
 
     colors = {
         '전기': 'red',
-        '전선': 'blue',
-        '교필': 'green'
+        '전선': 'blue'
     }
     return colors.get(category, 'black')
 
@@ -138,13 +149,24 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     ref = {}
     ind = 0
 
+    if subjects is None:
+        logger.error("과목 데이터가 없습니다.")
+        return
+    
+    adjusted_pos_1st_semester = {}  # 1학기 과목의 위치를 저장하는 딕셔너리
+    adjusted_pos_2nd_semester = {}  # 2학기 과목의 위치를 저장하는 딕셔너리
+
+    # 1학기 과목의 위치 조정
     for subject in subjects:
         grade = int(subject['학년'])
         semester = int(subject['학기'])
         x = grade
-        y = adjusted_pos[grade].pop(0) # + semester : 학기간 간격을 주고싶다면 주석을 풀것.
-        ref[ind] = [(x, y)]
-        ind += 1
+        if semester == 1:
+            y = adjusted_pos[grade].pop(0) - 0.12 # 1학기 과목의 위치를 조정
+            adjusted_pos_1st_semester[subject['과목명']] = (x, y)
+        elif semester == 2:
+            y = adjusted_pos[grade].pop(0) + 0.12 # 2학기 과목의 위치를 조정
+            adjusted_pos_2nd_semester[subject['과목명']] = (x, y)
 
         G.add_node(subject['과목명'], pos=(x, y))
         if '선수과목' in subject:
@@ -162,13 +184,14 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
                  bbox=dict(facecolor='white', edgecolor=get_edge_color(subject['구분']), boxstyle='round,pad=0.5',
                            linewidth=3))
 
+
     #학년 노드 최상단
     bbox_props = dict(boxstyle=f"round,pad=0.5", ec='black', lw=2, facecolor='white')
     for x in range(1,5):
         plt.text(x,0, f"{x}학년", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
     
     
-    
+
     nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist,
                            arrowstyle=edge_attrs.arrowstyle,
                            arrowsize=edge_attrs.arrowsize)
@@ -182,8 +205,9 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     plt.gca().invert_yaxis()
     plt.grid(True) # 그리드 표시
 
-    
+
     plt.axhline(1, color='black', linestyle='-', linewidth=2)
+
 
     # 학년별로 배경색 설정
     for grade in range(1, 5):
@@ -192,8 +216,8 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
         else:
             plt.axvspan(grade - 0.5, grade + 0.5, color='lightblue', alpha=0.5)
 
-    categories = ['전기', '전선', '교필']
-    colors = ['red', 'blue', 'green']
+    categories = ['전기', '전선']
+    colors = ['red', 'blue']
     
     patches = [] # Patch 객체들을 담을 리스트 초기화
 
@@ -206,6 +230,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
 
     if output_file:
         plt.savefig(output_file)
+        print(f"파일이 저장되었습니다: {output_file}")
     else:
         plt.show()
 

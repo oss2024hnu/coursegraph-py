@@ -6,6 +6,8 @@ import platform
 import matplotlib.pyplot as plt
 from fontutil import get_system_font
 from matplotlib import font_manager, rc
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
 
 
 class ShowTable:
@@ -27,8 +29,8 @@ class ShowTable:
         self.filename = input_filepath
         self.output_filename = output_filename
         self.image_mode = image_mode
-        self.width = width or 5  # 기본 너비 설정
-        self.height = height or 3  # 기본 높이 설정
+        self.width = width or 20  # 기본 너비 설정
+        self.height = height or 10  # 기본 높이 설정
 
     def get_system_font(self):
         """
@@ -42,13 +44,12 @@ class ShowTable:
             SystemExit: 시스템 내에 적합한 한글 폰트 파일을 찾을 수 없는 경우, 오류 메시지를 출력하고 상태 코드 2로 프로그램이 종료됩니다.
         """
         system_fonts = get_system_font()
-        try:
-            for font_info in system_fonts:
-                return font_info['file']
-        except Exception:
+        if system_fonts:
+            return system_fonts[0]['file']
+        else:
             print("시스템내에 적합한 한글 폰트 파일을 찾을 수 없습니다.")
             sys.exit(2)
-
+            
     def read_subjects(self):
         """
         테이블을 생성하는데 있어서 필요한 데이터를 가져옵니다.
@@ -80,36 +81,37 @@ class ShowTable:
         dpi = 100
         return dpi
 
-    def make_data(self, data, width, height):
-        """
-        데이터로부터 테이블을 생성하거나 이미지를 저장한다.
+def make_data(self, data, width, height):
+    """
+    데이터로부터 테이블을 생성하거나 이미지를 저장한다.
 
-        Args:
-            data: 테이블 생성의 데이터, '과목' 키가 포함되어야함
-            width: 생성될 테이블의 너비 
-            height: 생성될 테이블의 높이
-        """
-        font_name = font_manager.FontProperties(fname=self.font_path).get_name()
-        rc('font', family=font_name)
-        if '과목' in data:
-            df = pd.DataFrame(data['과목'])
-            # NaN 값을 빈 문자열로 대체
-            df.fillna('', inplace=True)
-            # DataFrame을 스택 형태로 변환하여 각 셀을 변환
-            df = df.stack().map(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x).unstack()
-            res = self.dpi_ratio(width, height)
-            fig, ax = plt.subplots(figsize=(width, height), dpi=res)
-            ax.axis('off')
-            ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2] * len(df.columns))
-            ax.set_title('과목 표')
-            plt.tight_layout()
-            if self.image_mode:
-                if self.output_filename:
-                    plt.savefig(self.output_filename)
-            else:
-                plt.show()
+    Args:
+        data: 테이블 생성의 데이터, '과목' 키가 포함되어야 함
+        width: 생성될 테이블의 너비
+        height: 생성될 테이블의 높이
+    """
+    font_name = font_manager.FontProperties(fname=self.font_path).get_name()
+    rc('font', family=font_name)
+    if '과목' in data:
+        df = pd.DataFrame(data['과목'])
+        # NaN 값을 빈 문자열로 대체
+        df.fillna('', inplace=True)
+        # DataFrame의 각 셀에 함수 적용, 리스트를 문자열로 변환
+        df = df.applymap(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x)
+        res = self.dpi_ratio(width, height)
+        fig, ax = plt.subplots(figsize=(width, height), dpi=res)
+        ax.axis('off')
+        ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2] * len(df.columns))
+        ax.set_title('과목 표')
+        plt.tight_layout()
+        if self.image_mode:
+            if self.output_filename:
+                plt.savefig(self.output_filename)
         else:
-            print("데이터에 '과목' 정보가 없습니다.") 
+            plt.show()
+    else:
+        print("데이터에 '과목' 정보가 없습니다.")
+ 
             
     def create_pdf(self, df):
         c = canvas.Canvas(self.output_filename, pagesize=letter)
