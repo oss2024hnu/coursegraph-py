@@ -184,8 +184,8 @@ class WindowClass(QMainWindow, form_class):
                     display_name = filename
                 self.statusBar().showMessage(f"Saved: {display_name}", 5000)  # 상태 표시줄에 파일 이름을 5초 동안 표시
 
-                else:
-                    QMessageBox.warning(self, "Warning", "이미지가 없습니다.", QMessageBox.Ok)
+            else:
+                QMessageBox.warning(self, "Warning", "이미지가 없습니다.", QMessageBox.Ok)
         except TypeError:
             QMessageBox.warning(self, "Warning", "파일 저장에 실패했습니다.", QMessageBox.Ok)
 
