@@ -57,7 +57,7 @@ def main():
 
         if args.size:
             try:
-                width, height = map(int, args.size.split('x'))
+                width, height = map(int, args.size.split(','))
                 if width <= 0 or height <= 0:
                     raise ValueError
             except ValueError:
