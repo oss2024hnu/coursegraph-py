@@ -34,6 +34,20 @@ def validate_string_or_sequence(value: Union[str, List[str], int]) -> Union[str,
 
     return value
 
+def validate_field(subject, field_name):
+    if field_name in subject:
+        validate_string_or_sequence(subject[field_name])
+
+def handle_validation(subject, field_name):
+    try:
+        validate_field(subject, field_name)
+    except ValueError as e:
+        raise ValueError(f"과목 '{subject['과목명']}'의 '{field_name}'에 유효하지 않은 값이 있습니다.") from e
+
+def validate_grade(grade):
+    if grade not in [1, 2, 3, 4, 5, 6]:
+        raise ValueError("학년은 1부터 6까지의 정수여야 합니다.")
+
 # 우선적으로 (학년, 학기, 과목명, 실습여부, 트랙, 마이크로디그리, 선수과목, 구분) 의 스키마를 정의해뒀습니다.
 schema = strictyaml.Map({
     "과목": strictyaml.Seq(strictyaml.Map({
@@ -65,11 +79,9 @@ def validate_yaml(file_path):
             for index, subject in enumerate(data["과목"], start=1):
                 subject_name = subject["과목명"]
                 try:
-                    if subject["학년"] not in [1, 2, 3, 4, 5, 6]:
-                        raise ValueError("학년은 1부터 6까지의 정수여야 합니다.")
+                    validate_grade(subject["학년"])
                     for field_name in ["과목명", "트랙", "마이크로디그리", "선수과목"]:
-                        if field_name in subject:
-                            validate_string_or_sequence(subject[field_name])
+                        handle_validation(subject , field_name)
                 except ValueError as e:
                     raise ValueError(f"과목 '{subject_name}'의 '{field_name}'에 유효하지 않은 값이 있습니다.") from e
             print("파일이 유효합니다.")
