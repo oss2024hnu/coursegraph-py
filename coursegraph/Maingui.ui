@@ -145,6 +145,8 @@
     <property name="title">
      <string>보기</string>
     </property>
+    <addaction name="ZoomIn"/>
+    <addaction name="ZoomOut"/>
    </widget>
    <widget class="QMenu" name="menu_help">
     <property name="title">
@@ -179,6 +181,16 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="ZoomIn">
+   <property name="text">
+    <string>확대</string>
+   </property>
+  </action>
+  <action name="ZoomOut">
+   <property name="text">
+    <string>축소</string>
    </property>
   </action>
  </widget>
