@@ -53,11 +53,12 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
             nd[subject['과목명']] = node
             nodedict[key].append(node)
 
-    for key, ns in nodedict.items():
-        # if len(ns)==0:
-             node = graph.newItem("", subGdict[key])
-             graph.styleApply("dashed",node)
-             nodedict[key].insert(0, node)
+    for key in sorted(nodedict.keys()):
+        nodes = nodedict[key]
+        if not nodes:
+            node = graph.newItem("", subGdict[key])
+            graph.styleApply("dashed", node)
+            nodedict[key].append(node)
 
     # maxh = max(map(len,nodedict.values()))
     # for key, ns in nodedict.items():
