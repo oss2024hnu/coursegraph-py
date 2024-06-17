@@ -121,7 +121,8 @@ def get_edge_color(category: str) -> str:
 
     colors = {
         '전기': 'red',
-        '전선': 'blue'
+        '전선': 'blue',
+        '전필': 'green'
     }
     return colors.get(category, 'black')
 
@@ -221,8 +222,8 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
         else:
             plt.axvspan(grade - 0.5, grade + 0.5, color='lightblue', alpha=0.5)
 
-    categories = ['전기', '전선']
-    colors = ['red', 'blue']
+    categories = ['전기', '전선', '전필']
+    colors = ['red', 'blue', 'green']
     
     patches = [] # Patch 객체들을 담을 리스트 초기화
 
