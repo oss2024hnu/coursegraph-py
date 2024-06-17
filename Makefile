@@ -39,10 +39,9 @@ $(OUTDIR)/%_T.png: ./data/%.yaml
 	$(CLICMD) -f table $< -o $@ -v 1
 	$(CLICMD) -f table $< -o $@ -v 2
 
-# clean 타겟 정의
-clean_w:
+clean:
+ifeq ($(OS), Windows_NT)
 	rmdir /s /q $(OUTDIR)
-
-# delete 타겟 정의
-clean_m:
+else
 	rm -rf $(OUTDIR)
+endif
