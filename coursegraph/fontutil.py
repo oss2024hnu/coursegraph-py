@@ -19,16 +19,12 @@ def get_system_font():
         'Linux': {'name': 'NanumGothic'}
     }
     
-    target_font_name = font_mapping[system]['name']  # 관심 있는 폰트 이름을 설정
-    
-    for font_path in flist:
-        if target_font_name in font_path:  # 폰트 경로에 관심 있는 폰트 이름이 포함되어 있는지 먼저 확인
-            try:
-                fprop = font_manager.FontProperties(fname=font_path)
-                if fprop.get_name() == target_font_name:
-                    data_list.append({"name": fprop.get_name(), "file": fprop.get_file()})
-            except Exception as e:
-                print(f"Error processing font file {font_path}: {e}")
-                continue
+    for v in flist:
+        try:
+            fprop = font_manager.FontProperties(fname=v)
+            if fprop.get_name() == font_mapping[system]['name']:
+                data_list.append({"name": fprop.get_name(), "file": fprop.get_file()})
+        except:
+            continue
     
     return data_list
