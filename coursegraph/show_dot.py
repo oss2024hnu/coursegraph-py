@@ -46,8 +46,7 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
 
         # 노드 스타일 설정
         graph.styleAppend("note", "shape", "note")
-        graph.styleAppend("dashed", "color", "White")
-        graph.styleAppend("dashed", "style", "dashed")
+        graph.styleAppend("dashed", "style", "invis")
 
         graph.styleAppend("전선", "color", "blue")
         graph.styleAppend("전기", "color", "red")
