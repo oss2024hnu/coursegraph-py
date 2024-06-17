@@ -83,4 +83,7 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
         with open(output_file, "w", encoding= "utf-8") as outfile:
             graph.dot(outfile)
 
+
+
+
  

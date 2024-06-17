@@ -43,6 +43,13 @@
         </property>
        </widget>
       </item>
+      <item row="7" column="0">
+       <widget class="QPushButton" name="pushButton_graphviz">
+        <property name="text">
+         <string>Graphviz 웹 에디터 열기</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <property name="spacing">
@@ -89,7 +96,7 @@
            </size>
           </property>
           <property name="placeholderText">
-            <string>출력할 파일의 이름</string>
+           <string>출력할 파일의 이름</string>
           </property>
          </widget>
         </item>
@@ -138,6 +145,8 @@
     <property name="title">
      <string>보기</string>
     </property>
+    <addaction name="ZoomIn"/>
+    <addaction name="ZoomOut"/>
    </widget>
    <widget class="QMenu" name="menu_help">
     <property name="title">
@@ -172,6 +181,16 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="ZoomIn">
+   <property name="text">
+    <string>확대</string>
+   </property>
+  </action>
+  <action name="ZoomOut">
+   <property name="text">
+    <string>축소</string>
    </property>
   </action>
  </widget>

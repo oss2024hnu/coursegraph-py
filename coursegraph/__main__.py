@@ -8,6 +8,7 @@ from show_graph import read_subjects, draw_course_structure, cliprint
 from show_dot import print_dot
 
 
+
 def verbose_info(level , width , height , input_file , output_file) :
     if level == 0 : 
         logging.warning('Verbose level 0')
@@ -21,6 +22,7 @@ def verbose_info(level , width , height , input_file , output_file) :
          print('width * height :', width, '*', height)
          print(f"The input YAML file path has been specified: {input_file}")
          print(f"The output image file path has been specified: {output_file}")
+
 
 
 def main():
@@ -87,7 +89,8 @@ def main():
         elif output_format == 'dot':
             subjects = read_subjects(input_file)
             print_dot(subjects, output_file)
-                        
+        
+            
             # raise Exception(f"cannot handle output format {output_format}") # 아직 dot 파일 형식에 대한 내용 없음
         elif output_format in ['table', 'pdf']:
             data_processor = ShowTable(not show_mode, input_file, output_file, width, height)
