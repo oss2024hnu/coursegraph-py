@@ -10,7 +10,7 @@ from dataclasses import dataclass
 import matplotlib.patches as mpatches
 from schema_checker import schema
 import logging
-
+from matplotlib.patches import ArrowStyle
 # 로깅 설정
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -176,7 +176,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
 
     pos = nx.get_node_attributes(G, 'pos')
 
-    edge_attrs = EdgeAttributes(edgelist=list(G.edges()))
+    edge_attrs = EdgeAttributes(edgelist=list(G.edges()), arrowsize=20, arrowstyle='->')
 
     for subject in subjects:
         node = subject['과목명']
@@ -194,8 +194,12 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
         plt.text(0.15,y-0.5, f"{y}학기", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
 
     nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist,
-                           arrowstyle=edge_attrs.arrowstyle,
-                           arrowsize=edge_attrs.arrowsize)
+                       arrowstyle=edge_attrs.arrowstyle,
+                       connectionstyle='arc3,rad=0',
+                       arrowsize=50,
+                       min_source_margin=20,
+                       min_target_margin=70,
+                       width=2.0)
 
     plt.title("과목 이수 체계도")
     plt.xlabel('학년')
