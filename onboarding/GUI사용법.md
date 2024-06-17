@@ -5,7 +5,7 @@ gui.py는 coursegraph디렉터리에서 터미널에서 `python gui.py`를 입�
 스키마 버튼을 클릭하면 원하는 yaml파일을 클릭하면 yaml파일을 확인합니다.
 
 # 파일 생성
-table, graph중 하나를 선택하고,
+table, graph, dot중 하나를 선택하고,
 파일 찾기에서 원하는 yaml파일을 선택합니다.
 그리고 출력할 파일의 이름을 입력하고 실행하면 원하는 이미지 파일이 out디렉터리에 생성됩니다.
 
