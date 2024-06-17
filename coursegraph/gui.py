@@ -84,8 +84,11 @@ class WindowClass(QMainWindow, form_class):
             print(desired_part)
             filename = "../" + desired_part
             
-            result_yaml = validate_yaml(filename)
-            QMessageBox.warning(self, "Validation Result", result_yaml)
+            try:
+                result_yaml = validate_yaml(filename)
+                QMessageBox.warning(self, "Validation Result", result_yaml)
+            except Exception as e:
+                QMessageBox.warning(self, "Error", f"An error occurred:\n{str(e)}")
 
 
 
