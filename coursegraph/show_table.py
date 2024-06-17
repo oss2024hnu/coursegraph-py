@@ -44,13 +44,12 @@ class ShowTable:
             SystemExit: 시스템 내에 적합한 한글 폰트 파일을 찾을 수 없는 경우, 오류 메시지를 출력하고 상태 코드 2로 프로그램이 종료됩니다.
         """
         system_fonts = get_system_font()
-        try:
-            for font_info in system_fonts:
-                return font_info['file']
-        except Exception:
+        if system_fonts:
+            return system_fonts[0]['file']
+        else:
             print("시스템내에 적합한 한글 폰트 파일을 찾을 수 없습니다.")
             sys.exit(2)
-
+            
     def read_subjects(self):
         """
         테이블을 생성하는데 있어서 필요한 데이터를 가져옵니다.
