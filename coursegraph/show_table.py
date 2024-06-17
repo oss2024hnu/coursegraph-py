@@ -8,6 +8,7 @@ from fontutil import get_system_font
 from matplotlib import font_manager, rc
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
+import matplotlib.patches as patches
 
 
 class ShowTable:
@@ -92,16 +93,59 @@ class ShowTable:
         """
         font_name = font_manager.FontProperties(fname=self.font_path).get_name()
         rc('font', family=font_name)
+
         if '과목' in data:
             df = pd.DataFrame(data['과목'])
+
             # NaN 값을 빈 문자열로 대체
             df.fillna('', inplace=True)
+
             # DataFrame의 각 셀에 함수 적용, 리스트를 문자열로 변환
             df = df.map(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x)
             res = self.dpi_ratio(width, height)
             fig, ax = plt.subplots(figsize=(width, height), dpi=res)
             ax.axis('off')
-            ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2] * len(df.columns))
+
+            # 테이블 생성
+            table = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2] * len(df.columns))
+
+            # 행 색상 설정을 위한 딕셔너리
+            row_colors = {
+                "1학년": {
+                    "1학기": '#FFCCCC',  # 부드러운 빨강
+                    "2학기": '#FF9999'   # 부드러운 주황
+                },
+                "2학년": {
+                    "1학기": '#FFE5CC',  # 부드러운 주황
+                    "2학기": '#FFCC99'   # 부드러운 갈색
+                },
+                "3학년": {
+                    "1학기": '#FFFFCC',  # 부드러운 노랑
+                    "2학기": '#FFFF99'   # 부드러운 연두
+                },
+                "4학년": {
+                    "1학기": '#E5FFCC',  # 부드러운 연두
+                    "2학기": '#CCFF99'   # 부드러운 초록
+                }
+            }
+
+            # 학년과 학기 열의 인덱스를 확인
+            grade_column = df.columns.get_loc('학년')
+            semester_column = df.columns.get_loc('학기')
+
+            # 행 색상 설정
+            for i in range(len(df)):
+                grade = df.iloc[i, grade_column] + "학년"  # 학년 정보
+                semester = df.iloc[i, semester_column] + "학기" # 학기 정보
+                color = 'white'  # 기본 색상
+
+                if grade in row_colors and semester in row_colors[grade]:
+                    color = row_colors[grade][semester]
+
+                for j in range(len(df.columns)):
+                    cell = table[(i + 1, j)]
+                    cell.set_facecolor(color)
+
             ax.set_title('과목 표')
             plt.tight_layout()
             if self.image_mode:
