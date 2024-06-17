@@ -24,6 +24,7 @@ def verbose_info(level , width , height , input_file , output_file) :
          print(f"The output image file path has been specified: {output_file}")
 
 
+
 def main():
     
     try:

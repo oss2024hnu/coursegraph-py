@@ -185,36 +185,13 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
                  bbox=dict(facecolor='white', edgecolor=get_edge_color(subject['구분']), boxstyle='round,pad=0.5',
                            linewidth=3))
 
-    # 학년 노드 추가
-    non_empty_positions = [max(y_values) for y_values in adjusted_pos.values() if y_values]
-    max_y = max(non_empty_positions) if non_empty_positions else 0
 
-    for grade in range(1, 5):
-        G.add_node(f"{grade}학년", pos=(grade, max_y - 0.18))
-
-    pos = nx.get_node_attributes(G, 'pos')
-
-    for grade in range(1, 5):
-        x, y = pos[f"{grade}학년"]
-        bbox_props = dict(boxstyle=f"round,pad=0.5", ec='black', lw=2, facecolor='white')
-        plt.text(x, y, f"{grade}학년", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
-
-    # 학기 노드 추가
-    max_x = max([x for x, y in pos.values()]) - 3.85
-    min_y = min([y for x, y in pos.values()])
-    max_y = max([y for x, y in pos.values()])
-    y_range = max_y - min_y
-    semester_positions = [min_y + y_range * 0.33, min_y + y_range * 0.85]
-
-    for semester in range(1, 3):
-        G.add_node(f"{semester}학기", pos=(max_x, semester_positions[semester - 1]))
-
-    pos = nx.get_node_attributes(G, 'pos')
-
-    for semester in range(1, 3):
-        x, y = pos[f"{semester}학기"]
-        bbox_props = dict(boxstyle=f"round,pad=0.5", ec='black', lw=2, facecolor='white')
-        plt.text(x, y, f"{semester}학기", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
+    #학년 노드 최상단
+    bbox_props = dict(boxstyle=f"round,pad=0.5", ec='black', lw=2, facecolor='white')
+    for x in range(1,5):
+        plt.text(x,0, f"{x}학년", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
+    
+    
 
     nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist,
                            arrowstyle=edge_attrs.arrowstyle,
@@ -229,10 +206,9 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     plt.gca().invert_yaxis()
     plt.grid(True) # 그리드 표시
 
-    min_y = min(y for _, y in pos.values())
-    max_y = max(y for _, y in pos.values())
-    center_y = (min_y + max_y) / 1.75
-    plt.axhline(center_y, color='black', linestyle='-', linewidth=2)
+
+    plt.axhline(1, color='black', linestyle='-', linewidth=2)
+
 
     # 학년별로 배경색 설정
     for grade in range(1, 5):

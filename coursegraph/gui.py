@@ -30,6 +30,7 @@ class WindowClass(QMainWindow, form_class):
         #사용할 명령어를 배열로 저장
         #0으로 초기화
 
+
         self.command_list = [0, 0]
 
         # table, graph, schema 체크박스와 연결
@@ -67,6 +68,7 @@ class WindowClass(QMainWindow, form_class):
             relative_path = os.path.relpath(filename, current_dir)
             self.command_list[1] = relative_path
             print(relative_path)
+
 
     def make_image(self):
 
@@ -173,6 +175,7 @@ class WindowClass(QMainWindow, form_class):
         webbrowser.open(url)
 
 
+
     #보기 드롭다운 메뉴 확대 기능
     def zoomIn(self):
         current_pixmap = self.label.pixmap()
@@ -184,6 +187,7 @@ class WindowClass(QMainWindow, form_class):
         if self.original_pixmap:
             self.label.setPixmap(self.original_pixmap)
         
+
 
 # 에러 발생 시 정상 종료하도록 정의
 def exception_hook(exctype, value, traceback):
