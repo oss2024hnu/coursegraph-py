@@ -26,5 +26,6 @@ def get_system_font():
                 data_list.append({"name": fprop.get_name(), "file": fprop.get_file()})
         except:
             continue
+
     
     return data_list

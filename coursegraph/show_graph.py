@@ -192,7 +192,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
     for x in range(1,5):
         plt.text(x,-0.18, f"{x}학년", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
     for y in range(1,3):
-        plt.text(0.15,y-0.5, f"{y}학기", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
+        plt.text(0.6,(y-1)+0.5, f"{y}학기", fontsize=18, ha='center', va='center', fontweight='bold', bbox=bbox_props)
 
     nx.draw_networkx_edges(G, pos, edgelist=edge_attrs.edgelist,
                        arrowstyle=edge_attrs.arrowstyle,
