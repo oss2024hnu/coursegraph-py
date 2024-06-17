@@ -61,7 +61,13 @@ class WindowClass(QMainWindow, form_class):
         self.command_list[1] = new_filename
 
     def make_image(self):
-        # __main__.py에서 실행할 명령어 만들기
+
+        if self.command_list[0] == 0:
+            QMessageBox.warning(self, "Warning", "출력할 요소를 선택하시오", QMessageBox.Ok)
+            return
+
+        #__main__.py에서 실행할 명령어 만들기
+
         input_file = os.path.join("../", self.command_list[1])
         print("사용할 파일 : " + input_file)
         # 출력할 파일 이름 가져오기
