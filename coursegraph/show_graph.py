@@ -248,6 +248,7 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
 
     if output_file:
         plt.savefig(output_file)
+        print(f"파일이 저장되었습니다: {output_file}")
     else:
         plt.show()
 
