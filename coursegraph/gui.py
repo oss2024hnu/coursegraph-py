@@ -53,12 +53,13 @@ class WindowClass(QMainWindow, form_class):
     def select_file(self):
         # QFileDialog.getOpenFileName함수를 사용해서 yaml파일만 가져올 수 있게 설정
         filename, _ = QFileDialog.getOpenFileName(self, "Open Yaml", "", "Yaml Files (*.yaml)")
-        # data/[yaml파일]이 시작되는 부분
-        index = 42
-        # 주소만 가져올 수 있게 문자열 슬라이싱
-        new_filename = filename[index:]
-        print(new_filename)
-        self.command_list[1] = new_filename
+
+        if filename:
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            relative_path = os.path.relpath(filename, current_dir)
+            self.command_list[1] = relative_path
+            print(relative_path)
+
 
     def make_image(self):
 
