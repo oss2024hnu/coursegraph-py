@@ -12,22 +12,27 @@ DATA_YAMLS=$(wildcard data/*.yaml)
 OUT_YAMLS=$(DATA_YAMLS:data%=$(OUTDIR)%)
 
 OUT_DOTS=$(OUT_YAMLS:%.yaml=%_G.dot)
+OUT_DOTS_TEST=$(OUT_YAMLS:%.yaml=%_GT.dot)
 OUT_GRAPHS=$(OUT_YAMLS:%.yaml=%_G.png)
 OUT_TABLES=$(OUT_YAMLS:%.yaml=%_T.png)
 
-.PHONY: test delete clean_w clean_m
+.PHONY: test dottest clean
 
 # test 타겟 정의
 test: $(OUTDIR) $(OUT_DOTS) $(OUT_GRAPHS) $(OUT_TABLES)
 
+dottest: $(OUTDIR) $(OUT_DOTS_TEST)
+
 $(OUTDIR):
 	mkdir $(OUTDIR)
 
+$(OUTDIR)/%_GT.dot: ./data/%.yaml
+	$(CLICMD) -f dot $< -o $@
+	dot -Tsvg -O $@         # graphviz dot 유틸리티로 svg생성하는 부분도 실패하면 그냥 안 넘어감
+
 $(OUTDIR)/%_G.dot: ./data/%.yaml
-	$(CLICMD) -f dot $< -o $@ 
-#	 $(CLICMD) -f dot $< -o $@ -v 1 # 아직 dot에는 verbose level 적용안됨
-#	 $(CLICMD) -f dot $< -o $@ -v 2 # 아직 dot에는 verbose level 적용안됨
-	- dot -Tsvg -O $@  # graphviz dot 유틸리티로 svg생성 (실패해도 넘어감)
+	$(CLICMD) -f dot $< -o $@
+	dot -Tsvg -O $@ || true # graphviz dot 유틸리티로 svg생성하는 부분은 실패해도 넘어감
 
 $(OUTDIR)/%_G.png: ./data/%.yaml
 	$(CLICMD) -f graph $< -o $@ 
