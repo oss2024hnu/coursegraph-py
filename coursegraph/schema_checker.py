@@ -73,9 +73,10 @@ def validate_yaml(file_path):
                 except ValueError as e:
                     raise ValueError(f"과목 '{subject_name}'의 '{field_name}'에 유효하지 않은 값이 있습니다.") from e
             print("파일이 유효합니다.")
+            return "파일이 유효합니다."
     except FileNotFoundError:
         print(f"파일 '{file_path}'을(를) 찾을 수 없습니다. 경로를 확인해 주세요.")
-    except YAMLValidationError as e:
+    except strictyaml.YAMLValidationError as e:
         print(f"YAML 오류: {e}")
     except ValueError as e:
         print(f"유효성 검사 오류: {e}")
