@@ -27,4 +27,5 @@ def get_system_font():
         except:
             continue
 
+    
     return data_list

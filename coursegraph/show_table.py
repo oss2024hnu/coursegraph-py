@@ -87,9 +87,9 @@ class ShowTable:
         데이터로부터 테이블을 생성하거나 이미지를 저장한다.
 
         Args:
-            data: 테이블 생성의 데이터, '과목' 키가 포함되어야 함
-            width: 생성될 테이블의 너비
-            height: 생성될 테이블의 높이
+        data: 테이블 생성의 데이터, '과목' 키가 포함되어야 함
+        width: 생성될 테이블의 너비
+        height: 생성될 테이블의 높이
         """
         font_name = font_manager.FontProperties(fname=self.font_path).get_name()
         rc('font', family=font_name)
@@ -101,7 +101,8 @@ class ShowTable:
             df.fillna('', inplace=True)
 
             # DataFrame의 각 셀에 함수 적용, 리스트를 문자열로 변환
-            df = df.map(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x)
+            df = df.apply(lambda col: col.map(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x))
+
             res = self.dpi_ratio(width, height)
             fig, ax = plt.subplots(figsize=(width, height), dpi=res)
             ax.axis('off')
@@ -129,32 +130,33 @@ class ShowTable:
                 }
             }
 
-            # 학년과 학기 열의 인덱스를 확인
-            grade_column = df.columns.get_loc('학년')
-            semester_column = df.columns.get_loc('학기')
+        # 학년과 학기 열의 인덱스를 확인
+        grade_column = df.columns.get_loc('학년')
+        semester_column = df.columns.get_loc('학기')
 
-            # 행 색상 설정
-            for i in range(len(df)):
-                grade = df.iloc[i, grade_column] + "학년"  # 학년 정보
-                semester = df.iloc[i, semester_column] + "학기" # 학기 정보
-                color = 'white'  # 기본 색상
+        # 행 색상 설정
+        for i in range(len(df)):
+            grade = df.iloc[i, grade_column] + "학년"  # 학년 정보
+            semester = df.iloc[i, semester_column] + "학기" # 학기 정보
+            color = 'white'  # 기본 색상
 
-                if grade in row_colors and semester in row_colors[grade]:
-                    color = row_colors[grade][semester]
+            if grade in row_colors and semester in row_colors[grade]:
+                color = row_colors[grade][semester]
 
-                for j in range(len(df.columns)):
-                    cell = table[(i + 1, j)]
-                    cell.set_facecolor(color)
+            for j in range(len(df.columns)):
+                cell = table[(i + 1, j)]
+                cell.set_facecolor(color)
 
-            ax.set_title('과목 표')
-            plt.tight_layout()
-            if self.image_mode:
-                if self.output_filename:
-                    plt.savefig(self.output_filename)
+        ax.set_title('과목 표')
+        plt.tight_layout()
+        if self.image_mode:
+            if self.output_filename:
+                plt.savefig(self.output_filename)
             else:
                 plt.show()
         else:
             print("데이터에 '과목' 정보가 없습니다.")
+
  
             
     def create_pdf(self, df):
