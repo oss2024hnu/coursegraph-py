@@ -82,53 +82,53 @@ class ShowTable:
         dpi = 100
         return dpi
 
-   def make_data(self, data, width, height):
-    """
-    데이터로부터 테이블을 생성하거나 이미지를 저장한다.
+    def make_data(self, data, width, height):
+        """
+        데이터로부터 테이블을 생성하거나 이미지를 저장한다.
 
-    Args:
+        Args:
         data: 테이블 생성의 데이터, '과목' 키가 포함되어야 함
         width: 생성될 테이블의 너비
         height: 생성될 테이블의 높이
-    """
-    font_name = font_manager.FontProperties(fname=self.font_path).get_name()
-    rc('font', family=font_name)
+        """
+        font_name = font_manager.FontProperties(fname=self.font_path).get_name()
+        rc('font', family=font_name)
 
-    if '과목' in data:
-        df = pd.DataFrame(data['과목'])
+        if '과목' in data:
+            df = pd.DataFrame(data['과목'])
 
-        # NaN 값을 빈 문자열로 대체
-        df.fillna('', inplace=True)
+            # NaN 값을 빈 문자열로 대체
+            df.fillna('', inplace=True)
 
-        # DataFrame의 각 셀에 함수 적용, 리스트를 문자열로 변환
-        df = df.applymap(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x)
+            # DataFrame의 각 셀에 함수 적용, 리스트를 문자열로 변환
+            df = df.apply(lambda col: col.map(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x))
 
-        res = self.dpi_ratio(width, height)
-        fig, ax = plt.subplots(figsize=(width, height), dpi=res)
-        ax.axis('off')
+            res = self.dpi_ratio(width, height)
+            fig, ax = plt.subplots(figsize=(width, height), dpi=res)
+            ax.axis('off')
 
-        # 테이블 생성
-        table = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2] * len(df.columns))
+            # 테이블 생성
+            table = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colWidths=[0.2] * len(df.columns))
 
-        # 행 색상 설정을 위한 딕셔너리
-        row_colors = {
-            "1학년": {
-                "1학기": '#FFCCCC',  # 부드러운 빨강
-                "2학기": '#FF9999'   # 부드러운 주황
-            },
-            "2학년": {
-                "1학기": '#FFE5CC',  # 부드러운 주황
-                "2학기": '#FFCC99'   # 부드러운 갈색
-            },
-            "3학년": {
-                "1학기": '#FFFFCC',  # 부드러운 노랑
-                "2학기": '#FFFF99'   # 부드러운 연두
-            },
-            "4학년": {
-                "1학기": '#E5FFCC',  # 부드러운 연두
-                "2학기": '#CCFF99'   # 부드러운 초록
+            # 행 색상 설정을 위한 딕셔너리
+            row_colors = {
+                "1학년": {
+                    "1학기": '#FFCCCC',  # 부드러운 빨강
+                    "2학기": '#FF9999'   # 부드러운 주황
+                },
+                "2학년": {
+                    "1학기": '#FFE5CC',  # 부드러운 주황
+                    "2학기": '#FFCC99'   # 부드러운 갈색
+                },
+                "3학년": {
+                    "1학기": '#FFFFCC',  # 부드러운 노랑
+                    "2학기": '#FFFF99'   # 부드러운 연두
+                },
+                "4학년": {
+                    "1학기": '#E5FFCC',  # 부드러운 연두
+                    "2학기": '#CCFF99'   # 부드러운 초록
+                }
             }
-        }
 
         # 학년과 학기 열의 인덱스를 확인
         grade_column = df.columns.get_loc('학년')
@@ -152,10 +152,10 @@ class ShowTable:
         if self.image_mode:
             if self.output_filename:
                 plt.savefig(self.output_filename)
+            else:
+                plt.show()
         else:
-            plt.show()
-    else:
-        print("데이터에 '과목' 정보가 없습니다.")
+            print("데이터에 '과목' 정보가 없습니다.")
 
  
             
