@@ -82,10 +82,6 @@ def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
     else:
         with open(output_file, "w", encoding= "utf-8") as outfile:
             graph.dot(outfile)
-        except IOError as e:
-            print(f"파일을 저장하는 중 오류가 발생했습니다: {e}")
-        except Exception as e:
-            print(f"예상치 못한 오류가 발생했습니다: {e}")
 
 
 
