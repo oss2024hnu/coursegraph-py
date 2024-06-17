@@ -2,6 +2,18 @@ import strictyaml
 from typing import *
 import gvgen
 
+def validate_subject(subject: strictyaml.YAML) -> bool:
+    required_fields = {'학년', '학기', '과목명', '구분'}
+    if not all(field in subject for field in required_fields):
+        return False
+    if not subject['학년'].isdigit() or not subject['학기'].isdigit():
+        return False
+    if not isinstance(subject['과목명'], str) or not isinstance(subject['구분'], str):
+        return False
+    if '선수과목' in subject and not isinstance(subject['선수과목'], list):
+        return False
+    return True
+
 def print_dot(subjects: strictyaml.YAML, output_file: Optional[str]) -> None:
     nd = {} # dict from name to node 
     sd = {(1,1):[], (1,2):[], (2,1):[], (2,2):[], (3,1):[], (3,2):[], (4,1):[], (4,2):[]}
