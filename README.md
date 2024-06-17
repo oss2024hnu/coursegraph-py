@@ -38,17 +38,13 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
-                        Specify the output image file path. (optional)
-  -v, --verbose {0, 1, 2}
-                        Specify the level of output of information
-                        Set the verbose level (optional)
-                        0 - Minimun option, option for end user
-                        1 - Standard option, informational message
-                        2 - Debug option, detailed information, for programmer 
-  -f {graph,table}, --format {graph,table}
-                        Sepcify the output format (graph, table). Defaults to graph.
-  -s WIDTH,HEIGHT , --size WIDTH,HEIGHT 
-                        Specify the size of the output image in format WIDTH x HEIGHT(optional)
+                        Specify the output image file path. (optional).
+  -f {graph,dot,table}, --format {graph,dot,table}
+                        Specify the output format (graph, table). Defaults to graph.
+  -s SIZE, --size SIZE  Specify the size of the output image in format WIDTH,HEIGHT. Example: -s 20,10
+  -v {0,1,2}, --verbose {0,1,2}
+                        Set the verbose level (optional) 0 - Minium output, option for end user 1 - Standard output, informational message 2 - Debug output,   
+                        detailed information
 
 Enjoy using the CLI utility!
 ```
@@ -56,11 +52,27 @@ Enjoy using the CLI utility!
 - `-f graph` 혹은 `--format graph` 옵션을 제공하면 이수체계도를 방향그래프 형태로 보여줌.
   `-f` 혹은 `--foramt` 옵션을 제공하지 않은 경우도 graph 모드로 동작.
 - `-f table` 혹은 `--format table` 옵션을 주었을 경우, yaml 파일의 전체 내용을 한꺼번에 보기 좋은 표의 형태로 보여준다.
+- `-f dot` 혹은 `--format dot` 옵션을 주었을 경우, yaml 파일의 내용을 .dot 형태로 보여준다.
 - '-s WIDTH,HEIGHT' 혹은 '--size WIDTH,HEIGHT' 옵션을 제공했을 경우 이미지의 크기를 가로,세로의 입력값으로 지정해준다.
   '-s' 혹은 '--size' 옵션을 제공하지 않은 경우에는 이미지의 크기는 10,20 으로 지정된다. 
   `-v {0,1,2}` 혹은 `--verbose {0,1,2}` 옵션을 제공했을 경우 출력되는 정보의 상세 수준을 지정한다. 0은 최소한의 출력, 1은 요약 정보, 2는 상세 디버그 정보를 출력한다.
   '-v' 혹은 '--verbose' 옵션을 제공하지 않는 경우에는 최소한의 출력으로 보여준다.
 
+### -f dot 사용법
+```
+python coursegraph data/input.yaml -f dot -o out.dot
+```
+출력된 .dot 파일 또는 .svg 파일을 
+http://magjac.com/graphviz-visual-editor/
+해당 사이트와 같은 graphviz 시각화 사이트에 입력
+
+- using graphviz software (권장하지 않음)
+해당사이트 참조 본인 운영체제에 알맞은 방식으로 graphviz 설치
+https://www.graphviz.org/download/ 
+
+```
+% dot -Tpng [dot 파일 이름].dot > [출력할 파일 이미지의 이름].png
+```
 ### GUI 사용법
 coursegraph-py/coursegraph로 이동한 다음 'python gui.py'를 터미널에 넣고 실행하면 gui화면이 나온다.
 현재 사용가능한 기능은 파일 열기, 다른이름으로 저장하기, 연 이미지를 초기화 시키는 기능이 있다.

@@ -5,7 +5,7 @@ from strictyaml import EmptyList, Str, Int, Map, Seq, Optional
 from strictyaml.exceptions import YAMLValidationError
 
 # 과목명,트랙,마이크로디그리,선수과목에는 문자만 사용되었는지 확인하는 함수
-def validate_string_or_sequence(value: Union[str, List[str]]) -> Union[str, List[str]]:
+def validate_string_or_sequence(value: Union[str, List[str], int]) -> Union[str, List[str], int]:
     """
     과목명, 트랙, 마이크로디그리, 선수 과목에 문자만 사용되었는지 확인하는 함수입니다.
 
