@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import QPixmap
-
+import webbrowser
 
 # ui 파일이 실행 파일과 같은 위치에 있어야 함.
 form_class = uic.loadUiType("Maingui.ui")[0]
@@ -22,27 +22,31 @@ class WindowClass(QMainWindow, form_class):
         self.action_othernamesave.triggered.connect(self.saveAsFunction) 
         self.pushButton.clicked.connect(self.clearImage)
 
+
         self.ZoomIn.triggered.connect(self.zoomIn)
         self.ZoomOut.triggered.connect(self.zoomOut)
 
 
         #사용할 명령어를 배열로 저장
         #0으로 초기화
+
         self.command_list = [0, 0]
 
-        #table, graph, schema 체크박스와 연결
+        # table, graph, schema 체크박스와 연결
         self.radioButton_1.clicked.connect(self.check_radio)
         self.radioButton_2.clicked.connect(self.check_radio)
         self.radioButton_3.clicked.connect(self.check_radio)
         
-        #파일 찾기 버튼을 push버튼과 연결
+        # 파일 찾기 버튼을 push버튼과 연결
         self.pushButton_3.clicked.connect(self.select_file)
 
-        #실행 버튼을 push버튼과 연결
+        # 실행 버튼을 push버튼과 연결
         self.pushButton_2.clicked.connect(self.make_image)
-        
 
-    #라디오 버튼에서 어떤 종류인지 확인
+        # Graphviz 웹 에디터 열기 버튼과 연결
+        self.pushButton_graphviz.clicked.connect(self.open_graphviz_editor)
+
+    # 라디오 버튼에서 어떤 종류인지 확인
     def check_radio(self):
         if self.radioButton_1.isChecked():
             print("table")
@@ -55,8 +59,9 @@ class WindowClass(QMainWindow, form_class):
             self.command_list[0] = "schema"
 
     def select_file(self):
-        #QFileDialog.getOpenFileName함수를 사용해서 yaml파일만 가져올 수 있게 설정
+        # QFileDialog.getOpenFileName함수를 사용해서 yaml파일만 가져올 수 있게 설정
         filename, _ = QFileDialog.getOpenFileName(self, "Open Yaml", "", "Yaml Files (*.yaml)")
+
         if filename:
             current_dir = os.path.dirname(os.path.abspath(__file__))
             relative_path = os.path.relpath(filename, current_dir)
@@ -70,24 +75,27 @@ class WindowClass(QMainWindow, form_class):
             return
 
         #__main__.py에서 실행할 명령어 만들기
+
         input_file = os.path.join("../", self.command_list[1])
         print("사용할 파일 : " + input_file)
-        #출력할 파일 이름 가져오기
+        # 출력할 파일 이름 가져오기
         output_file = os.path.join("../out/", self.textEdit.toPlainText())
         print("출력할 파일이름 : " + output_file)
-        #어떤 방법으로 출력할 건지 명령어 가져오기
+        # 어떤 방법으로 출력할 건지 명령어 가져오기
         format = self.command_list[0]
         print("출력할 방법 : " + format)
 
-        #만든 이미지 파일 저장할 디렉터리
+        # 만든 이미지 파일 저장할 디렉터리
         find_dir = '../out'
         if os.path.isdir(find_dir):
             pass
         else:
             self.move_path("out")
+
         #명령어 실행
         result = subprocess.run([sys.executable, "__main__.py", "-f", format, input_file, "-o", output_file])
         #output_file변수에 .png를 추가해서 주소를 찾을 수 있게 변경
+
         output_file = output_file + ".png"
         if result.returncode == 0:
             # 프로세스가 성공적으로 종료된 경우
@@ -103,7 +111,6 @@ class WindowClass(QMainWindow, form_class):
                 QMessageBox.warning(self, "Warning", "출력 파일을 찾을 수 없습니다.")
         else:
             QMessageBox.warning(self, "Warning", "이미지 생성에 실패했습니다.")
-        
 
     def openFunction(self):
         initial_dir = os.path.expanduser("~")  # 사용자 홈 디렉토리 경로
@@ -116,9 +123,11 @@ class WindowClass(QMainWindow, form_class):
                 self.label.setPixmap(pixmap)
                 self.label.setPixmap(scaled_pixmap)
                 self.label.adjustSize()  # QLabel 크기 조정
+
                 self.adjustSize() # 윈도우 크기 조정
                 self.statusBar().showMessage(f"Opened image: {filename}", 5000) # 상태바에 메시지 표시
                 #self.addRecentFile(filename) # 최근 파일 목록에 추가
+
             else:
                 QMessageBox.warning(self, "유효하지 않은 이미지 파일입니다.")
         else:
@@ -141,23 +150,28 @@ class WindowClass(QMainWindow, form_class):
             QMessageBox.warning(self, "Warning", "파일 저장에 실패했습니다.", QMessageBox.Ok)
 
     def move_path(self, new_dir):
-      # 현재 작업 디렉터리 저장
-      original_directory = os.getcwd()
+        # 현재 작업 디렉터리 저장
+        original_directory = os.getcwd()
 
-      # 현재 스크립트의 디렉터리 경로 얻기
-      current_directory = os.path.dirname(os.path.abspath(__file__))
-      
-      # 상위 디렉터리 경로 계산
-      parent_directory = os.path.dirname(current_directory)
-      
-      # 상위 디렉터리로 이동
-      os.chdir(parent_directory)
-      
-      #생성한 이미지를 저장할 디렉터리 생성
-      os.mkdir(new_dir)
+        # 현재 스크립트의 디렉터리 경로 얻기
+        current_directory = os.path.dirname(os.path.abspath(__file__))
+        
+        # 상위 디렉터리 경로 계산
+        parent_directory = os.path.dirname(current_directory)
+        
+        # 상위 디렉터리로 이동
+        os.chdir(parent_directory)
+        
+        # 생성한 이미지를 저장할 디렉터리 생성
+        os.mkdir(new_dir)
 
-      # 원래 디렉터리로 이동
-      os.chdir(original_directory)
+        # 원래 디렉터리로 이동
+        os.chdir(original_directory)
+
+    def open_graphviz_editor(self):
+        url = "http://magjac.com/graphviz-visual-editor/"
+        webbrowser.open(url)
+
 
     #보기 드롭다운 메뉴 확대 기능
     def zoomIn(self):

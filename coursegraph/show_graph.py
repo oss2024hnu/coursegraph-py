@@ -1,3 +1,4 @@
+
 import strictyaml
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -259,3 +260,4 @@ def draw_course_structure(subjects: Optional[strictyaml.YAML], output_file: str,
         plt.show()
 
     return ref
+
