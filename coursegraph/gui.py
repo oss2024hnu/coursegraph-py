@@ -151,8 +151,13 @@ class WindowClass(QMainWindow, form_class):
                 self.label.setPixmap(scaled_pixmap)
                 self.label.adjustSize()  # QLabel 크기 조정
 
+                # 파일 이름을 QLabel에 표시 (파일 이름이 길 경우 자르기)
+                if len(filename) > 50:
+                    display_name = f"...{filename[-47:]}"
+                else:
+                    display_name = filename
+                self.statusBar().showMessage(f"Opened image: {display_name}", 5000) # 상태바에 파일 이름을 5초 동안 표시
                 self.adjustSize() # 윈도우 크기 조정
-                self.statusBar().showMessage(f"Opened image: {filename}", 5000) # 상태바에 메시지 표시
                 #self.addRecentFile(filename) # 최근 파일 목록에 추가
 
             else:
@@ -170,7 +175,15 @@ class WindowClass(QMainWindow, form_class):
             if filename:  # 파일이 선택되었는지 확인
                 pixmap = self.label.pixmap()  # QLabel에 표시된 이미지 가져오기
                 if pixmap:
-                    pixmap.save(filename)  # 이미지를 지정된 파일 경로에 저장
+                    pixmap.save(filename) # 이미지를 지정된 파일 경로에 저장
+                    
+                # 파일 이름을 QLabel에 표시 (파일 이름이 길 경우 자르기)
+                if len(filename) > 50:
+                    display_name = f"...{filename[-47:]}"
+                else:
+                    display_name = filename
+                self.statusBar().showMessage(f"Saved: {display_name}", 5000)  # 상태 표시줄에 파일 이름을 5초 동안 표시
+
                 else:
                     QMessageBox.warning(self, "Warning", "이미지가 없습니다.", QMessageBox.Ok)
         except TypeError:
