@@ -102,8 +102,9 @@ PyQt5 desiner 사용법
 PyQt5 desiner 주의사항
 - PyQt5는 파이썬 3.9까지만 지원가능함.
 - 파이썬 3.10 이상버전에서는 https://www.riverbankcomputing.com/software/pyqt/download 해당경로에서 다운로드 받아서 직접 경로에 넣거나 3.9로 다운그레이드 요망
-
-
+- 매우 복잡한 UI는 Designer에서 관리하기 어렵습니다. 이 경우 UI를 여러 개의 작은 .ui 파일로 나누어 관리하거나, Python 코드에서 UI를 동적으로 생성하는 것이 좋습니다.
+- Qt Designer에서는 디자인 미리보기를 제공하지만, 실제 실행 시와 다를 수 있으므로 항상 변환된 Python 코드로 실행해보는 것이 좋습니다.
+- Designer에서 설정한 이미지나 리소스의 경로는 정적 경로로 설정됩니다. 경로가 상대 경로로 설정되어야 배포 시 문제가 발생하지 않습니다.
 
 ## 참고사항
 - pr과 이슈를 연결하는 법 github docs 링크: https://docs.github.com/ko/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
